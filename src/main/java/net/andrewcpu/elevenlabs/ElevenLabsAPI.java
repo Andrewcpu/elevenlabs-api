@@ -2,8 +2,8 @@ package net.andrewcpu.elevenlabs;
 
 import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
 import net.andrewcpu.elevenlabs.api.ElevenLabsResponse;
-import net.andrewcpu.elevenlabs.api.requests.multipart.MultipartFile;
-import net.andrewcpu.elevenlabs.api.requests.multipart.MultipartFormContent;
+import net.andrewcpu.elevenlabs.api.multipart.MultipartFile;
+import net.andrewcpu.elevenlabs.api.multipart.MultipartFormContent;
 import net.andrewcpu.elevenlabs.api.requests.voices.GetTextToSpeechRequest;
 import net.andrewcpu.elevenlabs.api.requests.history.DeleteHistoryItemRequest;
 import net.andrewcpu.elevenlabs.api.requests.history.DownloadHistoryRequest;
@@ -14,9 +14,10 @@ import net.andrewcpu.elevenlabs.api.requests.samples.GetAudioSampleRequest;
 import net.andrewcpu.elevenlabs.api.requests.user.GetSubscriptionInfoRequest;
 import net.andrewcpu.elevenlabs.api.requests.user.GetUserRequest;
 import net.andrewcpu.elevenlabs.api.requests.voices.*;
-import net.andrewcpu.elevenlabs.elements.*;
 import net.andrewcpu.elevenlabs.elements.user.Subscription;
 import net.andrewcpu.elevenlabs.elements.user.User;
+import net.andrewcpu.elevenlabs.elements.voice.History;
+import net.andrewcpu.elevenlabs.elements.voice.Sample;
 import net.andrewcpu.elevenlabs.elements.voice.Voice;
 import net.andrewcpu.elevenlabs.elements.voice.VoiceSettings;
 import net.andrewcpu.elevenlabs.enums.ContentType;
@@ -26,7 +27,6 @@ import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +37,15 @@ import static net.andrewcpu.elevenlabs.util.MultipartUtil.addFormField;
 public class ElevenLabsAPI {
 	private static ElevenLabsAPI instance;
 	private static final String baseURL = "https://api.elevenlabs.io/";
+	private static boolean debugMode = false;
+
+	public static boolean isDebugMode() {
+		return debugMode;
+	}
+
+	public static void setDebugMode(boolean enabled){
+		debugMode = enabled;
+	}
 
 	public static ElevenLabsAPI getInstance() {
 		if (instance == null) {
@@ -202,24 +211,20 @@ public class ElevenLabsAPI {
 		connection.setConnectTimeout(60000);
 		connection.setReadTimeout(60000);
 		connection.setRequestMethod(request.getMethod().name());
-
+		String boundary = "---------------------------" + System.currentTimeMillis();
+		String contType = request.getContentType().getType();
+		if(request.getContentType() == ContentType.MULTIPART){
+			contType += "; boundary=" + boundary;
+		}
 		connection.setRequestProperty("xi-api-key", apiKey);
+		connection.setRequestProperty("Content-Type", contType); // this can be done better.
+		connection.setDoOutput(true);
 		if(request.getContentType() == ContentType.JSON){
 			if (request.getBody() != null) {
-				connection.setRequestProperty("Content-Type", request.getContentType().getType()); // this can be done better.
-				connection.setDoOutput(true);
 				connection.getOutputStream().write(request.getBody().toJSONString().getBytes(StandardCharsets.UTF_8));
 			}
 		}
 		else if(request.getContentType() == ContentType.MULTIPART){
-			String boundary = "---------------------------" + System.currentTimeMillis();
-
-			connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-			connection.setDoOutput(true);
-			connection.setConnectTimeout(60000);
-			connection.setReadTimeout(60000);
-			connection.setRequestMethod(request.getMethod().name());
-			// Add the name field to the request body
 			for(MultipartFormContent item : request.getMultipartForm().getItems()){
 				if(item instanceof MultipartFile multipartFile){
 					addFilePart(multipartFile.getName(),multipartFile.getFilename(), multipartFile.getFile(), boundary, connection);
@@ -232,11 +237,10 @@ public class ElevenLabsAPI {
 		}
 
 
-		int responseCode = 0;
+		int responseCode = 999;
 		try {
 			responseCode = connection.getResponseCode();
 		} catch (IOException e) {
-			responseCode = 999;
 			e.printStackTrace();
 		}
 		InputStream successStream = null,

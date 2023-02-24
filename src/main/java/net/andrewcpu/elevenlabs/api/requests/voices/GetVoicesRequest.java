@@ -12,7 +12,7 @@ import java.util.List;
 
 public class GetVoicesRequest extends ElevenLabsRequest<List<Voice>> {
 	public GetVoicesRequest() {
-		super(null, null, HTTPMethod.GET, new ResultTransformerAdapter<List<Voice>>() {
+		super(HTTPMethod.GET, new ResultTransformerAdapter<List<Voice>>() {
 			@Override
 			public List<Voice> transform(JSONObject object) {
 				JSONArray voiceArray = (JSONArray) object.get("voices");

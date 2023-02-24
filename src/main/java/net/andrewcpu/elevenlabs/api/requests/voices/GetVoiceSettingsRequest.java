@@ -10,7 +10,7 @@ import java.util.List;
 
 public class GetVoiceSettingsRequest extends ElevenLabsRequest<VoiceSettings> {
 	public GetVoiceSettingsRequest(String voiceId) {
-		super(List.of(voiceId), null, HTTPMethod.GET, new ResultTransformerAdapter<VoiceSettings>() {
+		super(List.of(voiceId), HTTPMethod.GET, new ResultTransformerAdapter<VoiceSettings>() {
 			@Override
 			public VoiceSettings transform(JSONObject object) {
 				return VoiceSettings.fromJSON(object);

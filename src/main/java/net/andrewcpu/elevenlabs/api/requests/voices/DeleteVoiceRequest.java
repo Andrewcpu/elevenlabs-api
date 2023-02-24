@@ -8,7 +8,7 @@ import java.util.List;
 
 public class DeleteVoiceRequest extends ElevenLabsRequest<String> {
 	public DeleteVoiceRequest(String voiceId) {
-		super(List.of(voiceId), null, HTTPMethod.DELETE, new StringPingPongTransformer());
+		super(List.of(voiceId), HTTPMethod.DELETE, new StringPingPongTransformer());
 	}
 
 	@Override
