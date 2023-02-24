@@ -1,6 +1,8 @@
 package net.andrewcpu.elevenlabs.api;
 
 import net.andrewcpu.elevenlabs.api.requests.ResultTransformer;
+import net.andrewcpu.elevenlabs.api.requests.multipart.MultipartForm;
+import net.andrewcpu.elevenlabs.enums.ContentType;
 import net.andrewcpu.elevenlabs.enums.HTTPMethod;
 import net.andrewcpu.elevenlabs.enums.ResponseType;
 import org.json.simple.JSONObject;
@@ -15,7 +17,9 @@ public abstract class ElevenLabsRequest<T> {
 	private ResponseType responseType = ResponseType.JSON;
 	private File outputFilePath;
 	private ResultTransformer<T> resultTransformer;
-
+	private List<File> files;
+	protected ContentType contentType = ContentType.JSON;
+	protected MultipartForm multipartForm;
 
 	public ElevenLabsRequest(List<String> parameters, JSONObject body, HTTPMethod method, ResultTransformer<T> resultTransformer) {
 		this.method = method;
@@ -32,6 +36,22 @@ public abstract class ElevenLabsRequest<T> {
 	public ElevenLabsRequest(List<String> parameters, HTTPMethod method) {
 		this.parameters = parameters;
 		this.method = method;
+	}
+
+	public List<File> getFiles() {
+		return files;
+	}
+
+	protected void setFiles(List<File> files) {
+		this.files = files;
+	}
+
+	public MultipartForm getMultipartForm() {
+		return multipartForm;
+	}
+
+	public ContentType getContentType() {
+		return contentType;
 	}
 
 	public ElevenLabsRequest(HTTPMethod method) {

@@ -2,6 +2,8 @@ package net.andrewcpu.elevenlabs;
 
 import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
 import net.andrewcpu.elevenlabs.api.ElevenLabsResponse;
+import net.andrewcpu.elevenlabs.api.requests.multipart.MultipartFile;
+import net.andrewcpu.elevenlabs.api.requests.multipart.MultipartFormContent;
 import net.andrewcpu.elevenlabs.api.requests.voices.GetTextToSpeechRequest;
 import net.andrewcpu.elevenlabs.api.requests.history.DeleteHistoryItemRequest;
 import net.andrewcpu.elevenlabs.api.requests.history.DownloadHistoryRequest;
@@ -13,16 +15,17 @@ import net.andrewcpu.elevenlabs.api.requests.user.GetSubscriptionInfoRequest;
 import net.andrewcpu.elevenlabs.api.requests.user.GetUserRequest;
 import net.andrewcpu.elevenlabs.api.requests.voices.*;
 import net.andrewcpu.elevenlabs.elements.*;
+import net.andrewcpu.elevenlabs.enums.ContentType;
 import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 public class ElevenLabsAPI {
 	private static ElevenLabsAPI instance;
@@ -138,6 +141,16 @@ public class ElevenLabsAPI {
 		return (VoiceSettings)getResult(new GetDefaultVoiceSettingsRequest());
 	}
 
+	public String createVoice(String name, Map<String, String> labels, List<File> files) throws ElevenLabsValidationException, IOException {
+		CreateVoiceRequest request = new CreateVoiceRequest(name, files, labels);
+		return (String)(getResult(request));
+	}
+
+	public String editVoice(String voiceId, String name, Map<String, String> labels, List<File> files) throws ElevenLabsValidationException, IOException {
+		EditVoiceRequest editVoiceRequest = new EditVoiceRequest(voiceId,name,files,labels);
+		return (String)(getResult(editVoiceRequest));
+	}
+
 
 	private void checkOrThrow(ElevenLabsResponse<?> response) throws ElevenLabsValidationException {
 		if(response == null){
@@ -152,6 +165,39 @@ public class ElevenLabsAPI {
 		ElevenLabsResponse<?> response = sendRequest(request);
 		checkOrThrow(response);
 		return response.getResult();
+	}
+
+
+	private static void addFormField(String name, String value, String boundary, HttpURLConnection connection) throws IOException {
+		String header = "--" + boundary + "\r\n" +
+				"Content-Disposition: form-data; name=\"" + name + "\"\r\n\r\n";
+		connection.getOutputStream().write(header.getBytes(StandardCharsets.UTF_8));
+		connection.getOutputStream().write(value.getBytes(StandardCharsets.UTF_8));
+		connection.getOutputStream().write("\r\n".getBytes(StandardCharsets.UTF_8));
+	}
+
+	private static void addFilePart(String fieldName, String fileName, File file, String boundary, HttpURLConnection connection) throws IOException {
+		String header = "--" + boundary + "\r\n" +
+				"Content-Disposition: form-data; name=\"" + fieldName + "\"; filename=\"" + fileName + "\"\r\n" +
+				"Content-Type: " + URLConnection.guessContentTypeFromName(fileName) + "\r\n\r\n";
+		connection.getOutputStream().write(header.getBytes(StandardCharsets.UTF_8));
+
+		try (InputStream fileStream = new FileInputStream(file)) {
+			byte[] buffer = new byte[4096];
+			int bytesRead;
+			while ((bytesRead = fileStream.read(buffer)) != -1) {
+				connection.getOutputStream().write(buffer, 0, bytesRead);
+			}
+		}
+
+		connection.getOutputStream().write("\r\n".getBytes(StandardCharsets.UTF_8));
+	}
+
+	private static void finishRequest(String boundary, HttpURLConnection connection) throws IOException {
+		String footer = "--" + boundary + "--\r\n";
+		connection.getOutputStream().write(footer.getBytes(StandardCharsets.UTF_8));
+		connection.getOutputStream().flush();
+		connection.getOutputStream().close();
 	}
 
 	private ElevenLabsResponse<?> sendRequest(ElevenLabsRequest<?> request) throws IOException {
@@ -169,15 +215,46 @@ public class ElevenLabsAPI {
 		}
 		URL url = new URL(baseURL + formattedEndpoint);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setConnectTimeout(60000);
+		connection.setReadTimeout(60000);
 		connection.setRequestMethod(request.getMethod().name());
+
 		connection.setRequestProperty("xi-api-key", apiKey);
-		if (request.getBody() != null) {
-			connection.setRequestProperty("Content-Type", "application/json");
+		if(request.getContentType() == ContentType.JSON){
+			if (request.getBody() != null) {
+				connection.setRequestProperty("Content-Type", request.getContentType().getType()); // this can be done better.
+				connection.setDoOutput(true);
+				connection.getOutputStream().write(request.getBody().toJSONString().getBytes(StandardCharsets.UTF_8));
+			}
+		}
+		else if(request.getContentType() == ContentType.MULTIPART){
+			String boundary = "---------------------------" + System.currentTimeMillis();
+
+			connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 			connection.setDoOutput(true);
-			connection.getOutputStream().write(request.getBody().toJSONString().getBytes(StandardCharsets.UTF_8));
+			connection.setConnectTimeout(60000);
+			connection.setReadTimeout(60000);
+			connection.setRequestMethod(request.getMethod().name());
+			// Add the name field to the request body
+			for(MultipartFormContent item : request.getMultipartForm().getItems()){
+				if(item instanceof MultipartFile multipartFile){
+					addFilePart(multipartFile.getName(),multipartFile.getFilename(), multipartFile.getFile(), boundary, connection);
+				}
+				else{
+					addFormField(item.getName(), item.getValue(), boundary, connection);
+				}
+			}
+			finishRequest(boundary, connection);
 		}
 
-		int responseCode = connection.getResponseCode();
+
+		int responseCode = 0;
+		try {
+			responseCode = connection.getResponseCode();
+		} catch (IOException e) {
+			responseCode = 999;
+			e.printStackTrace();
+		}
 		InputStream successStream = null,
 					errorStream = null;
 		if (responseCode >= 200 && responseCode < 300) {
