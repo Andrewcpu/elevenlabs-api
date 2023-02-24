@@ -15,6 +15,10 @@ public class VoiceSettings {
 	public static VoiceSettings fromJSON(JSONObject object){
 		return new VoiceSettings((double)object.get("stability"), (double)object.get("similarity"));
 	}
+	public static VoiceSettings getDefaultVoiceSettings() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
+		return ElevenLabsAPI.getInstance().getDefaultVoiceSettings();
+	}
+
 
 	public VoiceSettings(double stability, double similarityBoost) {
 		this.stability = stability;
@@ -42,10 +46,6 @@ public class VoiceSettings {
 		object.put("stability", stability);
 		object.put("similarity_boost", similarityBoost);
 		return object;
-	}
-
-	public static VoiceSettings getDefaultVoiceSettings() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
-		return ElevenLabsAPI.getInstance().getDefaultVoiceSettings();
 	}
 
 	@Override

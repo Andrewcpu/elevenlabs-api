@@ -23,6 +23,8 @@ public class Voice {
 	private final String previewUrl;
 	private final List<String> availableForTiers;
 	private VoiceSettings voiceSettings;
+	private boolean hasSettings;
+
 
 	public static Voice fromJSON(JSONObject object) {
 		String voiceId = (String) object.get("voice_id");
@@ -47,8 +49,8 @@ public class Voice {
 		for (Object tier : availableForTiersJson) {
 			availableForTiers.add((String) tier);
 		}
-		double stab = 0;
-		double sim = 0;
+		double stab = -1;
+		double sim = -1;
 		if(object.containsKey("settings") && object.get("settings") != null){
 			JSONObject settingsJson = (JSONObject) object.get("settings");
 			VoiceSettings settings = new VoiceSettings(((Long) settingsJson.get("stability")).doubleValue(),
@@ -58,6 +60,7 @@ public class Voice {
 		}
 
 		Voice voice = new Voice(voiceId, name, samples, category, labels, previewUrl, availableForTiers, stab, sim);
+		voice.hasSettings = stab != -1;
 		voice.getSamples().forEach(s -> s.setVoice(voice));
 		return voice;
 	}
@@ -69,15 +72,19 @@ public class Voice {
 	}
 
 	public static Voice get(String voiceId) throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
-		return ElevenLabsAPI.getInstance().getVoice(voiceId);
+		Voice voice = ElevenLabsAPI.getInstance().getVoice(voiceId);
+		voice.hasSettings = true;
+		return voice;
 	}
 
 	public static Voice get(String voiceId, boolean withSettings) throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
-		return ElevenLabsAPI.getInstance().getVoice(voiceId, withSettings);
+		Voice voice = ElevenLabsAPI.getInstance().getVoice(voiceId, withSettings);
+		voice.hasSettings = withSettings;
+		return voice;
 	}
 
 
-	public Voice(String voiceId, String name, List<Sample> samples, String category, Map<String, String> labels, String previewUrl, List<String> availableForTiers, double stability, double similarityBoost) {
+	private Voice(String voiceId, String name, List<Sample> samples, String category, Map<String, String> labels, String previewUrl, List<String> availableForTiers, double stability, double similarityBoost) {
 		this.voiceId = voiceId;
 		this.name = name;
 		this.samples = samples;
@@ -126,6 +133,7 @@ public class Voice {
 
 	public void fetchSettings() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		this.voiceSettings = ElevenLabsAPI.getInstance().getVoiceSettings(getVoiceId());
+		hasSettings = true;
 	}
 
 	public VoiceBuilder builder() {
@@ -136,6 +144,7 @@ public class Voice {
 		String response = ElevenLabsAPI.getInstance().editVoice(this, settings);
 		if(response != null){
 			this.voiceSettings = settings;
+			hasSettings = true;
 			return response;
 		}
 		return null;
@@ -146,6 +155,9 @@ public class Voice {
 	}
 
 	public File generate(String text, File output) throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
+		if(!hasSettings){
+			throw new ElevenLabsValidationException("Cannot use default voice settings for " + voiceId + " because this object does not have VoiceSettings");
+		}
 		return generate(text, voiceSettings, output);
 	}
 

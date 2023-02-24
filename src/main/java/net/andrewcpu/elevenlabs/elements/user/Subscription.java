@@ -26,7 +26,7 @@ public class Subscription {
 	private final Status status;
 	private final NextInvoice nextInvoice;
 
-	public static Subscription getSubscription() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
+	public static Subscription get() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getSubscription();
 	}
 

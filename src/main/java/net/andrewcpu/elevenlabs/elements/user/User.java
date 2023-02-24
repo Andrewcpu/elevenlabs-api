@@ -13,7 +13,7 @@ public class User {
 	private final boolean isNewUser;
 	private final String apiKey;
 
-	public static User getUser() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
+	public static User get() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getUser();
 	}
 

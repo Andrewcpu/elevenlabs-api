@@ -19,6 +19,7 @@ public record History(List<HistoryItem> history) {
 	public static History fromJSON(JSONObject object) {
 		List<HistoryItem> historyItems = new ArrayList<>();
 		JSONArray historyArray = (JSONArray) object.get("history");
+		History history = new History(new ArrayList<>());
 		for (Object item : historyArray) {
 			JSONObject itemJson = (JSONObject) item;
 			String historyItemId = (String) itemJson.get("history_item_id");
@@ -30,10 +31,15 @@ public record History(List<HistoryItem> history) {
 			int characterCountChangeTo = ((Long) itemJson.get("character_count_change_to")).intValue();
 			String contentType = (String) itemJson.get("content_type");
 			String state = (String) itemJson.get("state");
-			HistoryItem historyItem = new HistoryItem(historyItemId, voiceId, voiceName, text, dateUnix, characterCountChangeFrom, characterCountChangeTo, contentType, state);
+			HistoryItem historyItem = new HistoryItem(historyItemId, voiceId, voiceName, text, dateUnix, characterCountChangeFrom, characterCountChangeTo, contentType, state, history);
 			historyItems.add(historyItem);
 		}
-		return new History(historyItems);
+		history.history.addAll(historyItems);
+		return history;
+	}
+
+	public static History get() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
+		return ElevenLabsAPI.getInstance().getHistory();
 	}
 
 
@@ -72,8 +78,9 @@ public record History(List<HistoryItem> history) {
 		private final String contentType;
 		private final State state;
 		private Voice voice;
+		private History history;
 
-		public HistoryItem(String historyItemId, String voiceId, String voiceName, String text, long dateUnix, int characterCountChangeFrom, int characterCountChangeTo, String contentType, String state) {
+		public HistoryItem(String historyItemId, String voiceId, String voiceName, String text, long dateUnix, int characterCountChangeFrom, int characterCountChangeTo, String contentType, String state, History history) {
 			this.historyItemId = historyItemId;
 			this.voiceId = voiceId;
 			this.voiceName = voiceName;
@@ -83,6 +90,7 @@ public record History(List<HistoryItem> history) {
 			this.characterCountChangeTo = characterCountChangeTo;
 			this.contentType = contentType;
 			this.state = State.valueOf(state.toUpperCase());
+			this.history = history;
 			this.voice = null;
 		}
 
@@ -140,7 +148,9 @@ public record History(List<HistoryItem> history) {
 		}
 
 		public String delete() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
-			return ElevenLabsAPI.getInstance().deleteHistoryItem(this);
+			String output = ElevenLabsAPI.getInstance().deleteHistoryItem(this);
+			history.history.remove(this);
+			return output;
 		}
 
 		public File downloadAudio(File outputFile) throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
