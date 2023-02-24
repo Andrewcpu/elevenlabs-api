@@ -1,4 +1,4 @@
-package net.andrewcpu.elevenlabs.elements;
+package net.andrewcpu.elevenlabs.elements.user;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.enums.Status;

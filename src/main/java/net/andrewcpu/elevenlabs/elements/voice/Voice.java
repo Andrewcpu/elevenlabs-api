@@ -1,6 +1,7 @@
-package net.andrewcpu.elevenlabs.elements;
+package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
+import net.andrewcpu.elevenlabs.elements.Sample;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

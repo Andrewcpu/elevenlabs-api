@@ -1,8 +1,8 @@
 package net.andrewcpu.elevenlabs.api.requests.voices;
 
-import net.andrewcpu.elevenlabs.api.requests.ResultTransformerAdapter;
-import net.andrewcpu.elevenlabs.elements.Voice;
-import net.andrewcpu.elevenlabs.elements.VoiceSettings;
+import net.andrewcpu.elevenlabs.api.transformers.FilePingPongTransformer;
+import net.andrewcpu.elevenlabs.elements.voice.Voice;
+import net.andrewcpu.elevenlabs.elements.voice.VoiceSettings;
 import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
 import net.andrewcpu.elevenlabs.enums.HTTPMethod;
 import net.andrewcpu.elevenlabs.enums.ResponseType;
@@ -13,14 +13,9 @@ import java.util.List;
 
 public class GetTextToSpeechRequest extends ElevenLabsRequest<File> {
 	public GetTextToSpeechRequest(Voice voice, VoiceSettings settings, String text, File outputFile){
-		super(List.of(voice.getVoiceId()), null, HTTPMethod.POST, new ResultTransformerAdapter<File>() {
-			@Override
-			public File transform() {
-				return outputFile;
-			}
-		});
+		super(List.of(voice.getVoiceId()), null, HTTPMethod.POST, new FilePingPongTransformer(outputFile));
 		setBody(buildBody(settings, text));
-		setResponseType(ResponseType.FILE_STREAM);
+		responseType = (ResponseType.FILE_STREAM);
 		setOutputFilePath(outputFile);
 	}
 

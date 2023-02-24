@@ -2,7 +2,7 @@ package net.andrewcpu.elevenlabs.api.requests.history;
 
 import net.andrewcpu.elevenlabs.elements.History;
 import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
-import net.andrewcpu.elevenlabs.api.requests.ResultTransformerAdapter;
+import net.andrewcpu.elevenlabs.api.transformers.ResultTransformerAdapter;
 import net.andrewcpu.elevenlabs.enums.HTTPMethod;
 import org.json.simple.JSONObject;
 

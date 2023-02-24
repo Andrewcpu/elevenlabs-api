@@ -1,8 +1,8 @@
 package net.andrewcpu.elevenlabs.api.requests.user;
 
-import net.andrewcpu.elevenlabs.elements.Subscription;
+import net.andrewcpu.elevenlabs.elements.user.Subscription;
 import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
-import net.andrewcpu.elevenlabs.api.requests.ResultTransformerAdapter;
+import net.andrewcpu.elevenlabs.api.transformers.ResultTransformerAdapter;
 import net.andrewcpu.elevenlabs.enums.HTTPMethod;
 import org.json.simple.JSONObject;
 

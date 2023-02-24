@@ -1,8 +1,7 @@
 package net.andrewcpu.elevenlabs.api.requests.voices;
 
 import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
-import net.andrewcpu.elevenlabs.api.requests.ResultTransformer;
-import net.andrewcpu.elevenlabs.api.requests.ResultTransformerAdapter;
+import net.andrewcpu.elevenlabs.api.transformers.ResultTransformerAdapter;
 import net.andrewcpu.elevenlabs.api.requests.multipart.MultipartFile;
 import net.andrewcpu.elevenlabs.api.requests.multipart.MultipartForm;
 import net.andrewcpu.elevenlabs.api.requests.multipart.MultipartFormContent;

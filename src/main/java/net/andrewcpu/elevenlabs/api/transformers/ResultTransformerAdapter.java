@@ -1,4 +1,4 @@
-package net.andrewcpu.elevenlabs.api.requests;
+package net.andrewcpu.elevenlabs.api.transformers;
 
 import org.json.simple.JSONObject;
 

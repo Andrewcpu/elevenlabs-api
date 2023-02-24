@@ -42,7 +42,6 @@ public class ElevenLabsResponse<T> {
 		if(isSuccessful()){
 			if(request.getResponseType() == ResponseType.JSON){
 				String responseBody = new String(successStream.readAllBytes(), "UTF-8");
-				System.out.println(responseBody);
 
 				JSONObject object = ((JSONObject) new JSONParser().parse(responseBody));
 				this.successful = object;
@@ -63,14 +62,11 @@ public class ElevenLabsResponse<T> {
 			}
 			else if(request.getResponseType() == ResponseType.STRING){
 				String responseBody = new String(successStream.readAllBytes(), "UTF-8");
-				System.out.println(responseBody);
-
 				resultingObject = (T)request.getResultTransformer().transform(responseBody);
 			}
 		}
 		else{
 			String responseBody = new String(errorStream.readAllBytes(), "UTF-8");
-			System.out.println(responseBody);
 			JSONObject object = ((JSONObject) new JSONParser().parse(responseBody));
 			this.error = object;
 		}

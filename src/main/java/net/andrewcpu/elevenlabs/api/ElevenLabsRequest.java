@@ -1,6 +1,6 @@
 package net.andrewcpu.elevenlabs.api;
 
-import net.andrewcpu.elevenlabs.api.requests.ResultTransformer;
+import net.andrewcpu.elevenlabs.api.transformers.ResultTransformer;
 import net.andrewcpu.elevenlabs.api.requests.multipart.MultipartForm;
 import net.andrewcpu.elevenlabs.enums.ContentType;
 import net.andrewcpu.elevenlabs.enums.HTTPMethod;
@@ -14,7 +14,7 @@ public abstract class ElevenLabsRequest<T> {
 	private List<String> parameters;
 	private JSONObject body;
 	private HTTPMethod method;
-	private ResponseType responseType = ResponseType.JSON;
+	protected ResponseType responseType = ResponseType.JSON;
 	private File outputFilePath;
 	private ResultTransformer<T> resultTransformer;
 	private List<File> files;

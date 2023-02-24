@@ -15,6 +15,10 @@ import net.andrewcpu.elevenlabs.api.requests.user.GetSubscriptionInfoRequest;
 import net.andrewcpu.elevenlabs.api.requests.user.GetUserRequest;
 import net.andrewcpu.elevenlabs.api.requests.voices.*;
 import net.andrewcpu.elevenlabs.elements.*;
+import net.andrewcpu.elevenlabs.elements.user.Subscription;
+import net.andrewcpu.elevenlabs.elements.user.User;
+import net.andrewcpu.elevenlabs.elements.voice.Voice;
+import net.andrewcpu.elevenlabs.elements.voice.VoiceSettings;
 import net.andrewcpu.elevenlabs.enums.ContentType;
 import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
@@ -26,6 +30,9 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+
+import static net.andrewcpu.elevenlabs.util.MultipartUtil.addFilePart;
+import static net.andrewcpu.elevenlabs.util.MultipartUtil.addFormField;
 
 public class ElevenLabsAPI {
 	private static ElevenLabsAPI instance;
@@ -168,30 +175,7 @@ public class ElevenLabsAPI {
 	}
 
 
-	private static void addFormField(String name, String value, String boundary, HttpURLConnection connection) throws IOException {
-		String header = "--" + boundary + "\r\n" +
-				"Content-Disposition: form-data; name=\"" + name + "\"\r\n\r\n";
-		connection.getOutputStream().write(header.getBytes(StandardCharsets.UTF_8));
-		connection.getOutputStream().write(value.getBytes(StandardCharsets.UTF_8));
-		connection.getOutputStream().write("\r\n".getBytes(StandardCharsets.UTF_8));
-	}
 
-	private static void addFilePart(String fieldName, String fileName, File file, String boundary, HttpURLConnection connection) throws IOException {
-		String header = "--" + boundary + "\r\n" +
-				"Content-Disposition: form-data; name=\"" + fieldName + "\"; filename=\"" + fileName + "\"\r\n" +
-				"Content-Type: " + URLConnection.guessContentTypeFromName(fileName) + "\r\n\r\n";
-		connection.getOutputStream().write(header.getBytes(StandardCharsets.UTF_8));
-
-		try (InputStream fileStream = new FileInputStream(file)) {
-			byte[] buffer = new byte[4096];
-			int bytesRead;
-			while ((bytesRead = fileStream.read(buffer)) != -1) {
-				connection.getOutputStream().write(buffer, 0, bytesRead);
-			}
-		}
-
-		connection.getOutputStream().write("\r\n".getBytes(StandardCharsets.UTF_8));
-	}
 
 	private static void finishRequest(String boundary, HttpURLConnection connection) throws IOException {
 		String footer = "--" + boundary + "--\r\n";
