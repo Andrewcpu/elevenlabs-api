@@ -1,13 +1,13 @@
 package net.andrewcpu.elevenlabs.api.requests.voices;
 
 import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
-import net.andrewcpu.elevenlabs.api.transformers.ResultTransformerAdapter;
 import net.andrewcpu.elevenlabs.api.multipart.MultipartFile;
 import net.andrewcpu.elevenlabs.api.multipart.MultipartForm;
 import net.andrewcpu.elevenlabs.api.multipart.MultipartFormContent;
+import net.andrewcpu.elevenlabs.api.transformers.ResultTransformer;
+import net.andrewcpu.elevenlabs.api.transformers.ResultTransformerAdapter;
 import net.andrewcpu.elevenlabs.enums.ContentType;
 import net.andrewcpu.elevenlabs.enums.HTTPMethod;
-import net.andrewcpu.elevenlabs.util.MapUtil;
 import org.json.simple.JSONObject;
 
 import java.io.File;
@@ -16,7 +16,23 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unchecked")
 public class CreateVoiceRequest extends ElevenLabsRequest<String> {
+	private static final ResultTransformer<String> transformer = new ResultTransformerAdapter<>(){
+		@Override
+		public String transform(JSONObject object) {
+			return object.get("voice_id").toString();
+		}
+	};
+	public CreateVoiceRequest(String name, List<File> files, Map<String, String> labels) {
+		super(HTTPMethod.POST, transformer);
+		buildBody(name, files, labels);
+	}
+	public CreateVoiceRequest(List<String> parameters, String name, List<File> files, Map<String, String> labels) {
+		super(parameters, HTTPMethod.POST, transformer);
+		buildBody(name, files, labels);
+	}
+
 	private void buildBody(String name, List<File> files, Map<String, String> labels){
 		this.contentType = ContentType.MULTIPART;
 		this.multipartForm = new MultipartForm();
@@ -36,25 +52,6 @@ public class CreateVoiceRequest extends ElevenLabsRequest<String> {
 			this.multipartForm.push(new MultipartFile("files", file));
 		}
 	}
-	public CreateVoiceRequest(String name, List<File> files, Map<String, String> labels) {
-		super(HTTPMethod.POST, new ResultTransformerAdapter<String>(){
-			@Override
-			public String transform(JSONObject object) {
-				return object.get("voice_id").toString();
-			}
-		});
-		buildBody(name, files, labels);
-	}
-	public CreateVoiceRequest(List<String> parameters, String name, List<File> files, Map<String, String> labels) {
-		super(parameters, HTTPMethod.POST, new ResultTransformerAdapter<String>(){
-			@Override
-			public String transform(JSONObject object) {
-				return object.get("voice_id").toString();
-			}
-		});
-		buildBody(name, files, labels);
-	}
-
 	@Override
 	public String getEndpoint() {
 		return "v1/voices/add";

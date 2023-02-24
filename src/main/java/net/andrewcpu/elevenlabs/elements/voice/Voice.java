@@ -2,22 +2,26 @@ package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.elements.VoiceBuilder;
+import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Voice {
-	private String voiceId;
-	private String name;
-	private List<Sample> samples;
-	private String category;
-	private Map<String, String> labels;
-	private String previewUrl;
-	private List<String> availableForTiers;
+	private final String voiceId;
+	private final String name;
+	private final List<Sample> samples;
+	private final String category;
+	private final Map<String, String> labels;
+	private final String previewUrl;
+	private final List<String> availableForTiers;
 	private VoiceSettings voiceSettings;
 
 	public static Voice fromJSON(JSONObject object) {
@@ -60,15 +64,15 @@ public class Voice {
 
 
 
-	public static List<Voice> getVoices() throws IOException, ElevenLabsValidationException{
+	public static List<Voice> getVoices() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getVoices();
 	}
 
-	public static Voice get(String voiceId) throws IOException, ElevenLabsValidationException {
+	public static Voice get(String voiceId) throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getVoice(voiceId);
 	}
 
-	public static Voice get(String voiceId, boolean withSettings) throws IOException, ElevenLabsValidationException {
+	public static Voice get(String voiceId, boolean withSettings) throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getVoice(voiceId, withSettings);
 	}
 
@@ -116,11 +120,11 @@ public class Voice {
 		return voiceSettings;
 	}
 
-	public String delete() throws IOException, ElevenLabsValidationException{
+	public String delete() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().deleteVoice(getVoiceId());
 	}
 
-	public void fetchSettings() throws IOException, ElevenLabsValidationException{
+	public void fetchSettings() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		this.voiceSettings = ElevenLabsAPI.getInstance().getVoiceSettings(getVoiceId());
 	}
 
@@ -128,7 +132,7 @@ public class Voice {
 		return VoiceBuilder.fromVoice(this);
 	}
 
-	public String updateVoiceSettings(VoiceSettings settings) throws IOException, ElevenLabsValidationException {
+	public String updateVoiceSettings(VoiceSettings settings) throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		String response = ElevenLabsAPI.getInstance().editVoice(this, settings);
 		if(response != null){
 			this.voiceSettings = settings;
@@ -137,12 +141,11 @@ public class Voice {
 		return null;
 	}
 
-	public File generate(String text, VoiceSettings voiceSettings, File output) throws ElevenLabsValidationException, IOException{
-		File file = ElevenLabsAPI.getInstance().getTextToSpeech(text, this, voiceSettings,output);
-		return file;
+	public File generate(String text, VoiceSettings voiceSettings, File output) throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
+		return ElevenLabsAPI.getInstance().getTextToSpeech(text, this, voiceSettings,output);
 	}
 
-	public File generate(String text, File output) throws ElevenLabsValidationException, IOException{
+	public File generate(String text, File output) throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
 		return generate(text, voiceSettings, output);
 	}
 

@@ -2,6 +2,7 @@ package net.andrewcpu.elevenlabs.elements;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.elements.voice.Voice;
+import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 
 import java.io.File;
@@ -11,10 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("UnusedReturnValue")
 public class VoiceBuilder {
 	private String name = null;
-	private Map<String, String> labels;
-	private List<File> files;
+	private final Map<String, String> labels;
+	private final List<File> files;
 	private String voiceId;
 
 	public static VoiceBuilder fromVoice(Voice voice){
@@ -63,12 +65,12 @@ public class VoiceBuilder {
 		return this;
 	}
 
-	public Voice edit() throws IOException, ElevenLabsValidationException {
+	public Voice edit() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		ElevenLabsAPI.getInstance().editVoice(voiceId, name, labels, files);
 		return ElevenLabsAPI.getInstance().getVoice(voiceId, true);
 	}
 
-	public Voice create() throws IOException, ElevenLabsValidationException {
+	public Voice create() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		if(files.isEmpty()){
 			throw new ElevenLabsValidationException("Cannot build a voice without any files.");
 		}

@@ -1,14 +1,16 @@
 package net.andrewcpu.elevenlabs.api.multipart;
 
-public class MultipartFormContent {
-	private String name;
-	private String filename;
-	private String value;
+import java.io.File;
 
-	public MultipartFormContent(String name, String filename, String value) {
+public class MultipartFormContent {
+	private final String name;
+	private final String filename;
+	private final String value;
+
+	public MultipartFormContent(String name, File file) {
 		this.name = name;
-		this.filename = filename;
-		this.value = value;
+		this.filename = file.getName();
+		this.value = null;
 	}
 
 	public MultipartFormContent(String name, String value) {

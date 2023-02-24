@@ -8,5 +8,5 @@ public enum Status {
 	PAST_DUE,
 	CANCELED,
 	UNPAID,
-	FREE;
+	FREE
 }

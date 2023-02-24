@@ -15,10 +15,10 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class ElevenLabsResponse<T> {
-	private int responseCode;
-	private InputStream errorStream;
-	private InputStream successStream;
-	private ElevenLabsRequest request;
+	private final int responseCode;
+	private final InputStream errorStream;
+	private final InputStream successStream;
+	private final ElevenLabsRequest<T> request;
 	private JSONObject successful;
 	private JSONObject error;
 	private T resultingObject;
@@ -44,7 +44,7 @@ public class ElevenLabsResponse<T> {
 				DebugLogger.log(getClass(), responseBody);
 				JSONObject object = ((JSONObject) new JSONParser().parse(responseBody));
 				this.successful = object;
-				resultingObject = (T)request.getResultTransformer().transform(object);
+				resultingObject = request.getResultTransformer().transform(object);
 			}
 			else if(request.getResponseType() == ResponseType.FILE_STREAM){
 				try (InputStream inputStream = successStream) {
@@ -56,20 +56,19 @@ public class ElevenLabsResponse<T> {
 						}
 					}
 				}
-				resultingObject = (T)request.getResultTransformer().transform();
+				resultingObject = request.getResultTransformer().transform();
 
 			}
 			else if(request.getResponseType() == ResponseType.STRING){
 				String responseBody = new String(successStream.readAllBytes(), StandardCharsets.UTF_8);
 				DebugLogger.log(getClass(), responseBody);
-				resultingObject = (T)request.getResultTransformer().transform(responseBody);
+				resultingObject = request.getResultTransformer().transform(responseBody);
 			}
 		}
 		else{
 			String responseBody = new String(errorStream.readAllBytes(), StandardCharsets.UTF_8);
 			DebugLogger.log(getClass(), responseBody);
-			JSONObject object = ((JSONObject) new JSONParser().parse(responseBody));
-			this.error = object;
+			this.error = ((JSONObject) new JSONParser().parse(responseBody));
 		}
 	}
 
