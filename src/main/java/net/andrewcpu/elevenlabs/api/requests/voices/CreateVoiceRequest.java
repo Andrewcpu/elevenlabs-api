@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unchecked")
 public class CreateVoiceRequest extends ElevenLabsRequest<String> {
 	private static final ResultTransformer<String> transformer = new ResultTransformerAdapter<>(){
 		@Override

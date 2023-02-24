@@ -3,7 +3,7 @@ package net.andrewcpu.elevenlabs.api.multipart;
 import java.io.File;
 
 public class MultipartFile extends MultipartFormContent {
-	private File file;
+	private final File file;
 	public MultipartFile(String name, File file) {
 		super(name, file);
 		this.file = file;

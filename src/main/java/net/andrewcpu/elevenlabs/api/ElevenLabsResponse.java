@@ -44,7 +44,7 @@ public class ElevenLabsResponse<T> {
 				DebugLogger.log(getClass(), responseBody);
 				JSONObject object = ((JSONObject) new JSONParser().parse(responseBody));
 				this.successful = object;
-				resultingObject = (T)request.getResultTransformer().transform(object);
+				resultingObject = request.getResultTransformer().transform(object);
 			}
 			else if(request.getResponseType() == ResponseType.FILE_STREAM){
 				try (InputStream inputStream = successStream) {
@@ -56,13 +56,13 @@ public class ElevenLabsResponse<T> {
 						}
 					}
 				}
-				resultingObject = (T)request.getResultTransformer().transform();
+				resultingObject = request.getResultTransformer().transform();
 
 			}
 			else if(request.getResponseType() == ResponseType.STRING){
 				String responseBody = new String(successStream.readAllBytes(), StandardCharsets.UTF_8);
 				DebugLogger.log(getClass(), responseBody);
-				resultingObject = (T)request.getResultTransformer().transform(responseBody);
+				resultingObject = request.getResultTransformer().transform(responseBody);
 			}
 		}
 		else{

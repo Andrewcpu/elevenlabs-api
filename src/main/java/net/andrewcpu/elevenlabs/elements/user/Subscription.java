@@ -2,6 +2,7 @@ package net.andrewcpu.elevenlabs.elements.user;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.enums.Status;
+import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -12,20 +13,20 @@ import java.util.Date;
 import java.util.List;
 
 public class Subscription {
-	private String tier;
-	private int characterCount;
-	private int characterLimit;
-	private boolean canExtendCharacterLimit;
-	private boolean allowedToExtendCharacterLimit;
-	private long nextCharacterCountResetUnix;
-	private int voiceLimit;
-	private boolean canExtendVoiceLimit;
-	private boolean canUseInstantVoiceCloning;
-	private List<AvailableModel> availableModels;
-	private Status status;
-	private NextInvoice nextInvoice;
+	private final String tier;
+	private final int characterCount;
+	private final int characterLimit;
+	private final boolean canExtendCharacterLimit;
+	private final boolean allowedToExtendCharacterLimit;
+	private final long nextCharacterCountResetUnix;
+	private final int voiceLimit;
+	private final boolean canExtendVoiceLimit;
+	private final boolean canUseInstantVoiceCloning;
+	private final List<AvailableModel> availableModels;
+	private final Status status;
+	private final NextInvoice nextInvoice;
 
-	public static Subscription getSubscription() throws ElevenLabsValidationException, IOException {
+	public static Subscription getSubscription() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getSubscription();
 	}
 
@@ -149,92 +150,44 @@ public class Subscription {
 				'}';
 	}
 
-	public static class AvailableModel {
-		private String modelId;
-		private String displayName;
-		private List<SupportedLanguage> supportedLanguages;
+	public record AvailableModel(String modelId, String displayName, List<SupportedLanguage> supportedLanguages) {
 
-		public AvailableModel(String modelId, String displayName, List<SupportedLanguage> supportedLanguages) {
-			this.modelId = modelId;
-			this.displayName = displayName;
-			this.supportedLanguages = supportedLanguages;
-		}
-
-		public String getModelId() {
-			return modelId;
-		}
-
-		public String getDisplayName() {
-			return displayName;
-		}
-
-		public List<SupportedLanguage> getSupportedLanguages() {
-			return supportedLanguages;
-		}
 
 		@Override
-		public String toString() {
-			return "AvailableModel{" +
-					"modelId='" + modelId + '\'' +
-					", displayName='" + displayName + '\'' +
-					", supportedLanguages=" + supportedLanguages +
-					'}';
-		}
-	}
-
-	public static class SupportedLanguage {
-		private String isoCode;
-		private String displayName;
-
-		public SupportedLanguage(String isoCode, String displayName) {
-			this.isoCode = isoCode;
-			this.displayName = displayName;
+			public String toString() {
+				return "AvailableModel{" +
+						"modelId='" + modelId + '\'' +
+						", displayName='" + displayName + '\'' +
+						", supportedLanguages=" + supportedLanguages +
+						'}';
+			}
 		}
 
-		public String getIsoCode() {
-			return isoCode;
-		}
+	public record SupportedLanguage(String isoCode, String displayName) {
 
-		public String getDisplayName() {
-			return displayName;
-		}
 
 		@Override
-		public String toString() {
-			return "SupportedLanguage{" +
-					"isoCode='" + isoCode + '\'' +
-					", displayName='" + displayName + '\'' +
-					'}';
-		}
-	}
-
-	public static class NextInvoice {
-		private int amountDueCents;
-		private long nextPaymentAttemptUnix;
-
-		public NextInvoice(int amountDueCents, long nextPaymentAttemptUnix) {
-			this.amountDueCents = amountDueCents;
-			this.nextPaymentAttemptUnix = nextPaymentAttemptUnix;
+			public String toString() {
+				return "SupportedLanguage{" +
+						"isoCode='" + isoCode + '\'' +
+						", displayName='" + displayName + '\'' +
+						'}';
+			}
 		}
 
-		public int getAmountDueCents() {
-			return amountDueCents;
-		}
+	public record NextInvoice(int amountDueCents, long nextPaymentAttemptUnix) {
 
-		public long getNextPaymentAttemptUnix() {
-			return nextPaymentAttemptUnix;
-		}
 
 		public Date getNextPaymentAttempt() {
-			return new Date(nextPaymentAttemptUnix);
-		}
+				return new Date(nextPaymentAttemptUnix);
+			}
 
-		@Override
-		public String toString() {
-			return "NextInvoice{" +
-					"amountDueCents=" + amountDueCents +
-					", nextPaymentAttemptUnix=" + nextPaymentAttemptUnix +
-					'}';
+			@Override
+			public String toString() {
+				return "NextInvoice{" +
+						"amountDueCents=" + amountDueCents +
+						", nextPaymentAttemptUnix=" + nextPaymentAttemptUnix +
+						'}';
+			}
 		}
-	}
 }

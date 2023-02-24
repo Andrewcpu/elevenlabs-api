@@ -1,11 +1,13 @@
 package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
+import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
 
+@SuppressWarnings("unchecked")
 public class VoiceSettings {
 	private double stability;
 	private double similarityBoost;
@@ -42,7 +44,7 @@ public class VoiceSettings {
 		return object;
 	}
 
-	public static VoiceSettings getDefaultVoiceSettings() throws IOException, ElevenLabsValidationException {
+	public static VoiceSettings getDefaultVoiceSettings() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getDefaultVoiceSettings();
 	}
 

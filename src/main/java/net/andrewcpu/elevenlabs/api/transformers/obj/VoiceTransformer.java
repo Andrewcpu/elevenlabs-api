@@ -7,7 +7,6 @@ import org.json.simple.JSONObject;
 public class VoiceTransformer extends ResultTransformerAdapter<Voice> {
 	@Override
 	public Voice transform(JSONObject object) {
-		JSONObject voiceJson = object;
-		return Voice.fromJSON(voiceJson);
+		return Voice.fromJSON(object);
 	}
 }

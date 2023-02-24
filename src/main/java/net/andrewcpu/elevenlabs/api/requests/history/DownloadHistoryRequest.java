@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import java.io.File;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class DownloadHistoryRequest extends ElevenLabsRequest<File> {
 	private static JSONObject getBody(List<String> historyIds) {
 		JSONObject object = new JSONObject();

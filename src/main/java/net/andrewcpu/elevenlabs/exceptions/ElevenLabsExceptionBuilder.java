@@ -16,8 +16,7 @@ public class ElevenLabsExceptionBuilder {
 				int locInt = (int)(((JSONArray)detail.get("loc")).get(1));
 				message.append(detail.get("type").toString())
 						.append(": ")
-						.append(detail.get("msg").toString())
-						.append(" at " + locStr + ":" + locInt)
+						.append(detail.get("msg").toString()).append(" at ").append(locStr).append(":").append(locInt)
 						.append("\n");
 			}
 		}

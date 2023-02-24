@@ -1,6 +1,7 @@
 package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
+import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONObject;
 
@@ -8,11 +9,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class Sample {
-	private String sampleId;
-	private String fileName;
-	private String mimeType;
-	private long sizeBytes;
-	private String hash;
+	private final String sampleId;
+	private final String fileName;
+	private final String mimeType;
+	private final long sizeBytes;
+	private final String hash;
 	private Voice voice;
 
 	public static Sample fromJSON(JSONObject object) {
@@ -63,11 +64,11 @@ public class Sample {
 		return hash;
 	}
 
-	public String delete() throws IOException, ElevenLabsValidationException{
+	public String delete() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().deleteSample(voice,this);
 	}
 
-	public File downloadAudio(File outputFile) throws IOException, ElevenLabsValidationException{
+	public File downloadAudio(File outputFile) throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getSampleAudio(voice, this, outputFile);
 	}
 

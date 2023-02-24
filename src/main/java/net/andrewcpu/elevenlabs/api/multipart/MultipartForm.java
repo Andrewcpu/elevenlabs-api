@@ -1,10 +1,11 @@
 package net.andrewcpu.elevenlabs.api.multipart;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MultipartForm {
-	private List<MultipartFormContent> items;
+	private final List<MultipartFormContent> items;
 	public MultipartForm() {
 		items = new ArrayList<>();
 	}
@@ -15,8 +16,6 @@ public class MultipartForm {
 
 
 	public void push(MultipartFormContent... formContent) {
-		for(int i = 0; i<formContent.length; i++){
-			items.add(formContent[i]);
-		}
+		items.addAll(Arrays.asList(formContent));
 	}
 }

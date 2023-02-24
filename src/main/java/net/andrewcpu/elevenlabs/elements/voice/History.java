@@ -2,6 +2,7 @@ package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.enums.State;
+import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class History {
+public record History(List<HistoryItem> history) {
 	public static History fromJSON(JSONObject object) {
 		List<HistoryItem> historyItems = new ArrayList<>();
 		JSONArray historyArray = (JSONArray) object.get("history");
@@ -35,29 +36,21 @@ public class History {
 		return new History(historyItems);
 	}
 
-	private List<HistoryItem> history;
 
-	public History(List<HistoryItem> history) {
-		this.history = history;
-	}
-
-	public List<HistoryItem> getHistory() {
-		return history;
-	}
-
-	public HistoryItem getHistoryItem(String id){
-		for(HistoryItem item : history){
-			if(item.getHistoryItemId().equals(id)){
+	public HistoryItem getHistoryItem(String id) {
+		for (HistoryItem item : history) {
+			if (item.getHistoryItemId().equals(id)) {
 				return item;
 			}
 		}
 		return null;
 	}
 
-	public File downloadHistory(String[] ids, File file) throws IOException, ElevenLabsValidationException{
+	public File downloadHistory(String[] ids, File file) throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().downloadHistory(Arrays.stream(ids).toList(), file);
 	}
-	public File downloadHistory(List<HistoryItem> historyItems, File file) throws IOException, ElevenLabsValidationException{
+
+	public File downloadHistory(List<HistoryItem> historyItems, File file) throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().downloadHistory(historyItems.stream().map(HistoryItem::getHistoryItemId).collect(Collectors.toList()), file);
 	}
 
@@ -69,15 +62,15 @@ public class History {
 	}
 
 	public static class HistoryItem {
-		private String historyItemId;
-		private String voiceId;
-		private String voiceName;
-		private String text;
-		private long dateUnix;
-		private int characterCountChangeFrom;
-		private int characterCountChangeTo;
-		private String contentType;
-		private State state;
+		private final String historyItemId;
+		private final String voiceId;
+		private final String voiceName;
+		private final String text;
+		private final long dateUnix;
+		private final int characterCountChangeFrom;
+		private final int characterCountChangeTo;
+		private final String contentType;
+		private final State state;
 		private Voice voice;
 
 		public HistoryItem(String historyItemId, String voiceId, String voiceName, String text, long dateUnix, int characterCountChangeFrom, int characterCountChangeTo, String contentType, String state) {
@@ -94,12 +87,12 @@ public class History {
 		}
 
 		public Voice getVoice() {
-			if(voice == null){
+			if (voice == null) {
 				try {
 					voice = ElevenLabsAPI.getInstance().getVoice(voiceId);
-				} catch (ElevenLabsValidationException e) {
+				} catch (ElevenLabsValidationException | IOException e) {
 					throw new RuntimeException(e);
-				} catch (IOException e) {
+				} catch (ElevenAPINotInitiatedException e) {
 					throw new RuntimeException(e);
 				}
 			}
@@ -146,11 +139,11 @@ public class History {
 			return state;
 		}
 
-		public String delete() throws ElevenLabsValidationException, IOException {
+		public String delete() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
 			return ElevenLabsAPI.getInstance().deleteHistoryItem(this);
 		}
 
-		public File downloadAudio(File outputFile) throws ElevenLabsValidationException, IOException{
+		public File downloadAudio(File outputFile) throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
 			return ElevenLabsAPI.getInstance().getHistoryItemAudio(this, outputFile);
 		}
 

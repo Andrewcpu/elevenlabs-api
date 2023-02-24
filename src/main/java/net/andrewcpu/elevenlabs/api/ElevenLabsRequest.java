@@ -1,7 +1,7 @@
 package net.andrewcpu.elevenlabs.api;
 
-import net.andrewcpu.elevenlabs.api.transformers.ResultTransformer;
 import net.andrewcpu.elevenlabs.api.multipart.MultipartForm;
+import net.andrewcpu.elevenlabs.api.transformers.ResultTransformer;
 import net.andrewcpu.elevenlabs.enums.ContentType;
 import net.andrewcpu.elevenlabs.enums.HTTPMethod;
 import net.andrewcpu.elevenlabs.enums.ResponseType;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public abstract class ElevenLabsRequest<T> {
 	protected List<String> parameters;
-	protected HTTPMethod method;
+	protected final HTTPMethod method;
 	protected ResultTransformer<T> resultTransformer;
 	protected JSONObject body;
 	protected ResponseType responseType = ResponseType.JSON;
@@ -79,6 +79,9 @@ public abstract class ElevenLabsRequest<T> {
 
 	public String getFormattedEndpoint(){
 		String endpoint = getEndpoint();
+		if(endpoint.startsWith("/")){
+			endpoint = endpoint.substring(1);
+		}
 		if(parameters != null && parameters.size() > 0){
 			return endpoint.formatted(parameters.toArray());
 		}

@@ -1,9 +1,9 @@
 package net.andrewcpu.elevenlabs.api.requests.voices;
 
+import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
 import net.andrewcpu.elevenlabs.api.transformers.FilePingPongTransformer;
 import net.andrewcpu.elevenlabs.elements.voice.Voice;
 import net.andrewcpu.elevenlabs.elements.voice.VoiceSettings;
-import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
 import net.andrewcpu.elevenlabs.enums.HTTPMethod;
 import net.andrewcpu.elevenlabs.enums.ResponseType;
 import org.json.simple.JSONObject;
@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import java.io.File;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class GetTextToSpeechRequest extends ElevenLabsRequest<File> {
 
 	private static JSONObject buildBody(VoiceSettings settings, String text){
