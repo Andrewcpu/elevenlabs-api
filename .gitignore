@@ -36,3 +36,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+**/src/main/java/net/andrewcpu/elevenlabs/Main.java
+./src/main/java/net/andrewcpu/elevenlabs/Main.java
