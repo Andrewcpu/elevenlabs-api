@@ -2,7 +2,7 @@ package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.enums.State;
-import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
+import net.andrewcpu.elevenlabs.exceptions.ElevenLabsAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -38,7 +38,7 @@ public record History(List<HistoryItem> history) {
 		return history;
 	}
 
-	public static History get() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
+	public static History get() throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getHistory();
 	}
 
@@ -52,11 +52,11 @@ public record History(List<HistoryItem> history) {
 		return null;
 	}
 
-	public File downloadHistory(String[] ids, File file) throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
+	public File downloadHistory(String[] ids, File file) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().downloadHistory(Arrays.stream(ids).toList(), file);
 	}
 
-	public File downloadHistory(List<HistoryItem> historyItems, File file) throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
+	public File downloadHistory(List<HistoryItem> historyItems, File file) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().downloadHistory(historyItems.stream().map(HistoryItem::getHistoryItemId).collect(Collectors.toList()), file);
 	}
 
@@ -78,7 +78,7 @@ public record History(List<HistoryItem> history) {
 		private final String contentType;
 		private final State state;
 		private Voice voice;
-		private History history;
+		private final History history;
 
 		public HistoryItem(String historyItemId, String voiceId, String voiceName, String text, long dateUnix, int characterCountChangeFrom, int characterCountChangeTo, String contentType, String state, History history) {
 			this.historyItemId = historyItemId;
@@ -98,9 +98,7 @@ public record History(List<HistoryItem> history) {
 			if (voice == null) {
 				try {
 					voice = ElevenLabsAPI.getInstance().getVoice(voiceId);
-				} catch (ElevenLabsValidationException | IOException e) {
-					throw new RuntimeException(e);
-				} catch (ElevenAPINotInitiatedException e) {
+				} catch (ElevenLabsValidationException | IOException | ElevenLabsAPINotInitiatedException e) {
 					throw new RuntimeException(e);
 				}
 			}
@@ -147,13 +145,13 @@ public record History(List<HistoryItem> history) {
 			return state;
 		}
 
-		public String delete() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
+		public String delete() throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
 			String output = ElevenLabsAPI.getInstance().deleteHistoryItem(this);
 			history.history.remove(this);
 			return output;
 		}
 
-		public File downloadAudio(File outputFile) throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
+		public File downloadAudio(File outputFile) throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
 			return ElevenLabsAPI.getInstance().getHistoryItemAudio(this, outputFile);
 		}
 

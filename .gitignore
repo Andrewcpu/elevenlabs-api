@@ -39,3 +39,4 @@ build/
 
 **/src/main/java/net/andrewcpu/elevenlabs/Main.java
 ./src/main/java/net/andrewcpu/elevenlabs/Main.java
+Main.java

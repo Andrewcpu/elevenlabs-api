@@ -2,7 +2,7 @@ package net.andrewcpu.elevenlabs.elements.user;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.enums.Status;
-import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
+import net.andrewcpu.elevenlabs.exceptions.ElevenLabsAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -26,7 +26,7 @@ public class Subscription {
 	private final Status status;
 	private final NextInvoice nextInvoice;
 
-	public static Subscription get() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
+	public static Subscription get() throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getSubscription();
 	}
 
@@ -164,8 +164,6 @@ public class Subscription {
 		}
 
 	public record SupportedLanguage(String isoCode, String displayName) {
-
-
 		@Override
 			public String toString() {
 				return "SupportedLanguage{" +
@@ -176,8 +174,6 @@ public class Subscription {
 		}
 
 	public record NextInvoice(int amountDueCents, long nextPaymentAttemptUnix) {
-
-
 		public Date getNextPaymentAttempt() {
 				return new Date(nextPaymentAttemptUnix);
 			}

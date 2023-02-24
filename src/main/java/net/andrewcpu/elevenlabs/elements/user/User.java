@@ -2,7 +2,7 @@ package net.andrewcpu.elevenlabs.elements.user;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.elements.voice.History;
-import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
+import net.andrewcpu.elevenlabs.exceptions.ElevenLabsAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONObject;
 
@@ -13,7 +13,7 @@ public class User {
 	private final boolean isNewUser;
 	private final String apiKey;
 
-	public static User get() throws ElevenLabsValidationException, IOException, ElevenAPINotInitiatedException {
+	public static User get() throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getUser();
 	}
 
@@ -35,7 +35,7 @@ public class User {
 		return apiKey;
 	}
 
-	public History getHistory() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
+	public History getHistory() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getHistory();
 	}
 	public static User fromJSON(JSONObject object) {

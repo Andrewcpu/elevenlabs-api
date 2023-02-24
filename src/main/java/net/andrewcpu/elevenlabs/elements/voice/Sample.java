@@ -1,7 +1,7 @@
 package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
-import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
+import net.andrewcpu.elevenlabs.exceptions.ElevenLabsAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONObject;
 
@@ -64,11 +64,11 @@ public class Sample {
 		return hash;
 	}
 
-	public String delete() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
+	public String delete() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().deleteSample(voice,this);
 	}
 
-	public File downloadAudio(File outputFile) throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
+	public File downloadAudio(File outputFile) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
 		return ElevenLabsAPI.getInstance().getSampleAudio(voice, this, outputFile);
 	}
 

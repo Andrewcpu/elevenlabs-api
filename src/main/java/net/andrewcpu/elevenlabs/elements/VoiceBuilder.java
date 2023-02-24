@@ -2,7 +2,7 @@ package net.andrewcpu.elevenlabs.elements;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.elements.voice.Voice;
-import net.andrewcpu.elevenlabs.exceptions.ElevenAPINotInitiatedException;
+import net.andrewcpu.elevenlabs.exceptions.ElevenLabsAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 
 import java.io.File;
@@ -65,12 +65,12 @@ public class VoiceBuilder {
 		return this;
 	}
 
-	public Voice edit() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
+	public Voice edit() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
 		ElevenLabsAPI.getInstance().editVoice(voiceId, name, labels, files);
 		return ElevenLabsAPI.getInstance().getVoice(voiceId, true);
 	}
 
-	public Voice create() throws IOException, ElevenLabsValidationException, ElevenAPINotInitiatedException {
+	public Voice create() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
 		if(files.isEmpty()){
 			throw new ElevenLabsValidationException("Cannot build a voice without any files.");
 		}
