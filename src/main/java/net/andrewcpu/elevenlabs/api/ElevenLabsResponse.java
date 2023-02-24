@@ -15,10 +15,10 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class ElevenLabsResponse<T> {
-	private int responseCode;
-	private InputStream errorStream;
-	private InputStream successStream;
-	private ElevenLabsRequest request;
+	private final int responseCode;
+	private final InputStream errorStream;
+	private final InputStream successStream;
+	private final ElevenLabsRequest<T> request;
 	private JSONObject successful;
 	private JSONObject error;
 	private T resultingObject;
@@ -68,8 +68,7 @@ public class ElevenLabsResponse<T> {
 		else{
 			String responseBody = new String(errorStream.readAllBytes(), StandardCharsets.UTF_8);
 			DebugLogger.log(getClass(), responseBody);
-			JSONObject object = ((JSONObject) new JSONParser().parse(responseBody));
-			this.error = object;
+			this.error = ((JSONObject) new JSONParser().parse(responseBody));
 		}
 	}
 

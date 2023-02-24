@@ -1,13 +1,11 @@
 package net.andrewcpu.elevenlabs.api.multipart;
 
 import java.io.File;
-import java.net.URLConnection;
 
 public class MultipartFile extends MultipartFormContent {
-
 	private File file;
 	public MultipartFile(String name, File file) {
-		super(name, file.getName(), null,  URLConnection.guessContentTypeFromName(file.getName()));
+		super(name, file);
 		this.file = file;
 	}
 
