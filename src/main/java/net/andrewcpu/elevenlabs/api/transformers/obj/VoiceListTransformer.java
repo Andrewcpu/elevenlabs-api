@@ -12,10 +12,10 @@ public class VoiceListTransformer extends ResultTransformerAdapter<List<Voice>> 
 	@Override
 	public List<Voice> transform(JSONObject object) {
 		JSONArray voiceArray = (JSONArray) object.get("voices");
-		List<Voice> voices = new ArrayList<Voice>();
+		List<Voice> voices = new ArrayList<>();
 
-		for (int i = 0; i < voiceArray.size(); i++) {
-			JSONObject voiceJson = (JSONObject) voiceArray.get(i);
+		for (Object o : voiceArray) {
+			JSONObject voiceJson = (JSONObject) o;
 			voices.add(Voice.fromJSON(voiceJson));
 		}
 
