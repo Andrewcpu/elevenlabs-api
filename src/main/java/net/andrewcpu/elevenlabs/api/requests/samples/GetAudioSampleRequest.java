@@ -12,7 +12,7 @@ public class GetAudioSampleRequest extends ElevenLabsRequest<File> {
 	public GetAudioSampleRequest(String voiceId, String sampleId, File outputFile) {
 		super(List.of(voiceId, sampleId), null, HTTPMethod.GET, new FilePingPongTransformer(outputFile));
 		responseType = (ResponseType.FILE_STREAM);
-		setOutputFilePath(outputFile);
+		outputFilePath = (outputFile);
 	}
 
 	@Override

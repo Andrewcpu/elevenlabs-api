@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 
 public class GetSubscriptionInfoRequest extends ElevenLabsRequest<Subscription> {
 	public GetSubscriptionInfoRequest() {
-		super(null, null, HTTPMethod.GET, new ResultTransformerAdapter<Subscription>(){
+		super(HTTPMethod.GET, new ResultTransformerAdapter<Subscription>(){
 			@Override
 			public Subscription transform(JSONObject object) {
 				return Subscription.fromJSON(object);

@@ -3,6 +3,7 @@ package net.andrewcpu.elevenlabs.api;
 import net.andrewcpu.elevenlabs.enums.ResponseType;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsExceptionBuilder;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
+import net.andrewcpu.elevenlabs.util.DebugLogger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -11,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 public class ElevenLabsResponse<T> {
 	private int responseCode;
@@ -28,10 +30,7 @@ public class ElevenLabsResponse<T> {
 		this.request = request;
 		try {
 			_buildObjects();
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		} catch (ParseException e) {
+		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
@@ -41,8 +40,8 @@ public class ElevenLabsResponse<T> {
 	private void _buildObjects() throws IOException, ParseException {
 		if(isSuccessful()){
 			if(request.getResponseType() == ResponseType.JSON){
-				String responseBody = new String(successStream.readAllBytes(), "UTF-8");
-
+				String responseBody = new String(successStream.readAllBytes(), StandardCharsets.UTF_8);
+				DebugLogger.log(getClass(), responseBody);
 				JSONObject object = ((JSONObject) new JSONParser().parse(responseBody));
 				this.successful = object;
 				resultingObject = (T)request.getResultTransformer().transform(object);
@@ -61,12 +60,14 @@ public class ElevenLabsResponse<T> {
 
 			}
 			else if(request.getResponseType() == ResponseType.STRING){
-				String responseBody = new String(successStream.readAllBytes(), "UTF-8");
+				String responseBody = new String(successStream.readAllBytes(), StandardCharsets.UTF_8);
+				DebugLogger.log(getClass(), responseBody);
 				resultingObject = (T)request.getResultTransformer().transform(responseBody);
 			}
 		}
 		else{
-			String responseBody = new String(errorStream.readAllBytes(), "UTF-8");
+			String responseBody = new String(errorStream.readAllBytes(), StandardCharsets.UTF_8);
+			DebugLogger.log(getClass(), responseBody);
 			JSONObject object = ((JSONObject) new JSONParser().parse(responseBody));
 			this.error = object;
 		}

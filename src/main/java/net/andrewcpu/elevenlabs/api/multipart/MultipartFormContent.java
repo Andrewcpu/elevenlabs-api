@@ -1,16 +1,20 @@
-package net.andrewcpu.elevenlabs.api.requests.multipart;
+package net.andrewcpu.elevenlabs.api.multipart;
 
 public class MultipartFormContent {
 	private String name;
 	private String filename;
 	private String value;
-	private String contentType;
 
-	public MultipartFormContent(String name, String filename, String value, String contentType) {
+	public MultipartFormContent(String name, String filename, String value) {
 		this.name = name;
 		this.filename = filename;
 		this.value = value;
-		this.contentType = contentType;
+	}
+
+	public MultipartFormContent(String name, String value) {
+		this.name = name;
+		this.value = value;
+		this.filename = null;
 	}
 
 	public String getName() {

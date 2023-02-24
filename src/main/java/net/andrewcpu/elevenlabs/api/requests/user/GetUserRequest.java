@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 
 public class GetUserRequest extends ElevenLabsRequest<User> {
 	public GetUserRequest() {
-		super(null, null, HTTPMethod.GET, new ResultTransformerAdapter<User>(){
+		super(HTTPMethod.GET, new ResultTransformerAdapter<User>(){
 			@Override
 			public User transform(JSONObject object) {
 				return User.fromJSON(object);

@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 
 public class GetDefaultVoiceSettingsRequest extends ElevenLabsRequest<VoiceSettings> {
 	public GetDefaultVoiceSettingsRequest() {
-		super(null, null, HTTPMethod.GET, new ResultTransformerAdapter<VoiceSettings>(){
+		super(HTTPMethod.GET, new ResultTransformerAdapter<VoiceSettings>(){
 			@Override
 			public VoiceSettings transform(JSONObject object) {
 				return VoiceSettings.fromJSON(object);

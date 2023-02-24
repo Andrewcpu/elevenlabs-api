@@ -12,7 +12,7 @@ public class GetHistoryAudioRequest extends ElevenLabsRequest<File> {
 	public GetHistoryAudioRequest(String historyId, File outputFile) {
 		super(List.of(historyId), null, HTTPMethod.GET, new FilePingPongTransformer(outputFile));
 		responseType = (ResponseType.FILE_STREAM);
-		setOutputFilePath(outputFile);
+		outputFilePath = (outputFile);
 	}
 
 	@Override

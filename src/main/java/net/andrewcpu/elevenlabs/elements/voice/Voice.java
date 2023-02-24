@@ -1,7 +1,7 @@
 package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
-import net.andrewcpu.elevenlabs.elements.Sample;
+import net.andrewcpu.elevenlabs.elements.VoiceBuilder;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -124,26 +124,15 @@ public class Voice {
 		this.voiceSettings = ElevenLabsAPI.getInstance().getVoiceSettings(getVoiceId());
 	}
 
+	public VoiceBuilder builder() {
+		return VoiceBuilder.fromVoice(this);
+	}
+
 	public String updateVoiceSettings(VoiceSettings settings) throws IOException, ElevenLabsValidationException {
-		String response = null;
-		ElevenLabsValidationException e1 = null;
-		IOException e2 = null;
-		try {
-			response = ElevenLabsAPI.getInstance().editVoice(this, settings);
-		} catch (IOException e) {
-			e2 = e;
-		} catch (ElevenLabsValidationException e) {
-			e1 = e;
-		}
+		String response = ElevenLabsAPI.getInstance().editVoice(this, settings);
 		if(response != null){
 			this.voiceSettings = settings;
 			return response;
-		}
-		if(e1 != null){
-			throw e1;
-		}
-		else if(e2 != null){
-			throw e2;
 		}
 		return null;
 	}

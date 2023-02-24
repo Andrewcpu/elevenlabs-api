@@ -12,18 +12,17 @@ import java.io.File;
 import java.util.List;
 
 public class GetTextToSpeechRequest extends ElevenLabsRequest<File> {
-	public GetTextToSpeechRequest(Voice voice, VoiceSettings settings, String text, File outputFile){
-		super(List.of(voice.getVoiceId()), null, HTTPMethod.POST, new FilePingPongTransformer(outputFile));
-		setBody(buildBody(settings, text));
-		responseType = (ResponseType.FILE_STREAM);
-		setOutputFilePath(outputFile);
-	}
 
-	private JSONObject buildBody(VoiceSettings settings, String text){
+	private static JSONObject buildBody(VoiceSettings settings, String text){
 		JSONObject object = new JSONObject();
 		object.put("text", text);
 		object.put("voice_settings", settings.toJSON());
 		return object;
+	}
+	public GetTextToSpeechRequest(Voice voice, VoiceSettings settings, String text, File outputFile){
+		super(List.of(voice.getVoiceId()), buildBody(settings, text), HTTPMethod.POST, new FilePingPongTransformer(outputFile));
+		responseType = (ResponseType.FILE_STREAM);
+		outputFilePath = (outputFile);
 	}
 
 	@Override

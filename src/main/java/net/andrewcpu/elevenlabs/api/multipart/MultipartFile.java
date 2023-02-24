@@ -1,4 +1,4 @@
-package net.andrewcpu.elevenlabs.api.requests.multipart;
+package net.andrewcpu.elevenlabs.api.multipart;
 
 import java.io.File;
 import java.net.URLConnection;

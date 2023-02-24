@@ -21,7 +21,7 @@ public class DownloadHistoryRequest extends ElevenLabsRequest<File> {
 	public DownloadHistoryRequest(List<String> historyIds, File outputFile) {
 		super(null, getBody(historyIds), HTTPMethod.POST, new FilePingPongTransformer(outputFile));
 		responseType = (ResponseType.FILE_STREAM);
-		setOutputFilePath(outputFile);
+		outputFilePath = (outputFile);
 	}
 
 	@Override

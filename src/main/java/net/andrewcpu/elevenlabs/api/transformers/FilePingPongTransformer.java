@@ -1,5 +1,8 @@
 package net.andrewcpu.elevenlabs.api.transformers;
 
+import net.andrewcpu.elevenlabs.ElevenLabsAPI;
+import net.andrewcpu.elevenlabs.util.DebugLogger;
+
 import java.io.File;
 
 public class FilePingPongTransformer extends ResultTransformerAdapter<File> {
@@ -11,6 +14,7 @@ public class FilePingPongTransformer extends ResultTransformerAdapter<File> {
 
 	@Override
 	public File transform() {
+		DebugLogger.log(getClass(), file.getAbsolutePath());
 		return file;
 	}
 }
