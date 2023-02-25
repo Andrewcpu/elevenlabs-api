@@ -1,6 +1,43 @@
-# elevenlabs-api     ![Build](https://github.com/AndrewCPU/elevenlabs-api/actions/workflows/build.yml/badge.svg) 
-## An unofficial ElevenLabs AI Voice Generation Java API
+# elevenlabs-api     ![Build](https://github.com/AndrewCPU/elevenlabs-api/actions/workflows/build.yml/badge.svg)
+### An unofficial ElevenLabs AI Voice Generation Java API
 
+## Getting Started
+So you wanna make custom voices, huh? Well you've come to the right place.
+
+### Installation
+**Maven**
+
+To add `elevenlabs-api` to your Maven project, use:
+```xml
+    <dependencies>
+        ...
+        <dependency>
+            <groupId>net.andrewcpu.elevenlabs</groupId>
+            <artifactId>elevenlabs-api</artifactId>
+            <version>CURRENT_VERSION</version>
+        </dependency>
+        ...
+    </dependencies>
+```
+
+**JAR**
+
+Compiled JARs are available via the [Releases tab](https://github.com/AndrewCPU/elevenlabs-api/releases)
+
+**Gradle**
+
+*Todo*
+
+### Setting up your API Key
+To access your ElevenLabs API key, head to the [official website](https://elevenlabs.io/), you can view your `xi-api-key` using the 'Profile' tab on the website.
+To set up your ElevenLabs API key, you must register it with the ElevenLabsAPI Java API like below:
+```java
+ElevenLabsAPI.getInstance().setAPIKey("YOUR_API_KEY_HERE");
+```
+*For any public repository security, you should store your API key in an environment variable, or external from your source code.*
+
+Once you've injected your API Key, you can safely assume that you will not receive a `ElevenLabsAPINotInitiatedException`.
+- - -
 
 <!-- TOC -->
 ### Table of Contents
@@ -49,44 +86,6 @@
 ### **ElevenLabs API Documentation**: https://api.elevenlabs.io/docs
 
 - - -
-## Getting Started
-So you wanna make custom voices, huh? Well you've come to the right place.
-
-### Installation
-**Maven**
-
-To add `elevenlabs-api` to your Maven project, use:
-```xml
-    <dependencies>
-        ...
-        <dependency>
-            <groupId>net.andrewcpu.elevenlabs</groupId>
-            <artifactId>elevenlabs-api</artifactId>
-            <version>CURRENT_VERSION</version>
-        </dependency>
-        ...
-    </dependencies>
-```
-
-**JAR**
-
-Compiled JARs are available via the [Releases tab](https://github.com/AndrewCPU/elevenlabs-api/releases)
-
-**Gradle**
-
-*Todo*
-
-### Setting up your API Key
-To access your ElevenLabs API key, head to the [official website](https://elevenlabs.io/), you can view your `xi-api-key` using the 'Profile' tab on the website.
-To set up your ElevenLabs API key, you must register it with the ElevenLabsAPI Java API like below:
-```java
-ElevenLabsAPI.getInstance().setAPIKey("YOUR_API_KEY_HERE");
-```
-*For any public repository security, you should store your API key in an environment variable, or external from your source code.*
-
-Once you've injected your API Key, you can safely assume that you will not receive a `ElevenLabsAPINotInitiatedException`.
-- - -
-
 ## Voices
 ### Accessing your List of Available Voices
 To retrieve your list of accessible Voices, you can statically utilize `Voice#getVoices()`. This will return both ElevenLab's pregenerated `Voice` models, as well as any personal `Voices` you have generated.
