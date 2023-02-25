@@ -37,7 +37,7 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            Last Commits:
+            Last Commits: 
             [Compare Changes](${{ github.event.compare }})
 
       - name: Upload artifact to release
