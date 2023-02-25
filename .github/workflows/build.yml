@@ -35,14 +35,15 @@ jobs:
         run: echo ::set-output name=tag::$(git describe --abbrev=0 --tags 2>/dev/null || echo '')
 
       - name: Create new tag
-        if: steps.current_tag.outputs.tag != 'v${{steps.version.outputs.version}}'
+        if: ${{ steps.current_tag.outputs.tag }} != 'v${{steps.version.outputs.version}}'
         run: git tag v${{ steps.version.outputs.version }}
 
       - name: Push new tag
-        if: steps.current_tag.outputs.tag != 'v${{steps.version.outputs.version}}'
+        if: ${{ steps.current_tag.outputs.tag }} != 'v${{steps.version.outputs.version}}'
         run: git push origin v${{ steps.version.outputs.version }}
 
       - name: Create Release
+        if: always()
         id: create_release
         uses: actions/create-release@v1.0.0
         env:
@@ -55,6 +56,7 @@ jobs:
           prerelease: false
 
       - name: Upload artifact to release
+        if: always()
         id: upload-release-asset
         uses: actions/upload-release-asset@v1.0.2
         env:
