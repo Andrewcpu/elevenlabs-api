@@ -27,24 +27,11 @@ jobs:
         id: version
         run: echo ::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
-      - name: Fetch tags from remote
-        run: git fetch --tags
-
-      - name: Get current tag
-        id: current_tag
-        run: echo ::set-output name=tag::$(git describe --abbrev=0 --tags 2>/dev/null || echo '')
-
       - name: Create new tag
         id: makeatag
-        run: |
-          if [ `$(git tag v${{ steps.version.outputs.version }} | wc -l)` -le 2 ]; then
-            echo ::set-output name=successful::true
-          else
-            echo ::set-output name=successful::false
-          fi
+        run: git tag v${{github.run_number}}
 
       - name: Push new tag
-        if: ${{steps.makeatag.successful}}
         run: git push origin v${{ steps.version.outputs.version }}
 
       - name: Create Release
@@ -54,7 +41,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{steps.version.outputs.version}}
+          tag_name: v${{github.run_number}} # Defeated by logic I stand.
           release_name: "Release v${{ steps.version.outputs.version }} Build ${{ github.run_number }}"
           draft: false
           prerelease: false
