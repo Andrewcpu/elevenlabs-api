@@ -51,7 +51,6 @@ jobs:
         with:
           tag_name: ${{ steps.current_tag.outputs.tag || 'v${{ steps.version.outputs.version }}' }}
           release_name: Release v${{ steps.version.outputs.version }} Build ${{ github.run_number }}
-          body: 'Release of version ${{ steps.version.outputs.version }} Build ${{ github.run_number }}'
           draft: false
           prerelease: false
 
