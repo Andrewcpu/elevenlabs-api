@@ -27,6 +27,9 @@ jobs:
         id: version
         run: echo ::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
+      - name: Fetch tags from remote
+        run: git fetch --tags
+
       - name: Get current tag
         id: current_tag
         run: echo ::set-output name=tag::$(git describe --abbrev=0 --tags 2>/dev/null || echo '')
