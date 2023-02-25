@@ -1,4 +1,4 @@
-# elevenlabs-api     ![example workflow](https://github.com/AndrewCPU/elevenlabs-api/actions/workflows/main.yml/badge.svg) 
+# elevenlabs-api     ![Build](https://github.com/AndrewCPU/elevenlabs-api/actions/workflows/build.yml/badge.svg) 
 ## An unofficial ElevenLabs AI Voice Generation Java API
 *Disclaimer: I am not affiliated with ElevenLabs and am providing a programmatic way of accessing the public ElevenLabs Web API.*
 
