@@ -35,11 +35,16 @@ jobs:
         run: echo ::set-output name=tag::$(git describe --abbrev=0 --tags 2>/dev/null || echo '')
 
       - name: Create new tag
-        if: ${{ steps.current_tag.outputs.tag != 'v${{ steps.version.outputs.version }}' }}
-        run: git tag v${{ steps.version.outputs.version }}
+        id: makeatag
+        run: |
+          if [ ${# $(git tag v${{ steps.version.outputs.version }}) } -le 2 ]; then
+            echo ::set-output name=successful::true
+            else
+            echo ::set-output name=successful::false
+          fi
 
       - name: Push new tag
-        if: ${{ steps.current_tag.outputs.tag != 'v${{ steps.version.outputs.version }}' }}
+        if: ${{steps.makeatag.successful}}
         run: git push origin v${{ steps.version.outputs.version }}
 
       - name: Create Release
