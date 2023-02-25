@@ -27,15 +27,27 @@ jobs:
         id: version
         run: echo ::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
+      - name: Get current tag
+        id: current_tag
+        run: echo ::set-output name=tag::$(git describe --abbrev=0 --tags 2>/dev/null || echo '')
+
+      - name: Create new tag
+        if: steps.current_tag.outputs.tag == ''
+        run: git tag v${{ steps.version.outputs.version }}
+
+      - name: Push new tag
+        if: steps.current_tag.outputs.tag == ''
+        run: git push origin v${{ steps.version.outputs.version }}
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.0.0
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.version.outputs.version }}
-          release_name: Release v${{ steps.version.outputs.version }}
-          body: 'Release of version ${{ steps.version.outputs.version }}'
+          tag_name: ${{ steps.current_tag.outputs.tag || 'v' + steps.version.outputs.version }}
+          release_name: Release v${{ steps.version.outputs.version }} Build ${{ github.run_number }}
+          body: 'Release of version ${{ steps.version.outputs.version }} Build ${{ github.run_number }}'
           draft: false
           prerelease: false
 
