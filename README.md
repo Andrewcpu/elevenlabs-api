@@ -1,6 +1,48 @@
 # elevenlabs-api     ![Build](https://github.com/AndrewCPU/elevenlabs-api/actions/workflows/build.yml/badge.svg) 
 ## An unofficial ElevenLabs AI Voice Generation Java API
-*Disclaimer: I am not affiliated with ElevenLabs and am providing a programmatic way of accessing the public ElevenLabs Web API.*
+
+
+<!-- TOC -->
+### Table of Contents
+  * [Getting Started](#getting-started)
+    * [Installation](#installation)
+    * [Setting up your API Key](#setting-up-your-api-key)
+  * [Voices](#voices)
+    * [Accessing your List of Available Voices](#accessing-your-list-of-available-voices)
+    * [Accessing the Default Voice Settings](#accessing-the-default-voice-settings)
+    * [Getting a Voice by ID](#getting-a-voice-by-id)
+    * [Deleting a voice](#deleting-a-voice)
+    * [Retrieving an Updated VoiceSettings for a Voice](#retrieving-an-updated-voicesettings-for-a-voice)
+    * [Updating the VoiceSettings for a Voice](#updating-the-voicesettings-for-a-voice)
+    * [Editing a Voice](#editing-a-voice)
+    * [Creating a Voice](#creating-a-voice)
+    * [Generating Audio](#generating-audio)
+  * [Samples](#samples)
+    * [Accessing Voice Samples](#accessing-voice-samples)
+    * [Downloading a Sample](#downloading-a-sample)
+    * [Deleting a Sample](#deleting-a-sample)
+  * [History](#history)
+    * [Getting Generation History](#getting-generation-history)
+    * [Getting a History Item](#getting-a-history-item)
+    * [Downloading History](#downloading-history)
+    * [Deleting a HistoryItem](#deleting-a-historyitem)
+    * [Requesting the Voice for a HistoryItem](#requesting-the-voice-for-a-historyitem)
+    * [Downloading a HistoryItem Audio](#downloading-a-historyitem-audio)
+  * [User Management](#user-management)
+    * [Getting your Subscription](#getting-your-subscription)
+    * [Getting your User](#getting-your-user)
+  * [Exceptions](#exceptions)
+    * [*ElevenLabsAPINotInitiatedException*](#elevenlabsapinotinitiatedexception)
+    * [*ElevenLabsValidationException*](#elevenlabsvalidationexception)
+* [Built in Types](#built-in-types)
+  * [`Voice` Related Types](#voice-related-types)
+  * [`User` Related Types](#user-related-types)
+* [Misc](#misc)
+
+* [Links to ElevenLabs](#links-to-elevenlabs)
+    * [**ElevenLabs Website**: https://elevenlabs.io](#elevenlabs-website--httpselevenlabsio)
+    * [**ElevenLabs API Documentation**: https://api.elevenlabs.io/docs](#elevenlabs-api-documentation--httpsapielevenlabsiodocs)
+<!-- TOC -->
 
 ## Links to ElevenLabs
 ### **ElevenLabs Website**: https://elevenlabs.io
@@ -13,7 +55,7 @@ So you wanna make custom voices, huh? Well you've come to the right place.
 ### Installation
 **Maven**
 
-To install `elevenlabs-api` with Maven, use:
+To add `elevenlabs-api` to your Maven project, use:
 ```xml
     <dependencies>
         ...
@@ -35,7 +77,7 @@ Compiled JARs are available via the [Releases tab](https://github.com/AndrewCPU/
 *Todo*
 
 ### Setting up your API Key
-To access your ElevenLabs API key, head to the [official website](https://elevenlabs.io/), you can view your xi-api-key using the 'Profile' tab on the website.
+To access your ElevenLabs API key, head to the [official website](https://elevenlabs.io/), you can view your `xi-api-key` using the 'Profile' tab on the website.
 To set up your ElevenLabs API key, you must register it with the ElevenLabsAPI Java API like below:
 ```java
 ElevenLabsAPI.getInstance().setAPIKey("YOUR_API_KEY_HERE");
@@ -214,7 +256,6 @@ A `Subscription` contains all the relevant data to manage your API usage (charac
 ```java
 Subscription subscription = Subscription.get();
 ```
-- - -
 
 ### Getting your User
 This endpoint will return the `User` associated with a given API key.
@@ -305,5 +346,8 @@ If you like what you see, give it a star! :)
 
 - - -
 
-## Special Thanks
-A special thanks to ElevenLabs for making an awesome tool. Thanks folks 🥂
+#### Unit Testing
+*Todo*
+
+
+Thanks to ElevenLabs for making an awesome tool 🥂
