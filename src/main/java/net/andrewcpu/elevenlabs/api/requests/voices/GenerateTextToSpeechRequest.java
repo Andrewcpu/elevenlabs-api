@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-public class GetTextToSpeechRequest extends ElevenLabsRequest<File> {
+public class GenerateTextToSpeechRequest extends ElevenLabsRequest<File> {
 
 	private static JSONObject buildBody(VoiceSettings settings, String text){
 		JSONObject object = new JSONObject();
@@ -20,7 +20,7 @@ public class GetTextToSpeechRequest extends ElevenLabsRequest<File> {
 		object.put("voice_settings", settings.toJSON());
 		return object;
 	}
-	public GetTextToSpeechRequest(Voice voice, VoiceSettings settings, String text, File outputFile){
+	public GenerateTextToSpeechRequest(Voice voice, VoiceSettings settings, String text, File outputFile){
 		super(List.of(voice.getVoiceId()), buildBody(settings, text), HTTPMethod.POST, new FilePingPongTransformer(outputFile));
 		responseType = (ResponseType.FILE_STREAM);
 		outputFilePath = (outputFile);
@@ -28,6 +28,6 @@ public class GetTextToSpeechRequest extends ElevenLabsRequest<File> {
 
 	@Override
 	public String getEndpoint() {
-		return "v1/text-to-speech/%s";
+		return "text-to-speech/{voiceId}";
 	}
 }

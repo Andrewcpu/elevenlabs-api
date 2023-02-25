@@ -1,20 +1,19 @@
 package net.andrewcpu.elevenlabs.api.requests.history;
 
-import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
-import net.andrewcpu.elevenlabs.api.transformers.StringPingPongTransformer;
-import net.andrewcpu.elevenlabs.enums.HTTPMethod;
+import net.andrewcpu.elevenlabs.api.requests.ElevenLabsDeleteRequest;
+import net.andrewcpu.elevenlabs.api.transformers.RequestTransformer;
 import net.andrewcpu.elevenlabs.enums.ResponseType;
 
 import java.util.List;
 
-public class DeleteHistoryItemRequest extends ElevenLabsRequest<String> {
+public class DeleteHistoryItemRequest extends ElevenLabsDeleteRequest<String> {
 	public DeleteHistoryItemRequest(String historyId) {
-		super(List.of(historyId), null, HTTPMethod.DELETE, new StringPingPongTransformer());
+		super(List.of(historyId), RequestTransformer.STRING_RESULT_TRANSFORMER);
 		responseType = (ResponseType.STRING);
 	}
 
 	@Override
 	public String getEndpoint() {
-		return "v1/history/%s";
+		return "history/{historyItemId}";
 	}
 }

@@ -1,18 +1,17 @@
 package net.andrewcpu.elevenlabs.api.requests.voices;
 
-import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
-import net.andrewcpu.elevenlabs.api.transformers.StringPingPongTransformer;
-import net.andrewcpu.elevenlabs.enums.HTTPMethod;
+import net.andrewcpu.elevenlabs.api.requests.ElevenLabsDeleteRequest;
+import net.andrewcpu.elevenlabs.api.transformers.RequestTransformer;
 
 import java.util.List;
 
-public class DeleteVoiceRequest extends ElevenLabsRequest<String> {
+public class DeleteVoiceRequest extends ElevenLabsDeleteRequest<String> {
 	public DeleteVoiceRequest(String voiceId) {
-		super(List.of(voiceId), HTTPMethod.DELETE, new StringPingPongTransformer());
+		super(List.of(voiceId), RequestTransformer.STRING_RESULT_TRANSFORMER);
 	}
 
 	@Override
 	public String getEndpoint() {
-		return "/v1/voices/%s";
+		return "voices/{voiceId}";
 	}
 }

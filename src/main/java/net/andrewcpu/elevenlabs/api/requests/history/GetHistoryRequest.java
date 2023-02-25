@@ -1,17 +1,16 @@
 package net.andrewcpu.elevenlabs.api.requests.history;
 
-import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
-import net.andrewcpu.elevenlabs.api.transformers.obj.HistoryTransformer;
+import net.andrewcpu.elevenlabs.api.requests.ElevenLabsGetRequest;
+import net.andrewcpu.elevenlabs.api.transformers.RequestTransformer;
 import net.andrewcpu.elevenlabs.elements.voice.History;
-import net.andrewcpu.elevenlabs.enums.HTTPMethod;
 
-public class GetHistoryRequest extends ElevenLabsRequest<History> {
+public class GetHistoryRequest extends ElevenLabsGetRequest<History> {
 	public GetHistoryRequest() {
-		super(HTTPMethod.GET, new HistoryTransformer());
+		super(RequestTransformer.HISTORY_TRANSFORMER);
 	}
 
 	@Override
 	public String getEndpoint() {
-		return "v1/history";
+		return "history";
 	}
 }

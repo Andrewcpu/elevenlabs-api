@@ -13,6 +13,9 @@ import net.andrewcpu.elevenlabs.api.requests.samples.GetAudioSampleRequest;
 import net.andrewcpu.elevenlabs.api.requests.user.GetSubscriptionInfoRequest;
 import net.andrewcpu.elevenlabs.api.requests.user.GetUserRequest;
 import net.andrewcpu.elevenlabs.api.requests.voices.*;
+import net.andrewcpu.elevenlabs.api.requests.voices.settings.GetDefaultVoiceSettingsRequest;
+import net.andrewcpu.elevenlabs.api.requests.voices.settings.GetVoiceSettingsRequest;
+import net.andrewcpu.elevenlabs.api.requests.voices.settings.UpdateVoiceSettingsRequest;
 import net.andrewcpu.elevenlabs.elements.user.Subscription;
 import net.andrewcpu.elevenlabs.elements.user.User;
 import net.andrewcpu.elevenlabs.elements.voice.History;
@@ -21,6 +24,7 @@ import net.andrewcpu.elevenlabs.elements.voice.Voice;
 import net.andrewcpu.elevenlabs.elements.voice.VoiceSettings;
 import net.andrewcpu.elevenlabs.enums.ContentType;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsAPINotInitiatedException;
+import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 
 import java.io.File;
@@ -38,8 +42,9 @@ import static net.andrewcpu.elevenlabs.util.MultipartUtil.addFormField;
 
 @SuppressWarnings({"unchecked", "UnusedReturnValue"})
 public class ElevenLabsAPI {
+	//this class needs help
 	private static ElevenLabsAPI instance;
-	private static final String baseURL = "https://api.elevenlabs.io/";
+	private static final String baseURL = "https://api.elevenlabs.io/v1/";
 	private static boolean debugMode = false;
 
 	public static boolean isDebugMode() {
@@ -57,6 +62,8 @@ public class ElevenLabsAPI {
 		return instance;
 	}
 
+
+
 	private boolean instantiated;
 	private String apiKey;
 
@@ -69,110 +76,110 @@ public class ElevenLabsAPI {
 		this.apiKey = apiKey;
 	}
 
-	public Subscription getSubscription() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public Subscription getSubscription() throws ElevenLabsException {
 		return (Subscription) getResult(new GetSubscriptionInfoRequest());
 	}
 
-	public User getUser() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public User getUser() throws ElevenLabsException {
 		return (User) getResult(new GetUserRequest());
 	}
 
-	public File getTextToSpeech(String text, Voice voice, VoiceSettings settings, File outputFile) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
-		return (File)getResult(new GetTextToSpeechRequest(voice, settings, text, outputFile));
+	public File getTextToSpeech(String text, Voice voice, VoiceSettings settings, File outputFile) throws ElevenLabsException {
+		return (File)getResult(new GenerateTextToSpeechRequest(voice, settings, text, outputFile));
 	}
 
-	public List<Voice> getVoices() throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
+	public List<Voice> getVoices() throws ElevenLabsException {
 		return (List<Voice>) getResult(new GetVoicesRequest());
 	}
 
-	public Voice getVoice(String voiceId, boolean withSettings) throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
+	public Voice getVoice(String voiceId, boolean withSettings) throws ElevenLabsException {
 		return (Voice)getResult(new GetVoiceRequest(voiceId, withSettings));
 	}
 
-	public Voice getVoice(String voiceId) throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
+	public Voice getVoice(String voiceId) throws ElevenLabsException {
 		return getVoice(voiceId, true);
 	}
 
-	public VoiceSettings getVoiceSettings(String voiceId) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public VoiceSettings getVoiceSettings(String voiceId) throws ElevenLabsException {
 		return (VoiceSettings) getResult(new GetVoiceSettingsRequest(voiceId));
 	}
 
-	public VoiceSettings getVoiceSettings(Voice voice) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public VoiceSettings getVoiceSettings(Voice voice) throws ElevenLabsException {
 		return getVoiceSettings(voice.getVoiceId());
 	}
 
-	public String deleteVoice(Voice voice) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String deleteVoice(Voice voice) throws ElevenLabsException {
 		return deleteVoice(voice.getVoiceId());
 	}
 
-	public String deleteVoice(String voiceId) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String deleteVoice(String voiceId) throws ElevenLabsException {
 		return (String)getResult(new DeleteVoiceRequest(voiceId));
 	}
 
-	public String editVoice(Voice voice, VoiceSettings voiceSettings) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String editVoice(Voice voice, VoiceSettings voiceSettings) throws ElevenLabsException {
 		return editVoice(voice.getVoiceId(), voiceSettings);
 	}
 
-	public String editVoice(String voiceId, VoiceSettings settings) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String editVoice(String voiceId, VoiceSettings settings) throws ElevenLabsException {
 		return (String)getResult(new UpdateVoiceSettingsRequest(voiceId, settings));
 	}
 
 
-	public String deleteSample(String voiceId, String sampleId) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String deleteSample(String voiceId, String sampleId) throws ElevenLabsException {
 		return (String)getResult(new DeleteSampleRequest(voiceId, sampleId));
 	}
 
-	public String deleteSample(Voice voice, String sampleId) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String deleteSample(Voice voice, String sampleId) throws ElevenLabsException {
 		return deleteSample(voice.getVoiceId(), sampleId);
 	}
-	public String deleteSample(String voiceId, Sample sample) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String deleteSample(String voiceId, Sample sample) throws ElevenLabsException {
 		return deleteSample(voiceId, sample.getSampleId());
 	}
 
-	public String deleteSample(Voice voice, Sample sample) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String deleteSample(Voice voice, Sample sample) throws ElevenLabsException {
 		return deleteSample(voice.getVoiceId(), sample.getSampleId());
 	}
 
-	public File getSampleAudio(String voiceId, String sampleId, File file) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public File getSampleAudio(String voiceId, String sampleId, File file) throws ElevenLabsException {
 		return (File)getResult(new GetAudioSampleRequest(voiceId, sampleId, file));
 	}
-	public File getSampleAudio(Voice voice, Sample sample, File file) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public File getSampleAudio(Voice voice, Sample sample, File file) throws ElevenLabsException {
 		return getSampleAudio(voice.getVoiceId(), sample.getSampleId(), file);
 	}
 
-	public History getHistory() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public History getHistory() throws ElevenLabsException {
 		return (History)getResult(new GetHistoryRequest());
 	}
 
-	public File downloadHistory(List<String> historyIds, File outputFile) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public File downloadHistory(List<String> historyIds, File outputFile) throws ElevenLabsException {
 		return (File)getResult(new DownloadHistoryRequest(historyIds, outputFile));
 	}
 
-	public File getHistoryItemAudio(History.HistoryItem historyItem, File outputFile) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public File getHistoryItemAudio(History.HistoryItem historyItem, File outputFile) throws ElevenLabsException {
 		return (File)getResult(new GetHistoryAudioRequest(historyItem.getHistoryItemId(), outputFile));
 	}
 
-	public String deleteHistoryItem(History.HistoryItem historyItem) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String deleteHistoryItem(History.HistoryItem historyItem) throws ElevenLabsException {
 		return (String)getResult(new DeleteHistoryItemRequest(historyItem.getHistoryItemId()));
 	}
 
-	public VoiceSettings getDefaultVoiceSettings() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public VoiceSettings getDefaultVoiceSettings() throws ElevenLabsException {
 		return (VoiceSettings)getResult(new GetDefaultVoiceSettingsRequest());
 	}
 
-	public String createVoice(String name, Map<String, String> labels, List<File> files) throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
+	public String createVoice(String name, Map<String, String> labels, List<File> files) throws ElevenLabsException {
 		CreateVoiceRequest request = new CreateVoiceRequest(name, files, labels);
 		return (String)(getResult(request));
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
-	public String editVoice(String voiceId, String name, Map<String, String> labels, List<File> files) throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
+	public String editVoice(String voiceId, String name, Map<String, String> labels, List<File> files) throws ElevenLabsException {
 		EditVoiceRequest editVoiceRequest = new EditVoiceRequest(voiceId,name,files,labels);
 		return (String)(getResult(editVoiceRequest));
 	}
 
 
-	private void checkOrThrow(ElevenLabsResponse<?> response) throws ElevenLabsValidationException {
+	private void checkOrThrow(ElevenLabsResponse<?> response) throws ElevenLabsException {
 		if(response == null){
 			throw new ElevenLabsValidationException("An error has occurred.");
 		}
@@ -181,43 +188,45 @@ public class ElevenLabsAPI {
 		}
 	}
 
-	private Object getResult(ElevenLabsRequest<?> request) throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
+	private Object getResult(ElevenLabsRequest<?> request) throws ElevenLabsException {
 		ElevenLabsResponse<?> response = sendRequest(request);
 		checkOrThrow(response);
 		return response.getResult();
 	}
 
-	private ElevenLabsResponse<?> sendRequest(ElevenLabsRequest<?> request) throws IOException, ElevenLabsAPINotInitiatedException {
+	private ElevenLabsResponse<?> sendRequest(ElevenLabsRequest<?> request) throws ElevenLabsAPINotInitiatedException {
 		if(!instantiated){
 			throw new ElevenLabsAPINotInitiatedException();
 		}
 		String formattedEndpoint = request.getFormattedEndpoint();
 		String boundary = "---------------------------" + System.currentTimeMillis();
 
-		URL url = new URL(baseURL + formattedEndpoint);
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		setupConnection(request, boundary, connection);
-
-		if(request.getContentType() == ContentType.JSON){
-			handleJSON(request, connection);
-		}
-		else if(request.getContentType() == ContentType.MULTIPART){
-			handleMultipart(request, connection, boundary);
-		}
-
+		URL url = null;
 		int responseCode = 999;
-		try {
-			responseCode = connection.getResponseCode();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		InputStream successStream = null,
-					errorStream = null;
-		if (responseCode >= 200 && responseCode < 300) {
-			successStream = connection.getInputStream();
-		} else {
-			errorStream = connection.getErrorStream();
+				errorStream = null;
+
+		try {
+			url = new URL(baseURL + formattedEndpoint);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			setupConnection(request, boundary, connection);
+
+			if(request.getContentType() == ContentType.JSON){
+				handleJSON(request, connection);
+			}
+			else if(request.getContentType() == ContentType.MULTIPART){
+				handleMultipart(request, connection, boundary);
+			}
+			responseCode = connection.getResponseCode();
+			if (responseCode >= 200 && responseCode < 300) {
+				successStream = connection.getInputStream();
+			} else {
+				errorStream = connection.getErrorStream();
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
+
 		return new ElevenLabsResponse<>(responseCode, errorStream, successStream, request);
 	}
 

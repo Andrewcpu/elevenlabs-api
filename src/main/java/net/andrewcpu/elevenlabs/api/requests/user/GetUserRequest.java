@@ -1,17 +1,16 @@
 package net.andrewcpu.elevenlabs.api.requests.user;
 
-import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
-import net.andrewcpu.elevenlabs.api.transformers.obj.UserTransformer;
+import net.andrewcpu.elevenlabs.api.requests.ElevenLabsGetRequest;
+import net.andrewcpu.elevenlabs.api.transformers.RequestTransformer;
 import net.andrewcpu.elevenlabs.elements.user.User;
-import net.andrewcpu.elevenlabs.enums.HTTPMethod;
 
-public class GetUserRequest extends ElevenLabsRequest<User> {
+public class GetUserRequest extends ElevenLabsGetRequest<User> {
 	public GetUserRequest() {
-		super(HTTPMethod.GET, new UserTransformer());
+		super(RequestTransformer.USER_TRANSFORMER);
 	}
 
 	@Override
 	public String getEndpoint() {
-		return "v1/user";
+		return "user";
 	}
 }

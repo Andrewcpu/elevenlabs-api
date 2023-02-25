@@ -1,11 +1,8 @@
 package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
-import net.andrewcpu.elevenlabs.exceptions.ElevenLabsAPINotInitiatedException;
-import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
+import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import org.json.simple.JSONObject;
-
-import java.io.IOException;
 
 @SuppressWarnings("unchecked")
 public class VoiceSettings {
@@ -15,7 +12,7 @@ public class VoiceSettings {
 	public static VoiceSettings fromJSON(JSONObject object){
 		return new VoiceSettings((double)object.get("stability"), (double)object.get("similarity"));
 	}
-	public static VoiceSettings getDefaultVoiceSettings() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public static VoiceSettings getDefaultVoiceSettings() throws ElevenLabsException {
 		return ElevenLabsAPI.getInstance().getDefaultVoiceSettings();
 	}
 

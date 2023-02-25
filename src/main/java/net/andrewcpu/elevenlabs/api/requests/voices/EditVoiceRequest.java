@@ -11,6 +11,6 @@ public class EditVoiceRequest extends CreateVoiceRequest{
 
 	@Override
 	public String getEndpoint() {
-		return "v1/voices/%s/edit";
+		return "voices/{voiceId}/edit";
 	}
 }

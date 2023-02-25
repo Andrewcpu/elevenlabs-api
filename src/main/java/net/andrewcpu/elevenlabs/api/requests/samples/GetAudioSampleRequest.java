@@ -1,22 +1,21 @@
 package net.andrewcpu.elevenlabs.api.requests.samples;
 
-import net.andrewcpu.elevenlabs.api.ElevenLabsRequest;
+import net.andrewcpu.elevenlabs.api.requests.ElevenLabsGetRequest;
 import net.andrewcpu.elevenlabs.api.transformers.FilePingPongTransformer;
-import net.andrewcpu.elevenlabs.enums.HTTPMethod;
 import net.andrewcpu.elevenlabs.enums.ResponseType;
 
 import java.io.File;
 import java.util.List;
 
-public class GetAudioSampleRequest extends ElevenLabsRequest<File> {
+public class GetAudioSampleRequest extends ElevenLabsGetRequest<File> {
 	public GetAudioSampleRequest(String voiceId, String sampleId, File outputFile) {
-		super(List.of(voiceId, sampleId), null, HTTPMethod.GET, new FilePingPongTransformer(outputFile));
+		super(List.of(voiceId, sampleId), new FilePingPongTransformer(outputFile));
 		responseType = (ResponseType.FILE_STREAM);
 		outputFilePath = (outputFile);
 	}
 
 	@Override
 	public String getEndpoint() {
-		return "v1/voices/%s/samples/%s/audio";
+		return "voices/{voiceId}/samples/{sampleId}/audio";
 	}
 }

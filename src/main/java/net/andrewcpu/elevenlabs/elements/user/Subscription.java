@@ -2,12 +2,10 @@ package net.andrewcpu.elevenlabs.elements.user;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.enums.Status;
-import net.andrewcpu.elevenlabs.exceptions.ElevenLabsAPINotInitiatedException;
-import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
+import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,11 +24,50 @@ public class Subscription {
 	private final Status status;
 	private final NextInvoice nextInvoice;
 
-	public static Subscription get() throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
+	public static Subscription fromJSON(JSONObject object) {
+		String tier = (String) object.get("tier");
+		int characterCount = ((Long) object.get("character_count")).intValue();
+		int characterLimit = ((Long) object.get("character_limit")).intValue();
+		boolean canExtendCharacterLimit = (Boolean) object.get("can_extend_character_limit");
+		boolean allowedToExtendCharacterLimit = (Boolean) object.get("allowed_to_extend_character_limit");
+		long nextCharacterCountResetUnix = (Long) object.get("next_character_count_reset_unix");
+		int voiceLimit = ((Long) object.get("voice_limit")).intValue();
+		boolean canExtendVoiceLimit = (Boolean) object.get("can_extend_voice_limit");
+		boolean canUseInstantVoiceCloning = (Boolean) object.get("can_use_instant_voice_cloning");
+		List<AvailableModel> availableModels = new ArrayList<>();
+		JSONArray availableModelsJson = (JSONArray) object.get("available_models");
+		for (Object model : availableModelsJson) {
+			JSONObject modelJson = (JSONObject) model;
+			String modelId = (String) modelJson.get("model_id");
+			String displayName = (String) modelJson.get("display_name");
+			List<SupportedLanguage> supportedLanguages = new ArrayList<>();
+			JSONArray supportedLanguagesJson = (JSONArray) modelJson.get("supported_languages");
+			for (Object language : supportedLanguagesJson) {
+				JSONObject languageJson = (JSONObject) language;
+				String isoCode = (String) languageJson.get("iso_code");
+				String languageDisplayName = (String) languageJson.get("display_name");
+				supportedLanguages.add(new SupportedLanguage(isoCode, languageDisplayName));
+			}
+			availableModels.add(new AvailableModel(modelId, displayName, supportedLanguages));
+		}
+		String status = (String) object.get("status");
+		NextInvoice invoice = null;
+		if(object.containsKey("next_invoice")){
+			JSONObject nextInvoiceJson = (JSONObject) object.get("next_invoice");
+			invoice = new NextInvoice(
+					((Long) nextInvoiceJson.get("amount_due_cents")).intValue(),
+					(Long) nextInvoiceJson.get("next_payment_attempt_unix")
+			);
+		}
+		return new Subscription(tier, characterCount, characterLimit, canExtendCharacterLimit, allowedToExtendCharacterLimit, nextCharacterCountResetUnix, voiceLimit, canExtendVoiceLimit, canUseInstantVoiceCloning, availableModels, status, invoice);
+	}
+
+
+	public static Subscription get() throws ElevenLabsException {
 		return ElevenLabsAPI.getInstance().getSubscription();
 	}
 
-		public Subscription(String tier, int characterCount, int characterLimit, boolean canExtendCharacterLimit, boolean allowedToExtendCharacterLimit,
+	private Subscription(String tier, int characterCount, int characterLimit, boolean canExtendCharacterLimit, boolean allowedToExtendCharacterLimit,
 		                    long nextCharacterCountResetUnix, int voiceLimit, boolean canExtendVoiceLimit, boolean canUseInstantVoiceCloning, List<AvailableModel> availableModels,
 		                    String status, NextInvoice nextInvoice) {
 		this.tier = tier;
@@ -95,44 +132,6 @@ public class Subscription {
 		return nextInvoice;
 	}
 
-	public static Subscription fromJSON(JSONObject object) {
-		String tier = (String) object.get("tier");
-		int characterCount = ((Long) object.get("character_count")).intValue();
-		int characterLimit = ((Long) object.get("character_limit")).intValue();
-		boolean canExtendCharacterLimit = (Boolean) object.get("can_extend_character_limit");
-		boolean allowedToExtendCharacterLimit = (Boolean) object.get("allowed_to_extend_character_limit");
-		long nextCharacterCountResetUnix = (Long) object.get("next_character_count_reset_unix");
-		int voiceLimit = ((Long) object.get("voice_limit")).intValue();
-		boolean canExtendVoiceLimit = (Boolean) object.get("can_extend_voice_limit");
-		boolean canUseInstantVoiceCloning = (Boolean) object.get("can_use_instant_voice_cloning");
-		List<AvailableModel> availableModels = new ArrayList<>();
-		JSONArray availableModelsJson = (JSONArray) object.get("available_models");
-		for (Object model : availableModelsJson) {
-			JSONObject modelJson = (JSONObject) model;
-			String modelId = (String) modelJson.get("model_id");
-			String displayName = (String) modelJson.get("display_name");
-			List<SupportedLanguage> supportedLanguages = new ArrayList<>();
-			JSONArray supportedLanguagesJson = (JSONArray) modelJson.get("supported_languages");
-			for (Object language : supportedLanguagesJson) {
-				JSONObject languageJson = (JSONObject) language;
-				String isoCode = (String) languageJson.get("iso_code");
-				String languageDisplayName = (String) languageJson.get("display_name");
-				supportedLanguages.add(new SupportedLanguage(isoCode, languageDisplayName));
-			}
-			availableModels.add(new AvailableModel(modelId, displayName, supportedLanguages));
-		}
-		String status = (String) object.get("status");
-		NextInvoice invoice = null;
-		if(object.containsKey("next_invoice")){
-			JSONObject nextInvoiceJson = (JSONObject) object.get("next_invoice");
-			invoice = new NextInvoice(
-					((Long) nextInvoiceJson.get("amount_due_cents")).intValue(),
-					(Long) nextInvoiceJson.get("next_payment_attempt_unix")
-			);
-
-		}
-		return new Subscription(tier, characterCount, characterLimit, canExtendCharacterLimit, allowedToExtendCharacterLimit, nextCharacterCountResetUnix, voiceLimit, canExtendVoiceLimit, canUseInstantVoiceCloning, availableModels, status, invoice);
-	}
 
 	@Override
 	public String toString() {

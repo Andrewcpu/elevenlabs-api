@@ -2,7 +2,7 @@ package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.elements.VoiceBuilder;
-import net.andrewcpu.elevenlabs.exceptions.ElevenLabsAPINotInitiatedException;
+import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -69,17 +69,17 @@ public class Voice {
 
 
 
-	public static List<Voice> getVoices() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public static List<Voice> getVoices() throws ElevenLabsException {
 		return ElevenLabsAPI.getInstance().getVoices();
 	}
 
-	public static Voice get(String voiceId) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public static Voice get(String voiceId) throws ElevenLabsException {
 		Voice voice = ElevenLabsAPI.getInstance().getVoice(voiceId);
 		voice.hasSettings = true;
 		return voice;
 	}
 
-	public static Voice get(String voiceId, boolean withSettings) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public static Voice get(String voiceId, boolean withSettings) throws ElevenLabsException {
 		Voice voice = ElevenLabsAPI.getInstance().getVoice(voiceId, withSettings);
 		voice.hasSettings = withSettings;
 		return voice;
@@ -129,11 +129,11 @@ public class Voice {
 		return voiceSettings;
 	}
 
-	public String delete() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String delete() throws IOException, ElevenLabsException {
 		return ElevenLabsAPI.getInstance().deleteVoice(getVoiceId());
 	}
 
-	public void fetchSettings() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public void fetchSettings() throws IOException, ElevenLabsException {
 		this.voiceSettings = ElevenLabsAPI.getInstance().getVoiceSettings(getVoiceId());
 		hasSettings = true;
 	}
@@ -142,7 +142,7 @@ public class Voice {
 		return VoiceBuilder.fromVoice(this);
 	}
 
-	public String updateVoiceSettings(VoiceSettings settings) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String updateVoiceSettings(VoiceSettings settings) throws ElevenLabsException {
 		String response = ElevenLabsAPI.getInstance().editVoice(this, settings);
 		if(response != null){
 			this.voiceSettings = settings;
@@ -150,13 +150,13 @@ public class Voice {
 			return response;
 		}
 		return null;
-	}
+	}//todo figure out what this endpoint returns. String is not description, but docs don't have the info
 
-	public File generate(String text, VoiceSettings voiceSettings, File output) throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
+	public File generate(String text, VoiceSettings voiceSettings, File output) throws ElevenLabsException {
 		return ElevenLabsAPI.getInstance().getTextToSpeech(text, this, voiceSettings,output);
 	}
 
-	public File generate(String text, File output) throws ElevenLabsValidationException, IOException, ElevenLabsAPINotInitiatedException {
+	public File generate(String text, File output) throws ElevenLabsException, IOException {
 		if(!hasSettings){
 			throw new ElevenLabsValidationException("Cannot use default voice settings for " + voiceId + " because this object does not have VoiceSettings");
 		}

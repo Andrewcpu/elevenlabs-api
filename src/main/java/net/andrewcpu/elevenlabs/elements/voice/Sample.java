@@ -1,12 +1,10 @@
 package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
-import net.andrewcpu.elevenlabs.exceptions.ElevenLabsAPINotInitiatedException;
-import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
+import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import org.json.simple.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 
 public class Sample {
 	private final String sampleId;
@@ -16,7 +14,7 @@ public class Sample {
 	private final String hash;
 	private Voice voice;
 
-	public static Sample fromJSON(JSONObject object) {
+	static Sample fromJSON(JSONObject object) {
 		String sampleId = (String) object.get("sample_id");
 		String fileName = (String) object.get("file_name");
 		String mimeType = (String) object.get("mime_type");
@@ -27,7 +25,7 @@ public class Sample {
 	}
 
 
-	public Sample(String sampleId, String fileName, String mimeType, long sizeBytes, String hash) {
+	private Sample(String sampleId, String fileName, String mimeType, long sizeBytes, String hash) {
 		this.sampleId = sampleId;
 		this.fileName = fileName;
 		this.mimeType = mimeType;
@@ -64,11 +62,11 @@ public class Sample {
 		return hash;
 	}
 
-	public String delete() throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public String delete() throws ElevenLabsException {
 		return ElevenLabsAPI.getInstance().deleteSample(voice,this);
 	}
 
-	public File downloadAudio(File outputFile) throws IOException, ElevenLabsValidationException, ElevenLabsAPINotInitiatedException {
+	public File downloadAudio(File outputFile) throws ElevenLabsException {
 		return ElevenLabsAPI.getInstance().getSampleAudio(voice, this, outputFile);
 	}
 

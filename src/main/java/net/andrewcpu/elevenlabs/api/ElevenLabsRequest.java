@@ -11,13 +11,13 @@ import java.io.File;
 import java.util.List;
 
 public abstract class ElevenLabsRequest<T> {
-	protected List<String> parameters;
+	protected ContentType contentType = ContentType.JSON;
+	protected ResponseType responseType = ResponseType.JSON;
 	protected final HTTPMethod method;
+	protected List<String> parameters;
 	protected ResultTransformer<T> resultTransformer;
 	protected JSONObject body;
-	protected ResponseType responseType = ResponseType.JSON;
 	protected File outputFilePath;
-	protected ContentType contentType = ContentType.JSON;
 	protected MultipartForm multipartForm;
 
 	public ElevenLabsRequest(List<String> parameters, JSONObject body, HTTPMethod method, ResultTransformer<T> resultTransformer) {
@@ -52,6 +52,12 @@ public abstract class ElevenLabsRequest<T> {
 		this.resultTransformer = resultTransformer;
 	}
 
+	public ElevenLabsRequest(JSONObject body, HTTPMethod method, ResultTransformer<T> resultTransformer) {
+		this.resultTransformer = resultTransformer;
+		this.method = method;
+		this.body = body;
+	}
+
 	public abstract String getEndpoint();
 
 
@@ -82,8 +88,10 @@ public abstract class ElevenLabsRequest<T> {
 		if(endpoint.startsWith("/")){
 			endpoint = endpoint.substring(1);
 		}
-		if(parameters != null && parameters.size() > 0){
-			return endpoint.formatted(parameters.toArray());
+		if(parameters != null && !parameters.isEmpty()){
+			for(int i = 0; i<parameters.size(); i++){
+				endpoint = endpoint.replaceFirst("\\{.*?}", parameters.get(i));
+			}
 		}
 		return endpoint;
 	}
