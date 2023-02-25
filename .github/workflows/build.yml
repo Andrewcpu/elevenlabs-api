@@ -35,11 +35,11 @@ jobs:
         run: echo ::set-output name=tag::$(git describe --abbrev=0 --tags 2>/dev/null || echo '')
 
       - name: Create new tag
-        if: steps.current_tag.outputs.tag == ''
+        if: steps.current_tag.outputs.tag != 'v${{steps.version.outputs.version}}'
         run: git tag v${{ steps.version.outputs.version }}
 
       - name: Push new tag
-        if: steps.current_tag.outputs.tag == ''
+        if: steps.current_tag.outputs.tag != 'v${{steps.version.outputs.version}}'
         run: git push origin v${{ steps.version.outputs.version }}
 
       - name: Create Release
