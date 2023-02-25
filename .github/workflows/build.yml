@@ -37,7 +37,7 @@ jobs:
       - name: Create new tag
         id: makeatag
         run: |
-          if [ `$(git tag v1.0-SNAPSHOT | wc -l)` -le 2 ]; then
+          if [ `$(git tag v${{ steps.version.outputs.version }} | wc -l)` -le 2 ]; then
             echo ::set-output name=successful::true
           else
             echo ::set-output name=successful::false
