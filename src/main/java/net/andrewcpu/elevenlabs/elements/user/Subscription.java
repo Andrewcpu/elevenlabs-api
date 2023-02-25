@@ -30,7 +30,9 @@ public class Subscription {
 		return ElevenLabsAPI.getInstance().getSubscription();
 	}
 
-	public Subscription(String tier, int characterCount, int characterLimit, boolean canExtendCharacterLimit, boolean allowedToExtendCharacterLimit, long nextCharacterCountResetUnix, int voiceLimit, boolean canExtendVoiceLimit, boolean canUseInstantVoiceCloning, List<AvailableModel> availableModels, String status, NextInvoice nextInvoice) {
+		public Subscription(String tier, int characterCount, int characterLimit, boolean canExtendCharacterLimit, boolean allowedToExtendCharacterLimit,
+		                    long nextCharacterCountResetUnix, int voiceLimit, boolean canExtendVoiceLimit, boolean canUseInstantVoiceCloning, List<AvailableModel> availableModels,
+		                    String status, NextInvoice nextInvoice) {
 		this.tier = tier;
 		this.characterCount = characterCount;
 		this.characterLimit = characterLimit;

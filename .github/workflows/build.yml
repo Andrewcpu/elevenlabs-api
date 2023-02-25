@@ -1,0 +1,51 @@
+name: Build and Release JAR
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: openjdk
+
+      - name: Build with Maven
+        run: mvn clean package
+
+      - name: Release JAR
+        uses: actions/upload-artifact@v2
+        with:
+          name: Files
+          path: target/elevenlabs-api-*.jar
+
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        id: create_release
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: v${{ github.run_number }}
+          draft: false
+          prerelease: false
+          body: |
+            Last Commits:
+            [Compare Changes](${{ github.event.compare }})
+
+      - name: Upload artifact to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: target/*.jar
+          asset_name: elevenlabs-api-*.jar
+          asset_content_type: application/java-archive

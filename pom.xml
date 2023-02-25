@@ -51,7 +51,7 @@
     </dependencies>
 
     <build>
-        <finalName>voice-grabber-${version}</finalName>
+        <finalName>elevenlabs-api-${version}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -60,6 +60,8 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                    <finalName>elevenlabs-api-${version}-full</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>
                     <execution>
