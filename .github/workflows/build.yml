@@ -1,10 +1,13 @@
-name: Build and Release JAR
+name: Java CI with Maven
+
 on:
   push:
     branches:
       - main
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -14,42 +17,35 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: 17
-          distribution: zulu
+          java-version: '17'
+          distribution: 'zulu'
 
       - name: Build with Maven
         run: mvn clean package
 
-      - name: Get version
-        run: |
-          VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
-          echo "::set-output name=version::$VERSION"
-        id: get_version
+      - name: Read version from POM file
+        id: version
+        run: echo ::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
-      - name: Release JAR
-        uses: actions/upload-artifact@v2
-        with:
-          name: elevenlabs-api-${{ steps.get_version.outputs.VERSION }}
-          path: target/elevenlabs-api-*full.jar
-      - name: "Build Changelog"
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@{latest-release}
-      - name: Create release
-        uses: actions/create-release@v1
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.0.0
         env:
           GITHUB_TOKEN: ${{ env.secret.RELEASE_TOKEN }}
-        id: create_release
         with:
-          tag_name: v${{ github.run_number }}
-          release_name: v${{ github.run_number }}
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Release v${{ steps.version.outputs.version }}
+          body: 'Release of version ${{ steps.version.outputs.version }}'
           draft: false
           prerelease: false
+
       - name: Upload artifact to release
-        uses: actions/upload-release-asset@v1
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ env.secret.RELEASE_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: target/*.jar
-          asset_name: elevenlabs-api-*.jar
+          asset_path: target/elevenlabs-api-*full.jar
+          asset_name: elevenlabs-api-${{ steps.version.outputs.version }}-SNAPSHOT-full.jar
           asset_content_type: application/java-archive
