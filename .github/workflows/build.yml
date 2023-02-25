@@ -29,7 +29,8 @@ jobs:
       - name: Create release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ env.secret.RELEASE_TOKEN }}
+          RELEASE_TOKEN: ${{ env.secret.RELEASE_TOKEN }}
         id: create_release
         with:
           tag_name: v${{ github.run_number }}
@@ -43,7 +44,8 @@ jobs:
       - name: Upload artifact to release
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ env.secret.RELEASE_TOKEN }}
+          RELEASE_TOKEN: ${{ env.secret.RELEASE_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: target/*.jar
