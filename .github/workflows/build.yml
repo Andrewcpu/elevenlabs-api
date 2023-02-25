@@ -25,27 +25,23 @@ jobs:
         with:
           name: Files
           path: target/elevenlabs-api-*.jar
-
+      - name: "Build Changelog"
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@{latest-release}
       - name: Create release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ env.secret.RELEASE_TOKEN }}
-          RELEASE_TOKEN: ${{ env.secret.RELEASE_TOKEN }}
         id: create_release
         with:
           tag_name: v${{ github.run_number }}
           release_name: v${{ github.run_number }}
           draft: false
           prerelease: false
-          body: |
-            Last Commits: 
-            [Compare Changes](${{ github.event.compare }})
-
       - name: Upload artifact to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ env.secret.RELEASE_TOKEN }}
-          RELEASE_TOKEN: ${{ env.secret.RELEASE_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: target/*.jar
