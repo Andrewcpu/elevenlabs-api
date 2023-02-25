@@ -32,7 +32,7 @@ jobs:
         run: git tag v${{github.run_number}}
 
       - name: Push new tag
-        run: git push origin v${{ steps.version.outputs.version }}
+        run: git push origin v${{github.run_number}} # I was a fool.
 
       - name: Create Release
         if: always()
