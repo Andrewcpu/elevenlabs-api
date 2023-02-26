@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 public class ElevenLabsResponse<T> {
 	private final InputStream errorStream;
 	private JSONObject error;
-	private final InputStream successStream;
+	public final InputStream successStream;
 	private JSONObject successful;
 	private final ElevenLabsRequest<T> request;
 	private final int responseCode;

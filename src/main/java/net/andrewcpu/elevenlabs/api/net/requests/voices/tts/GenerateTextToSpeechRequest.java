@@ -1,6 +1,7 @@
-package net.andrewcpu.elevenlabs.api.net.requests.voices;
+package net.andrewcpu.elevenlabs.api.net.requests.voices.tts;
 
 import net.andrewcpu.elevenlabs.api.net.ElevenLabsRequest;
+import net.andrewcpu.elevenlabs.api.net.requests.ElevenLabsPostRequest;
 import net.andrewcpu.elevenlabs.api.net.transformers.FilePingPongTransformer;
 import net.andrewcpu.elevenlabs.elements.voice.Voice;
 import net.andrewcpu.elevenlabs.elements.voice.VoiceSettings;
@@ -12,7 +13,7 @@ import java.io.File;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-public class GenerateTextToSpeechRequest extends ElevenLabsRequest<File> {
+public class GenerateTextToSpeechRequest extends ElevenLabsPostRequest<File> {
 
 	private static JSONObject buildBody(VoiceSettings settings, String text){
 		JSONObject object = new JSONObject();
@@ -21,7 +22,7 @@ public class GenerateTextToSpeechRequest extends ElevenLabsRequest<File> {
 		return object;
 	}
 	public GenerateTextToSpeechRequest(Voice voice, VoiceSettings settings, String text, File outputFile){
-		super(List.of(voice.getVoiceId()), buildBody(settings, text), HTTPMethod.POST, new FilePingPongTransformer(outputFile));
+		super(List.of(voice.getVoiceId()), buildBody(settings, text), new FilePingPongTransformer(outputFile));
 		responseType = (ResponseType.FILE_STREAM);
 		outputFilePath = (outputFile);
 	}

@@ -1,10 +1,10 @@
 package net.andrewcpu.elevenlabs.api;
 
-import net.andrewcpu.elevenlabs.ElevenLabsAPI;
 import net.andrewcpu.elevenlabs.api.net.requests.voices.*;
 import net.andrewcpu.elevenlabs.api.net.requests.voices.settings.GetDefaultVoiceSettingsRequest;
 import net.andrewcpu.elevenlabs.api.net.requests.voices.settings.GetVoiceSettingsRequest;
 import net.andrewcpu.elevenlabs.api.net.requests.voices.settings.UpdateVoiceSettingsRequest;
+import net.andrewcpu.elevenlabs.api.net.requests.voices.tts.GenerateTextToSpeechRequest;
 import net.andrewcpu.elevenlabs.elements.voice.Voice;
 import net.andrewcpu.elevenlabs.elements.voice.VoiceSettings;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
