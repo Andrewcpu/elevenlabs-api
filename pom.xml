@@ -24,6 +24,14 @@
         <tag>HEAD</tag>
     </scm>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub AndrewCPU Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/AndrewCPU/elevenlabs-api</url>
+        </repository>
+    </distributionManagement>
+
     <groupId>net.andrewcpu</groupId>
     <artifactId>elevenlabs-api</artifactId>
     <version>1.0-SNAPSHOT</version>
