@@ -1,4 +1,4 @@
-# elevenlabs-api     ![Build](https://github.com/AndrewCPU/elevenlabs-api/actions/workflows/build.yml/badge.svg)
+# 🗣️🔊 elevenlabs-api     ![Build](https://github.com/AndrewCPU/elevenlabs-api/actions/workflows/build.yml/badge.svg)
 ### An unofficial ElevenLabs AI Voice Generation Java API
 
 ## Getting Started
@@ -9,24 +9,19 @@ So you wanna make custom voices, huh? Well you've come to the right place.
 
 To add `elevenlabs-api` to your Maven project, use:
 ```xml
-    <dependencies>
-        ...
-        <dependency>
-            <groupId>net.andrewcpu.elevenlabs</groupId>
-            <artifactId>elevenlabs-api</artifactId>
-            <version>CURRENT_VERSION</version>
-        </dependency>
-        ...
-    </dependencies>
+<dependency>
+    <groupId>net.andrewcpu.elevenlabs</groupId>
+    <artifactId>elevenlabs-api</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
 ```
+The most up-to date package information can be found on the [Packages tab](https://github.com/AndrewCPU/elevenlabs-api/packages/)
+
 
 **JAR**
 
 Compiled JARs are available via the [Releases tab](https://github.com/AndrewCPU/elevenlabs-api/releases)
 
-**Gradle**
-
-*Todo*
 
 ### Setting up your API Key
 To access your ElevenLabs API key, head to the [official website](https://elevenlabs.io/), you can view your `xi-api-key` using the 'Profile' tab on the website.
