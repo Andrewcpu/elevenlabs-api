@@ -1,7 +1,7 @@
 package net.andrewcpu.elevenlabs.elements.user;
 
-import net.andrewcpu.elevenlabs.ElevenLabsAPI;
-import net.andrewcpu.elevenlabs.enums.Status;
+import net.andrewcpu.elevenlabs.api.UserAPI;
+import net.andrewcpu.elevenlabs.enums.AccountStatus;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,7 +21,7 @@ public class Subscription {
 	private final boolean canExtendVoiceLimit;
 	private final boolean canUseInstantVoiceCloning;
 	private final List<AvailableModel> availableModels;
-	private final Status status;
+	private final AccountStatus status;
 	private final NextInvoice nextInvoice;
 
 	public static Subscription fromJSON(JSONObject object) {
@@ -64,7 +64,7 @@ public class Subscription {
 
 
 	public static Subscription get() throws ElevenLabsException {
-		return ElevenLabsAPI.getInstance().getSubscription();
+		return UserAPI.getSubscription();
 	}
 
 	private Subscription(String tier, int characterCount, int characterLimit, boolean canExtendCharacterLimit, boolean allowedToExtendCharacterLimit,
@@ -80,7 +80,7 @@ public class Subscription {
 		this.canExtendVoiceLimit = canExtendVoiceLimit;
 		this.canUseInstantVoiceCloning = canUseInstantVoiceCloning;
 		this.availableModels = availableModels;
-		this.status = Status.valueOf(status.toUpperCase());
+		this.status = AccountStatus.valueOf(status.toUpperCase());
 		this.nextInvoice = nextInvoice;
 	}
 
@@ -124,7 +124,7 @@ public class Subscription {
 		return availableModels;
 	}
 
-	public Status getStatus() {
+	public AccountStatus getStatus() {
 		return status;
 	}
 

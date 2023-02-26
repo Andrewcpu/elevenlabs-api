@@ -1,6 +1,7 @@
 package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
+import net.andrewcpu.elevenlabs.api.SampleAPI;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import org.json.simple.JSONObject;
 
@@ -62,12 +63,18 @@ public class Sample {
 		return hash;
 	}
 
-	public String delete() throws ElevenLabsException {
-		return ElevenLabsAPI.getInstance().deleteSample(voice,this);
+	public boolean delete() throws ElevenLabsException {
+		JSONObject result = SampleAPI.deleteSample(voice,this);
+		if(result.containsKey("status")){
+			if(result.get("status").equals("ok")){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public File downloadAudio(File outputFile) throws ElevenLabsException {
-		return ElevenLabsAPI.getInstance().getSampleAudio(voice, this, outputFile);
+		return SampleAPI.getSampleAudio(voice, this, outputFile);
 	}
 
 	@Override
@@ -78,7 +85,7 @@ public class Sample {
 				", mimeType='" + mimeType + '\'' +
 				", sizeBytes=" + sizeBytes +
 				", hash='" + hash + '\'' +
-				", voice=" + voice +
+				", voice=" + voice.getVoiceId() +
 				'}';
 	}
 }

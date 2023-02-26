@@ -1,5 +1,9 @@
 package net.andrewcpu.elevenlabs.util;
 
+import net.andrewcpu.elevenlabs.api.net.ElevenLabsRequest;
+import net.andrewcpu.elevenlabs.api.net.multipart.MultipartFile;
+import net.andrewcpu.elevenlabs.api.net.multipart.MultipartFormContent;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,5 +36,15 @@ public class MultipartUtil {
 		}
 
 		connection.getOutputStream().write("\r\n".getBytes(StandardCharsets.UTF_8));
+	}
+
+	public static void writeFormValues(ElevenLabsRequest<?> request, HttpURLConnection connection, String boundary) throws IOException {
+		for (MultipartFormContent item : request.getMultipartForm().getItems()) {
+			if (item instanceof MultipartFile multipartFile) {
+				addFilePart(multipartFile.getName(), multipartFile.getFilename(), multipartFile.getFile(), boundary, connection);
+			} else {
+				addFormField(item.getName(), item.getValue(), boundary, connection);
+			}
+		}
 	}
 }

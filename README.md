@@ -293,11 +293,11 @@ History(List<HistoryItem> history)
 ```java
 History.HistoryItem(String historyItemId, String voiceId, String voiceName, String text, 
         long dateUnix, int characterCountChangeFrom, int characterCountChangeTo, 
-        String contentType, String state)
+        String contentType, GenerationState state)
 ```
 
 ```java
-public enum State {
+public enum GenerationState {
     CREATED, 
     DELETED, 
     PROCESSING;
@@ -311,8 +311,8 @@ User(Subscription subscription, boolean isNewUser, String xiApiKey)
 ```java
 Subscription(String tier, int characterCount, int characterLimit, boolean canExtendCharacterLimit, 
         boolean allowedToExtendCharacterLimit, long nextCharacterCountResetUnix, int voiceLimit, 
-        boolean canExtendVoiceLimit, boolean canUseInstantVoiceCloning, List<AvailableModel> availableModels, 
-        String status, NextInvoice nextInvoice)
+        boolean canExtendVoiceLimit, boolean canUseInstantVoiceCloning, List<AvailableModel> availableModels,
+		AccountStatus status, NextInvoice nextInvoice)
 ```
 ```java
 AvailableModel(String modelId, String displayName, List<SupportedLanguage> supportedLanguages)
@@ -324,7 +324,7 @@ SupportedLanguage(String isoCode, String displayName)
 NextInvoice(int amountDueCents, long nextPaymentAttemptUnix)
 ```
 ```java
-public enum Status {
+public enum AccountStatus {
 	TRIALING,
 	ACTIVE,
 	INCOMPLETE,

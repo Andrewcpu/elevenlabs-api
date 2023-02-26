@@ -1,7 +1,8 @@
 package net.andrewcpu.elevenlabs.elements.voice;
 
-import net.andrewcpu.elevenlabs.ElevenLabsAPI;
-import net.andrewcpu.elevenlabs.enums.State;
+import net.andrewcpu.elevenlabs.api.HistoryAPI;
+import net.andrewcpu.elevenlabs.api.VoiceAPI;
+import net.andrewcpu.elevenlabs.enums.GenerationState;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -37,7 +38,7 @@ public record History(List<HistoryItem> history) {
 	}
 
 	public static History get() throws ElevenLabsException {
-		return ElevenLabsAPI.getInstance().getHistory();
+		return HistoryAPI.getHistory();
 	}
 
 
@@ -51,11 +52,11 @@ public record History(List<HistoryItem> history) {
 	}
 
 	public File downloadHistory(String[] ids, File file) throws ElevenLabsException {
-		return ElevenLabsAPI.getInstance().downloadHistory(Arrays.stream(ids).toList(), file);
+		return HistoryAPI.downloadHistory(Arrays.stream(ids).toList(), file);
 	}
 
 	public File downloadHistory(List<HistoryItem> historyItems, File file) throws ElevenLabsException {
-		return ElevenLabsAPI.getInstance().downloadHistory(historyItems.stream().map(HistoryItem::getHistoryItemId).collect(Collectors.toList()), file);
+		return HistoryAPI.downloadHistory(historyItems.stream().map(HistoryItem::getHistoryItemId).collect(Collectors.toList()), file);
 	}
 
 	@Override
@@ -74,7 +75,7 @@ public record History(List<HistoryItem> history) {
 		private final int characterCountChangeFrom;
 		private final int characterCountChangeTo;
 		private final String contentType;
-		private final State state;
+		private final GenerationState state;
 		private Voice voice;
 		private final History history;
 
@@ -87,7 +88,7 @@ public record History(List<HistoryItem> history) {
 			this.characterCountChangeFrom = characterCountChangeFrom;
 			this.characterCountChangeTo = characterCountChangeTo;
 			this.contentType = contentType;
-			this.state = State.valueOf(state.toUpperCase());
+			this.state = GenerationState.valueOf(state.toUpperCase());
 			this.history = history;
 			this.voice = null;
 		}
@@ -95,7 +96,7 @@ public record History(List<HistoryItem> history) {
 		public Voice getVoice() {
 			if (voice == null) {
 				try {
-					voice = ElevenLabsAPI.getInstance().getVoice(voiceId);
+					voice = VoiceAPI.getVoice(voiceId);
 				} catch (ElevenLabsException e) {
 					throw new RuntimeException(e);
 				}
@@ -139,18 +140,18 @@ public record History(List<HistoryItem> history) {
 			return contentType;
 		}
 
-		public State getState() {
+		public GenerationState getState() {
 			return state;
 		}
 
 		public String delete() throws ElevenLabsException {
-			String output = ElevenLabsAPI.getInstance().deleteHistoryItem(this);
+			String output = HistoryAPI.deleteHistoryItem(this);
 			history.history.remove(this);
 			return output;
 		}
 
 		public File downloadAudio(File outputFile) throws ElevenLabsException {
-			return ElevenLabsAPI.getInstance().getHistoryItemAudio(this, outputFile);
+			return HistoryAPI.getHistoryItemAudio(this, outputFile);
 		}
 
 		@Override

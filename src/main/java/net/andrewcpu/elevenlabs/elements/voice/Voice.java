@@ -1,6 +1,7 @@
 package net.andrewcpu.elevenlabs.elements.voice;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
+import net.andrewcpu.elevenlabs.api.VoiceAPI;
 import net.andrewcpu.elevenlabs.elements.VoiceBuilder;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
@@ -8,7 +9,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,17 +70,17 @@ public class Voice {
 
 
 	public static List<Voice> getVoices() throws ElevenLabsException {
-		return ElevenLabsAPI.getInstance().getVoices();
+		return VoiceAPI.getVoices();
 	}
 
 	public static Voice get(String voiceId) throws ElevenLabsException {
-		Voice voice = ElevenLabsAPI.getInstance().getVoice(voiceId);
+		Voice voice = VoiceAPI.getVoice(voiceId);
 		voice.hasSettings = true;
 		return voice;
 	}
 
 	public static Voice get(String voiceId, boolean withSettings) throws ElevenLabsException {
-		Voice voice = ElevenLabsAPI.getInstance().getVoice(voiceId, withSettings);
+		Voice voice = VoiceAPI.getVoice(voiceId, withSettings);
 		voice.hasSettings = withSettings;
 		return voice;
 	}
@@ -129,38 +129,45 @@ public class Voice {
 		return voiceSettings;
 	}
 
-	public String delete() throws IOException, ElevenLabsException {
-		return ElevenLabsAPI.getInstance().deleteVoice(getVoiceId());
+	public boolean delete() throws ElevenLabsException {
+		return VoiceAPI.deleteVoice(getVoiceId());
 	}
 
-	public void fetchSettings() throws IOException, ElevenLabsException {
-		this.voiceSettings = ElevenLabsAPI.getInstance().getVoiceSettings(getVoiceId());
+	public void fetchSettings() throws ElevenLabsException {
+		this.voiceSettings = VoiceAPI.getVoiceSettings(getVoiceId());
 		hasSettings = true;
 	}
 
-	public VoiceBuilder builder() {
+	public VoiceBuilder editor() {
 		return VoiceBuilder.fromVoice(this);
 	}
 
-	public String updateVoiceSettings(VoiceSettings settings) throws ElevenLabsException {
-		String response = ElevenLabsAPI.getInstance().editVoice(this, settings);
+	public void updateVoiceSettings(VoiceSettings settings) throws ElevenLabsException {
+		JSONObject response = VoiceAPI.editVoice(this, settings);
 		if(response != null){
 			this.voiceSettings = settings;
 			hasSettings = true;
-			return response;
+			return;
 		}
-		return null;
-	}//todo figure out what this endpoint returns. String is not description, but docs don't have the info
-
-	public File generate(String text, VoiceSettings voiceSettings, File output) throws ElevenLabsException {
-		return ElevenLabsAPI.getInstance().getTextToSpeech(text, this, voiceSettings,output);
 	}
 
-	public File generate(String text, File output) throws ElevenLabsException, IOException {
+	public File generate(String text, VoiceSettings voiceSettings, File output) throws ElevenLabsException {
+		return VoiceAPI.getTextToSpeech(text, this, voiceSettings,output);
+	}
+
+	public File generate(String text, File output) throws ElevenLabsException {
 		if(!hasSettings){
 			throw new ElevenLabsValidationException("Cannot use default voice settings for " + voiceId + " because this object does not have VoiceSettings");
 		}
 		return generate(text, voiceSettings, output);
+	}
+
+	public String getLabel(String label) {
+		return labels.get(label);
+	}
+
+	public boolean hasLabel(String label){
+		return labels.containsKey(label);
 	}
 
 	@Override

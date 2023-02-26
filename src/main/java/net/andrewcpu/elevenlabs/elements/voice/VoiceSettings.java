@@ -1,6 +1,6 @@
 package net.andrewcpu.elevenlabs.elements.voice;
 
-import net.andrewcpu.elevenlabs.ElevenLabsAPI;
+import net.andrewcpu.elevenlabs.api.VoiceAPI;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import org.json.simple.JSONObject;
 
@@ -10,10 +10,10 @@ public class VoiceSettings {
 	private double similarityBoost;
 
 	public static VoiceSettings fromJSON(JSONObject object){
-		return new VoiceSettings((double)object.get("stability"), (double)object.get("similarity"));
+		return new VoiceSettings((double)object.get("stability"), (double)object.get("similarity_boost"));
 	}
 	public static VoiceSettings getDefaultVoiceSettings() throws ElevenLabsException {
-		return ElevenLabsAPI.getInstance().getDefaultVoiceSettings();
+		return VoiceAPI.getDefaultVoiceSettings();
 	}
 
 

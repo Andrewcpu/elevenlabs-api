@@ -1,6 +1,7 @@
 package net.andrewcpu.elevenlabs.elements;
 
 import net.andrewcpu.elevenlabs.ElevenLabsAPI;
+import net.andrewcpu.elevenlabs.api.VoiceAPI;
 import net.andrewcpu.elevenlabs.elements.voice.Voice;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
@@ -65,15 +66,15 @@ public class VoiceBuilder {
 	}
 
 	public Voice edit() throws ElevenLabsException {
-		ElevenLabsAPI.getInstance().editVoice(voiceId, name, labels, files);
-		return ElevenLabsAPI.getInstance().getVoice(voiceId, true);
+		VoiceAPI.editVoice(voiceId, name, labels, files);
+		return VoiceAPI.getVoice(voiceId, true);
 	}
 
 	public Voice create() throws ElevenLabsException {
 		if(files.isEmpty()){
 			throw new ElevenLabsValidationException("Cannot build a voice without any files.");
 		}
-		String voiceId = ElevenLabsAPI.getInstance().createVoice(name, labels, files);
-		return ElevenLabsAPI.getInstance().getVoice(voiceId, true);
+		String voiceId = VoiceAPI.createVoice(name, labels, files);
+		return VoiceAPI.getVoice(voiceId, true);
 	}
 }
