@@ -5,6 +5,7 @@ import net.andrewcpu.elevenlabs.api.net.transformers.RequestInputStreamTransform
 import net.andrewcpu.elevenlabs.elements.voice.Voice;
 import net.andrewcpu.elevenlabs.elements.voice.VoiceSettings;
 import net.andrewcpu.elevenlabs.enums.ResponseType;
+import net.andrewcpu.elevenlabs.util.StreamedResponseCallback;
 import org.json.simple.JSONObject;
 
 import java.io.File;
@@ -19,10 +20,12 @@ public class GenerateTextToSpeechStreamRequest extends ElevenLabsPostRequest<Inp
 		object.put("voice_settings", settings.toJSON());
 		return object;
 	}
-	public GenerateTextToSpeechStreamRequest(Voice voice, VoiceSettings settings, String text, File outputFile){
+	public GenerateTextToSpeechStreamRequest(Voice voice, VoiceSettings settings, String text, StreamedResponseCallback callback, File outputFile){
 		super(List.of(voice.getVoiceId()), buildBody(settings, text), new RequestInputStreamTransformer());
 		responseType = (ResponseType.FILE_STREAM);
-		outputFilePath = (outputFile);
+		this.streamedResponseCallback = callback;
+		this.outputFilePath = outputFile;
+		if(outputFilePath.exists()) outputFilePath.delete();
 	}
 
 	@Override

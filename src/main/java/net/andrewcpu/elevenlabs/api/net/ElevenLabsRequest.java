@@ -5,6 +5,7 @@ import net.andrewcpu.elevenlabs.api.net.transformers.ResultTransformer;
 import net.andrewcpu.elevenlabs.enums.ContentType;
 import net.andrewcpu.elevenlabs.enums.HTTPMethod;
 import net.andrewcpu.elevenlabs.enums.ResponseType;
+import net.andrewcpu.elevenlabs.util.StreamedResponseCallback;
 import org.json.simple.JSONObject;
 
 import java.io.File;
@@ -19,6 +20,7 @@ public abstract class ElevenLabsRequest<T> {
 	protected JSONObject body;
 	protected File outputFilePath;
 	protected MultipartForm multipartForm;
+	protected StreamedResponseCallback streamedResponseCallback;
 
 	public ElevenLabsRequest(List<String> parameters, JSONObject body, HTTPMethod method, ResultTransformer<T> resultTransformer) {
 		this.method = method;
@@ -77,7 +79,9 @@ public abstract class ElevenLabsRequest<T> {
 		return outputFilePath;
 	}
 
-
+	public StreamedResponseCallback getStreamedResponseCallback() {
+		return streamedResponseCallback;
+	}
 
 	public ResultTransformer<T> getResultTransformer() {
 		return resultTransformer;

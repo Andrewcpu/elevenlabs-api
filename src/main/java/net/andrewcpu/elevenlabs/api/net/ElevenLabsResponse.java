@@ -38,34 +38,33 @@ public class ElevenLabsResponse<T> {
 	}
 
 	private void _buildObjects() throws IOException, ParseException {
-		if(isSuccessful()){
-			if(request.getResponseType() == ResponseType.JSON){
+		if (isSuccessful()) {
+			if (request.getResponseType() == ResponseType.JSON) {
 				String responseBody = new String(successStream.readAllBytes(), StandardCharsets.UTF_8);
 				DebugLogger.log(getClass(), responseBody);
 				JSONObject object = ((JSONObject) new JSONParser().parse(responseBody));
 				this.successful = object;
 				resultingObject = request.getResultTransformer().transform(object);
-			}
-			else if(request.getResponseType() == ResponseType.FILE_STREAM){
-				try (InputStream inputStream = successStream) {
-					byte[] buffer = new byte[4096];
-					int bytesRead;
-					try (OutputStream outputStream = new FileOutputStream(request.getOutputFilePath())) {
-						while ((bytesRead = inputStream.read(buffer)) != -1) {
-							outputStream.write(buffer, 0, bytesRead);
-						}
-					}
+			} else if (request.getResponseType() == ResponseType.FILE_STREAM) {
+				InputStream inputStream = successStream;
+				byte[] buffer = new byte[4096];
+				int bytesRead;
+				OutputStream outputStream = new FileOutputStream(request.getOutputFilePath());
+				while ((bytesRead = inputStream.read(buffer)) != -1) {
+					outputStream.write(buffer, 0, bytesRead);
 				}
-				resultingObject = request.getResultTransformer().transform();
-
-			}
-			else if(request.getResponseType() == ResponseType.STRING){
+				outputStream.close();
+				try {
+					resultingObject = request.getResultTransformer().transform();
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			} else if (request.getResponseType() == ResponseType.STRING) {
 				String responseBody = new String(successStream.readAllBytes(), StandardCharsets.UTF_8);
 				DebugLogger.log(getClass(), responseBody);
 				resultingObject = request.getResultTransformer().transform(responseBody);
 			}
-		}
-		else{
+		} else {
 			String responseBody = new String(errorStream.readAllBytes(), StandardCharsets.UTF_8);
 			DebugLogger.log(getClass(), responseBody);
 			this.error = ((JSONObject) new JSONParser().parse(responseBody));
@@ -83,6 +82,7 @@ public class ElevenLabsResponse<T> {
 	public JSONObject getResultJSON() {
 		return successful;
 	}
+
 	public boolean isSuccessful() {
 		return responseCode >= 200 && responseCode < 300;
 	}

@@ -5,12 +5,15 @@ import net.andrewcpu.elevenlabs.api.net.requests.voices.settings.GetDefaultVoice
 import net.andrewcpu.elevenlabs.api.net.requests.voices.settings.GetVoiceSettingsRequest;
 import net.andrewcpu.elevenlabs.api.net.requests.voices.settings.UpdateVoiceSettingsRequest;
 import net.andrewcpu.elevenlabs.api.net.requests.voices.tts.GenerateTextToSpeechRequest;
+import net.andrewcpu.elevenlabs.api.net.requests.voices.tts.GenerateTextToSpeechStreamRequest;
 import net.andrewcpu.elevenlabs.elements.voice.Voice;
 import net.andrewcpu.elevenlabs.elements.voice.VoiceSettings;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
+import net.andrewcpu.elevenlabs.util.StreamedResponseCallback;
 import org.json.simple.JSONObject;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +26,10 @@ public class VoiceAPI {
 
 	public static File getTextToSpeech(String text, Voice voice, VoiceSettings settings, File outputFile) throws ElevenLabsException {
 		return getRequestResult(new GenerateTextToSpeechRequest(voice, settings, text, outputFile));
+	}
+
+	public static InputStream getTextToSpeechStreamed(String text, Voice voice, VoiceSettings settings, StreamedResponseCallback callback, File file) throws ElevenLabsException{
+		return getRequestResult(new GenerateTextToSpeechStreamRequest(voice, settings, text, callback, file));
 	}
 
 	public static List<Voice> getVoices() throws ElevenLabsException {

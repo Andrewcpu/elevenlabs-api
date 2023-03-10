@@ -10,4 +10,9 @@ public class RequestInputStreamTransformer extends ResultTransformerAdapter<Inpu
 	public InputStream transform(ElevenLabsResponse<InputStream> response) {
 		return response.successStream;
 	}
+
+	@Override
+	public InputStream transform() {
+		return null;
+	}
 }

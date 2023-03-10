@@ -5,14 +5,13 @@ import net.andrewcpu.elevenlabs.api.VoiceAPI;
 import net.andrewcpu.elevenlabs.elements.VoiceBuilder;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
+import net.andrewcpu.elevenlabs.util.StreamedResponseCallback;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.InputStream;
+import java.util.*;
 
 public class Voice {
 	private final String voiceId;
@@ -160,6 +159,14 @@ public class Voice {
 			throw new ElevenLabsValidationException("Cannot use default voice settings for " + voiceId + " because this object does not have VoiceSettings");
 		}
 		return generate(text, voiceSettings, output);
+	}
+
+	public InputStream generateStream(String text, VoiceSettings voiceSettings, StreamedResponseCallback streamedResponseCallback, File file) throws ElevenLabsException {
+		return VoiceAPI.getTextToSpeechStreamed(text, this, voiceSettings, streamedResponseCallback, file);
+	}
+
+	public InputStream generateStream(String text, StreamedResponseCallback callback, File file) throws ElevenLabsException {
+		return generateStream(text, voiceSettings, callback, file);
 	}
 
 	public String getLabel(String label) {

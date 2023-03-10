@@ -3,6 +3,7 @@ package net.andrewcpu.elevenlabs;
 import net.andrewcpu.elevenlabs.api.net.ElevenLabsRequest;
 import net.andrewcpu.elevenlabs.api.net.ElevenLabsResponse;
 import net.andrewcpu.elevenlabs.enums.ContentType;
+import net.andrewcpu.elevenlabs.enums.ResponseType;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsAPINotInitiatedException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsException;
 import net.andrewcpu.elevenlabs.exceptions.ElevenLabsValidationException;
@@ -95,6 +96,10 @@ public class ElevenLabsAPI {
 				connection.getOutputStream().close();
 			}
 
+			if(request.getResponseType() == ResponseType.FILE_STREAM) {
+				request.getStreamedResponseCallback().handleStreamedResponse(connection.getInputStream(), connection.getErrorStream());
+			}
+
 			responseCode = connection.getResponseCode();
 			if (responseCode >= 200 && responseCode < 300) {
 				successStream = connection.getInputStream();
@@ -111,7 +116,6 @@ public class ElevenLabsAPI {
 	private void setupConnection(ElevenLabsRequest<?> request, String boundary, HttpURLConnection connection) throws ProtocolException {
 		connection.setConnectTimeout(60000);
 		connection.setReadTimeout(60000);
-		System.out.println(request.getMethod().name());
 		connection.setRequestMethod(request.getMethod().name());
 		String contType = request.getContentType().getType();
 		if (request.getContentType() == ContentType.MULTIPART) {
