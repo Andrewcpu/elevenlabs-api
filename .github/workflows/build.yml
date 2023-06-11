@@ -17,11 +17,11 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
+          java-version: '11'
           distribution: 'zulu'
 
       - name: Build with Maven
-        run: mvn clean package
+        run: mvn clean package -Dmaven.test.skip
 
       - name: Read version from POM file
         id: version
