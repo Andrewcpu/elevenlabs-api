@@ -6,6 +6,8 @@ import net.andrewcpu.elevenlabs.ElevenLabs;
 import net.andrewcpu.elevenlabs.model.ElevenModel;
 import net.andrewcpu.elevenlabs.model.tuning.FineTuning;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -143,6 +145,39 @@ public class Voice extends ElevenModel {
 		this.category = refreshedData.category;
 		return this;
 	}
+
+	public File generate(String text, String model) {
+		return ElevenLabs.generateTextToSpeech(voiceId, text, model, settings);
+	}
+
+	public File generate(String text, String model, VoiceSettings settings) {
+		return ElevenLabs.generateTextToSpeech(voiceId, text, model, settings);
+	}
+
+	public File generate(String text, VoiceSettings settings)  {
+		return ElevenLabs.generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", settings);
+	}
+
+	public File generate(String text) {
+		return ElevenLabs.generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", settings);
+	}
+
+	public InputStream generateStream(String text, String model) {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, model, settings);
+	}
+
+	public InputStream generateStream(String text, String model, VoiceSettings settings) {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, model, settings);
+	}
+
+	public InputStream generateStream(String text, VoiceSettings settings)  {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", settings);
+	}
+
+	public InputStream generateStream(String text) {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", settings);
+	}
+
 
 	@JsonIgnore
 	@Override

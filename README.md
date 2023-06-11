@@ -4,6 +4,10 @@
 ## Getting Started
 So you wanna make custom voices, huh? Well you've come to the right place.
 
+### Note: This repo is undergoing an upgrade to v2.0
+If any of the documentation is out of place or issues occur, please submit a PR or create an issue.
+I downgraded the repo from JDK 17 to JDK 11 as well.
+
 ### Installation
 **Maven**
 
@@ -12,7 +16,7 @@ To add `elevenlabs-api` to your Maven project, use:
 <dependency>
     <groupId>net.andrewcpu.elevenlabs</groupId>
     <artifactId>elevenlabs-api</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>2.0-SNAPSHOT</version>
 </dependency>
 ```
 The most up-to date package information can be found on the [Packages tab](https://github.com/AndrewCPU/elevenlabs-api/packages/)
@@ -27,11 +31,10 @@ Compiled JARs are available via the [Releases tab](https://github.com/AndrewCPU/
 To access your ElevenLabs API key, head to the [official website](https://elevenlabs.io/), you can view your `xi-api-key` using the 'Profile' tab on the website.
 To set up your ElevenLabs API key, you must register it with the ElevenLabsAPI Java API like below:
 ```java
-ElevenLabsAPI.getInstance().setAPIKey("YOUR_API_KEY_HERE");
+ElevenLabs.setApiKey("YOUR_API_KEY_HERE");
 ```
 *For any public repository security, you should store your API key in an environment variable, or external from your source code.*
 
-Once you've injected your API Key, you can safely assume that you will not receive a `ElevenLabsAPINotInitiatedException`.
 - - -
 
 <!-- TOC -->
@@ -66,9 +69,6 @@ Once you've injected your API Key, you can safely assume that you will not recei
   * [Exceptions](#exceptions)
     * [*ElevenLabsAPINotInitiatedException*](#elevenlabsapinotinitiatedexception)
     * [*ElevenLabsValidationException*](#elevenlabsvalidationexception)
-* [Built in Types](#built-in-types)
-  * [`Voice` Related Types](#voice-related-types)
-  * [`User` Related Types](#user-related-types)
 * [Misc](#misc)
 
 * [Links to ElevenLabs](#links-to-elevenlabs)
@@ -168,8 +168,15 @@ To generate an audio file with a given `Voice`, you can utilize the `Voice#gener
 Depending on how you access your `Voice`, (with or without settings), will decide whether you can use the implicit `voiceSettings` or if you have to specify the `VoiceSettings` object to use. Unless explicitly requesting the `Voice` without settings, every `Voice` object SHOULD contain its default `VoiceSettings`.
 ```java
 Voice voice;
-File outputFile = voice.generate(String text, VoiceSettings voiceSettings, File output);
-File outputFile = voice.generate(String text, File output); // Uses default voice settings
+File file = voice.generate(String text);
+File file = voice.generate(String text, VoiceSettings settings);
+File file = voice.generate(String text, String model, VoiceSettings settings);
+File file = voice.generate(String text, String model);
+
+InputStream inputStream = voice.generateStream(String text);
+InputStream inputStream = voice.generateStream(String text, VoiceSettings settings);
+InputStream inputStream = voice.generateStream(String text, String model, VoiceSettings settings);
+InputStream inputStream = voice.generateStream(String text, String model);
 ```
 - - -
 
@@ -186,7 +193,7 @@ You can download a `Sample` via the `Sample#downloadAudio(File outputFile)` func
 The `File` parameter of `downloadAudio()` is the location of where you want to locally download the sample.
 ```java
 Voice voice;
-File file = voice.getSamples().get(0).downloadAudio(File outputFile);
+File file = voice.getSamples().get(0).downloadAudio();
 ```
 
 ### Deleting a Sample
@@ -214,11 +221,11 @@ HistoryItem item = history.getHistoryItem("itemId");
 
 ### Downloading History
 The official API of ElevenLabs provides an endpoint for downloading multiple `HistoryItem`'s as a ZIP file. To download such items, you can pass a `String[]` containing the `HistoryItem` IDs, OR you can provide a `List<HistoryItem>` parameter. 
-The second parameter is the path in which you would like to save the ZIP file.
+
 ```java
 History history;
-File download = history.downloadHistory(new String[]{"item-id1", "item-id2"}, new File("outputFile.zip"));
-File download = history.downloadHistory(List<HistoryItem> historyItems, File outputFile);
+File download = history.downloadHistory(new String[]{"item-id1", "item-id2"});
+File download = history.downloadHistory(List<HistoryItem> historyItems);
 ```
 
 ### Deleting a HistoryItem
@@ -236,10 +243,10 @@ Voice voice = item.getVoice();
 ```
 
 ### Downloading a HistoryItem Audio
-A `HistoryItem` is a previous TTS generation. You can download the generation as an MP3 file by providing the `downloadAudio(File file)` function with the target location for the downloaded file. The return value is the same `File` provided as a parameter.
+A `HistoryItem` is a previous TTS generation. You can download the generation as an MP3 file by executing the `downloadAudio()` function. The return value is the tmp `File` location of your download.
 ```java
 HistoryItem item;
-File file = item.downloadAudio(File outputFile);
+File file = item.downloadAudio();
 ```
 - - -
 
@@ -259,77 +266,8 @@ User user = User.get();
 
 - - -
 ## Exceptions
-You'll find most actions that make network requests also will throw `IOException`, `ElevenLabsAPINotInitiatedException`, and `ElevenLabsValidationException`. 
-
-*The only function that will make a network request **without throwing an exception is*** `HistoryItem#getVoice()`.
-### *ElevenLabsAPINotInitiatedException*
-This exception will be thrown if you attempt to use the library without setting an API key.
 ### *ElevenLabsValidationException*
 This error indicates a malformed request to the ElevenLabs API. The exception should provide the location of any syntactically incorrect parameters within the request.
-- - -
-# Built in Types
-
-There are a few objects and enums defined for this API.
-## `Voice` Related Types
-```java
-Voice(String voiceId, String name, List<Sample> samples, String category, 
-        Map<String, String> labels, String previewUrl, List<String> availableForTiers, 
-        VoiceSettings settings)
-```
-```java
-VoiceSettings(double stability, double similarityBoost)
-```
-```java
-Sample(String sampleId, String fileName, String mimeType, long sizeBytes, String hash)
-```
-```java
-History(List<HistoryItem> history)
-```
-```java
-History.HistoryItem(String historyItemId, String voiceId, String voiceName, String text, 
-        long dateUnix, int characterCountChangeFrom, int characterCountChangeTo, 
-        String contentType, GenerationState state)
-```
-
-```java
-public enum GenerationState {
-    CREATED, 
-    DELETED, 
-    PROCESSING;
-}
-```
-- - -
-## `User` Related Types
-```java 
-User(Subscription subscription, boolean isNewUser, String xiApiKey)
-```
-```java
-Subscription(String tier, int characterCount, int characterLimit, boolean canExtendCharacterLimit, 
-        boolean allowedToExtendCharacterLimit, long nextCharacterCountResetUnix, int voiceLimit, 
-        boolean canExtendVoiceLimit, boolean canUseInstantVoiceCloning, List<AvailableModel> availableModels,
-		AccountStatus status, NextInvoice nextInvoice)
-```
-```java
-AvailableModel(String modelId, String displayName, List<SupportedLanguage> supportedLanguages)
-```
-```java
-SupportedLanguage(String isoCode, String displayName)
-```
-```java
-NextInvoice(int amountDueCents, long nextPaymentAttemptUnix)
-```
-```java
-public enum AccountStatus {
-	TRIALING,
-	ACTIVE,
-	INCOMPLETE,
-	INCOMPLETE_EXPIRED,
-	PAST_DUE,
-	CANCELED,
-	UNPAID,
-	FREE;
-}
-```
 
 - - -
 
