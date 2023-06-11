@@ -279,7 +279,15 @@ If you like what you see, give it a star! :)
 - - -
 
 #### Unit Testing
-*Todo*
+Unit tests have been created, these endpoints are destructive and not included in the testing:
+* deleteHistoryItem - WONT TEST
+* deleteSample - WONT TEST
+* deleteVoice - WONT TEST
+* editVoiceSettings - WONT TEST
+* createVoice - WONT TEST
+* editVoice - WONT TEST
+
+To run the unit tests yourself, you have to clone this repo and update the ElevenLabsTest.java file with your API key and your voice to test on.
 
 
 Thanks to ElevenLabs for making an awesome tool 🥂
