@@ -23,9 +23,6 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -Dmaven.test.skip
 
-      - name: Deploy with Maven
-        run: mvn deploy -Dmaven.test.skip=true
-
       - name: Read version from POM file
         id: version
         run: echo ::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
