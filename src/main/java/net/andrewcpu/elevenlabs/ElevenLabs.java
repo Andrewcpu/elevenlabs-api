@@ -9,16 +9,16 @@ import net.andrewcpu.elevenlabs.model.user.Subscription;
 import net.andrewcpu.elevenlabs.model.user.User;
 import net.andrewcpu.elevenlabs.model.voice.Voice;
 import net.andrewcpu.elevenlabs.model.voice.VoiceSettings;
-import net.andrewcpu.elevenlabs.net.ElevenRequest;
-import net.andrewcpu.elevenlabs.net.history.*;
-import net.andrewcpu.elevenlabs.net.models.GetModelsRequest;
-import net.andrewcpu.elevenlabs.net.samples.DeleteSampleRequest;
-import net.andrewcpu.elevenlabs.net.samples.GetSampleRequest;
-import net.andrewcpu.elevenlabs.net.tts.PostTextToSpeechRequest;
-import net.andrewcpu.elevenlabs.net.tts.PostTextToSpeechStreamedRequest;
-import net.andrewcpu.elevenlabs.net.user.GetSubscriptionRequest;
-import net.andrewcpu.elevenlabs.net.user.GetUserRequest;
-import net.andrewcpu.elevenlabs.net.voices.*;
+import net.andrewcpu.elevenlabs.requests.ElevenLabsRequest;
+import net.andrewcpu.elevenlabs.requests.history.*;
+import net.andrewcpu.elevenlabs.requests.models.GetModelsRequest;
+import net.andrewcpu.elevenlabs.requests.samples.DeleteSampleRequest;
+import net.andrewcpu.elevenlabs.requests.samples.GetSampleRequest;
+import net.andrewcpu.elevenlabs.requests.tts.PostTextToSpeechRequest;
+import net.andrewcpu.elevenlabs.requests.tts.PostTextToSpeechStreamedRequest;
+import net.andrewcpu.elevenlabs.requests.user.GetSubscriptionRequest;
+import net.andrewcpu.elevenlabs.requests.user.GetUserRequest;
+import net.andrewcpu.elevenlabs.requests.voices.*;
 import net.andrewcpu.elevenlabs.util.ElevenNetworkUtil;
 
 import java.io.File;
@@ -37,7 +37,7 @@ public class ElevenLabs {
 		API_KEY = apiKey;
 	}
 
-	private static <T> T sendRequest(ElevenRequest<T> request) {
+	private static <T> T sendRequest(ElevenLabsRequest<T> request) {
 		return ElevenNetworkUtil.sendRequest(request.getType(),request.getEndpoint(), request.getPayload(),request.getResponseClass());
 	}
 
