@@ -2,13 +2,27 @@ package net.andrewcpu.elevenlabs.model.voice;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import net.andrewcpu.elevenlabs.ElevenLabs;
 import net.andrewcpu.elevenlabs.model.ElevenModel;
 import net.andrewcpu.elevenlabs.model.tuning.FineTuning;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Voice extends ElevenModel {
+	public static List<Voice> getVoices() {
+		return ElevenLabs.getVoices();
+	}
+
+	public static Voice getVoice(String voiceId) {
+		return ElevenLabs.getVoice(voiceId);
+	}
+
+	public static Voice getVoice(String voiceId, boolean withSettings) {
+		return ElevenLabs.getVoice(voiceId, withSettings);
+	}
+
 	@JsonProperty("voice_id")
 	private String voiceId;
 
@@ -54,7 +68,7 @@ public class Voice extends ElevenModel {
 
 	@JsonIgnore
 	public List<Sample> getSamples() {
-		return samples;
+		return samples.stream().peek(s -> s.voice = this).collect(Collectors.toList());
 	}
 
 	@JsonIgnore
@@ -95,6 +109,39 @@ public class Voice extends ElevenModel {
 	@JsonIgnore
 	public Sharing getSharing() {
 		return sharing;
+	}
+
+	/**
+	 * Warning! This will delete the voice.
+	 */
+	public String delete() {
+		return ElevenLabs.deleteVoice(voiceId);
+	}
+	public VoiceSettings fetchSettings() {
+		this.settings = ElevenLabs.getVoiceSettings(voiceId);
+		return settings;
+	}
+
+	public VoiceSettings updateVoiceSettings(VoiceSettings voiceSettings) {
+		ElevenLabs.editVoiceSettings(voiceId, voiceSettings);
+		this.settings = voiceSettings;
+		return settings;
+	}
+
+	public Voice refresh() {
+		Voice refreshedData = Voice.getVoice(voiceId, true);
+		this.name = refreshedData.name;
+		this.settings = refreshedData.settings;
+		this.voiceId = refreshedData.voiceId;
+		this.labels = refreshedData.labels;
+		this.description = refreshedData.description;
+		this.samples = refreshedData.samples;
+		this.fineTuning = refreshedData.fineTuning;
+		this.availableForTiers = refreshedData.availableForTiers;
+		this.sharing = refreshedData.sharing;
+		this.previewUrl = refreshedData.previewUrl;
+		this.category = refreshedData.category;
+		return this;
 	}
 
 	@JsonIgnore

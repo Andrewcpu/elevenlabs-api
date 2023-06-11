@@ -2,8 +2,10 @@ package net.andrewcpu.elevenlabs.model.history;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import net.andrewcpu.elevenlabs.ElevenLabs;
 import net.andrewcpu.elevenlabs.model.ElevenModel;
 
+import java.io.File;
 import java.util.Map;
 
 public class HistoryItem extends ElevenModel {
@@ -119,6 +121,14 @@ public class HistoryItem extends ElevenModel {
 	@JsonIgnore
 	public Feedback getFeedback() {
 		return feedback;
+	}
+
+	public String delete() {
+		return ElevenLabs.deleteHistoryItem(historyItemId);
+	}
+
+	public File downloadAudio() {
+		return ElevenLabs.getHistoryItemAudio(historyItemId);
 	}
 
 	@JsonIgnore

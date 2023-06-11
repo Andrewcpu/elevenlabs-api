@@ -2,11 +2,17 @@ package net.andrewcpu.elevenlabs.model.history;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import net.andrewcpu.elevenlabs.ElevenLabs;
 import net.andrewcpu.elevenlabs.model.ElevenModel;
 
 import java.util.List;
 
 public class History extends ElevenModel {
+
+	public static History get() {
+		return ElevenLabs.getHistory();
+	}
+
 	@JsonProperty("history")
 	private List<HistoryItem> historyItems;
 
@@ -21,6 +27,16 @@ public class History extends ElevenModel {
 	}
 
 	public History() {
+	}
+
+	@JsonIgnore
+	public HistoryItem getHistoryItem(String id) {
+		for(HistoryItem item : historyItems) {
+			if(item.getHistoryItemId().equals(id)){
+				return item;
+			}
+		}
+		return null;
 	}
 
 	@JsonIgnore

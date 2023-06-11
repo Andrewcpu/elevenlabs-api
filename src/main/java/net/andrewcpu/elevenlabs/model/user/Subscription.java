@@ -2,9 +2,15 @@ package net.andrewcpu.elevenlabs.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import net.andrewcpu.elevenlabs.ElevenLabs;
 import net.andrewcpu.elevenlabs.model.ElevenModel;
 
 public class Subscription extends ElevenModel {
+	@JsonIgnore
+	public static Subscription get() {
+		return ElevenLabs.getSubscription();
+	}
+
 	@JsonProperty("tier")
 	private String tier;
 
