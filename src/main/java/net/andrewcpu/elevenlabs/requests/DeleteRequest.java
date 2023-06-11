@@ -1,6 +1,6 @@
 package net.andrewcpu.elevenlabs.requests;
 
-import net.andrewcpu.elevenlabs.HttpRequestType;
+import net.andrewcpu.elevenlabs.enums.HttpRequestType;
 
 public abstract class DeleteRequest<T> extends ElevenLabsRequest<T> {
 	public DeleteRequest(String endpoint, Class<T> clazz) {
