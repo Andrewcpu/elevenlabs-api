@@ -14,9 +14,9 @@ I downgraded the repo from JDK 17 to JDK 11 as well.
 To add `elevenlabs-api` to your Maven project, use:
 ```xml
 <dependency>
-    <groupId>net.andrewcpu.elevenlabs</groupId>
+    <groupId>net.andrewcpu</groupId>
     <artifactId>elevenlabs-api</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <version>2.1</version>
 </dependency>
 ```
 The most up-to date package information can be found on the [Packages tab](https://github.com/AndrewCPU/elevenlabs-api/packages/)
