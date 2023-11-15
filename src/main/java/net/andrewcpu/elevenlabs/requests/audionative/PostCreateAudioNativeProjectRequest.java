@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PostCreateAudioNativeProjectRequest extends PostRequest<CreateAudioEnabledProjectModelResponse> {
-	private CreateAudioNativeProjectRequest request;
+	private final CreateAudioNativeProjectRequest request;
 	public PostCreateAudioNativeProjectRequest(CreateAudioNativeProjectRequest request) {
 		super("v1/audio-native", CreateAudioEnabledProjectModelResponse.class);
 		this.request = request;

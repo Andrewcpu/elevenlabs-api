@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class PostDownloadHistoryItemsRequest extends PostRequest<File> {
-	private String[] historyItemIds;
+	private final String[] historyItemIds;
 	public PostDownloadHistoryItemsRequest(String... historyItemIds) {
 		super("v1/history/download", File.class);
 		this.historyItemIds = historyItemIds;

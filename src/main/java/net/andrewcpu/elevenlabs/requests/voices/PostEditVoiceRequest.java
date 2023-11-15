@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PostEditVoiceRequest extends PostRequest<String> {
-	private String name;
-	private File[] samples;
-	private String description;
-	private Map<String, String> labels;
+	private final String name;
+	private final File[] samples;
+	private final String description;
+	private final Map<String, String> labels;
 	public PostEditVoiceRequest(String voiceId, String name, File[] samples, String description, Map<String, String> labels) {
 		super("v1/voices/" + voiceId + "/edit", String.class);
 		this.name = name;

@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PostAddVoiceRequest extends PostRequest<CreateVoiceResponse> {
-	private String name;
-	private File[] samples;
-	private String description;
-	private Map<String, String> labels;
+	private final String name;
+	private final File[] samples;
+	private final String description;
+	private final Map<String, String> labels;
 	public PostAddVoiceRequest(String name, File[] samples, String description, Map<String, String> labels) {
 		super("v1/voices/add", CreateVoiceResponse.class);
 		this.name = name;

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GetVoiceRequest extends GetRequest<Voice> {
-	private boolean withSettings;
+	private final boolean withSettings;
 	public GetVoiceRequest(String voiceId) {
 		this(voiceId,  true);
 	}

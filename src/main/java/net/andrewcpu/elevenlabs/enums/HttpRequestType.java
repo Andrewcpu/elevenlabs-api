@@ -1,5 +1,5 @@
 package net.andrewcpu.elevenlabs.enums;
 
 public enum HttpRequestType {
-	POST, GET, PUT, DELETE;
+	POST, GET, PUT, DELETE
 }

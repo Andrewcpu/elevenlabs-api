@@ -10,10 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PostSpeechToSpeechStreamedRequest extends PostRequest<InputStream> {
-	private StreamLatencyOptimization latencyOptimization;
-	private String modelId;
-	private VoiceSettings voiceSettings;
-	private File audio;
+	private final StreamLatencyOptimization latencyOptimization;
+	private final String modelId;
+	private final VoiceSettings voiceSettings;
+	private final File audio;
 	public PostSpeechToSpeechStreamedRequest(String voiceId, VoiceSettings voiceSettings, File audio, String modelId, StreamLatencyOptimization latencyOptimization) {
 		super("v1/speech-to-speech/" + voiceId + "/stream", InputStream.class);
 		this.latencyOptimization = latencyOptimization;

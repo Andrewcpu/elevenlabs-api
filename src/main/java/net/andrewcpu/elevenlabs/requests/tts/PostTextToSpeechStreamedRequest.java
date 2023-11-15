@@ -5,15 +5,14 @@ import net.andrewcpu.elevenlabs.enums.StreamLatencyOptimization;
 import net.andrewcpu.elevenlabs.model.request.TextToSpeechRequest;
 import net.andrewcpu.elevenlabs.requests.PostRequest;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PostTextToSpeechStreamedRequest extends PostRequest<InputStream> {
-	private TextToSpeechRequest request;
-	private StreamLatencyOptimization streamLatencyOptimization;
-	private GeneratedAudioOutputFormat outputFormat;
+	private final TextToSpeechRequest request;
+	private final StreamLatencyOptimization streamLatencyOptimization;
+	private final GeneratedAudioOutputFormat outputFormat;
 
 	public PostTextToSpeechStreamedRequest(String voiceId, TextToSpeechRequest request) {
 		super("v1/text-to-speech/" + voiceId, InputStream.class);

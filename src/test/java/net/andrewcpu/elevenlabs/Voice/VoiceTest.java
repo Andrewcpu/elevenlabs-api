@@ -13,8 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 public class VoiceTest extends ElevenLabsTest {
@@ -25,9 +24,9 @@ public class VoiceTest extends ElevenLabsTest {
 			voice = ElevenLabs.getVoiceAPI().getVoice(ElevenLabsTest.TEST_VOICE, true);
 		}catch (Exception e){
 			e.printStackTrace();
-			assertTrue("Failed to get voice: " + e.getMessage(), voice != null);
+			assertNotNull("Failed to get voice: " + e.getMessage(), voice);
 		}
-		assertTrue(voice.getSettings() != null);
+		assertNotNull(voice.getSettings());
 	}
 
 	@Test
@@ -37,9 +36,9 @@ public class VoiceTest extends ElevenLabsTest {
 			voice = ElevenLabs.getVoiceAPI().getVoice(ElevenLabsTest.TEST_VOICE, false);
 		}catch (Exception e){
 			e.printStackTrace();
-			assertTrue("Failed to get voice: " + e.getMessage(), voice != null);
+			assertNotNull("Failed to get voice: " + e.getMessage(), voice);
 		}
-		assertTrue(voice.getSettings() == null);
+		assertNull(voice.getSettings());
 	}
 
 	@Test
@@ -49,7 +48,7 @@ public class VoiceTest extends ElevenLabsTest {
 			settings = ElevenLabs.getVoiceAPI().getVoiceSettings(ElevenLabsTest.TEST_VOICE);
 		}catch (Exception e) {
 			e.printStackTrace();
-			assertTrue("Failed to get voice settings: " + e.getMessage(), false);
+			fail("Failed to get voice settings: " + e.getMessage());
 		}
 	}
 
@@ -60,7 +59,7 @@ public class VoiceTest extends ElevenLabsTest {
 			defaultVoiceSettings = ElevenLabs.getVoiceAPI().getDefaultVoiceSettings();
 		}catch (Exception e) {
 			e.printStackTrace();
-			assertTrue("Failed to get default voice settings: " + e.getMessage(), false);
+			fail("Failed to get default voice settings: " + e.getMessage());
 		}
 	}
 
@@ -70,8 +69,8 @@ public class VoiceTest extends ElevenLabsTest {
 		try{
 			voices = ElevenLabs.getVoiceAPI().getVoices();
 		}catch (Exception e) {
-			e.printStackTrace();;
-			assertTrue("Failed to get voices: " + e.getMessage(), false);
+			e.printStackTrace();
+			fail("Failed to get voices: " + e.getMessage());
 		}
 		assertTrue(voices != null && voices.size() > 0);
 	}

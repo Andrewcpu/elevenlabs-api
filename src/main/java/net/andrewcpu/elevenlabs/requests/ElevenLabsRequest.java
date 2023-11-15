@@ -8,9 +8,9 @@ import java.util.Map;
 import static net.andrewcpu.elevenlabs.util.ElevenNetworkUtil.buildQueryParameters;
 
 public abstract class ElevenLabsRequest<T> {
-	private HttpRequestType type;
-	private String endpoint;
-	private Class<T> responseClass;
+	private final HttpRequestType type;
+	private final String endpoint;
+	private final Class<T> responseClass;
 
 	public ElevenLabsRequest(HttpRequestType type, String endpoint, Class<T> clazz) {
 		this.type = type;

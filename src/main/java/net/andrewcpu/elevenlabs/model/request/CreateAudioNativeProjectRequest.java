@@ -2,7 +2,6 @@ package net.andrewcpu.elevenlabs.model.request;
 
 import net.andrewcpu.elevenlabs.model.ElevenModel;
 
-import javax.management.loading.PrivateClassLoader;
 import java.io.File;
 
 public class CreateAudioNativeProjectRequest extends ElevenModel {

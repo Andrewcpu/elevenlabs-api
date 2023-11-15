@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PostTextToSpeechRequest extends PostRequest<File> {
-	private TextToSpeechRequest request;
-	private StreamLatencyOptimization streamLatencyOptimization;
-	private GeneratedAudioOutputFormat outputFormat;
+	private final TextToSpeechRequest request;
+	private final StreamLatencyOptimization streamLatencyOptimization;
+	private final GeneratedAudioOutputFormat outputFormat;
 
 	public PostTextToSpeechRequest(String voiceId, TextToSpeechRequest request) {
 		super("v1/text-to-speech/" + voiceId, File.class);

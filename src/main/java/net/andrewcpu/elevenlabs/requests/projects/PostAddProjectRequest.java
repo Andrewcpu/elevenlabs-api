@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PostAddProjectRequest extends PostRequest<ProjectModelResponse> {
-	private AddProjectRequest request;
+	private final AddProjectRequest request;
 	public PostAddProjectRequest(AddProjectRequest request) {
 		super("v1/projects/add", ProjectModelResponse.class);
 		this.request = request;

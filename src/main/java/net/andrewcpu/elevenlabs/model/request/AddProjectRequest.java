@@ -3,7 +3,6 @@ package net.andrewcpu.elevenlabs.model.request;
 import net.andrewcpu.elevenlabs.enums.ProjectOutputQuality;
 
 import java.io.File;
-import java.lang.invoke.StringConcatFactory;
 
 public class AddProjectRequest {
 	private String name;

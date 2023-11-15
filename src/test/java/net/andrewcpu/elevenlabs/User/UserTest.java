@@ -4,8 +4,7 @@ import net.andrewcpu.elevenlabs.ElevenLabs;
 import net.andrewcpu.elevenlabs.ElevenLabsTest;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class UserTest extends ElevenLabsTest {
 	@Test
@@ -14,7 +13,7 @@ public class UserTest extends ElevenLabsTest {
 			ElevenLabs.getUserAPI().getUser();
 		}catch (Exception e) {
 			e.printStackTrace();
-			assertTrue("Failed to get user: " + e.getMessage(), false);
+			fail("Failed to get user: " + e.getMessage());
 		}
 	}
 
@@ -24,7 +23,7 @@ public class UserTest extends ElevenLabsTest {
 			ElevenLabs.getUserAPI().getSubscription();
 		}catch (Exception e) {
 			e.printStackTrace();
-			assertFalse("Failed to get subscription: " + e.getMessage(), true);
+			fail("Failed to get subscription: " + e.getMessage());
 		}
 	}
 }

@@ -1,7 +1,6 @@
 package net.andrewcpu.elevenlabs.model.tuning;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.andrewcpu.elevenlabs.model.ElevenModel;
 
