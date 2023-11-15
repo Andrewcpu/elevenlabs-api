@@ -2,12 +2,13 @@ package net.andrewcpu.elevenlabs.requests.projects;
 
 import net.andrewcpu.elevenlabs.model.request.AddProjectRequest;
 import net.andrewcpu.elevenlabs.model.response.ProjectModelResponse;
+import net.andrewcpu.elevenlabs.requests.PostMultipartRequest;
 import net.andrewcpu.elevenlabs.requests.PostRequest;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostAddProjectRequest extends PostRequest<ProjectModelResponse> {
+public class PostAddProjectRequest extends PostMultipartRequest<ProjectModelResponse> {
 	private final AddProjectRequest request;
 	public PostAddProjectRequest(AddProjectRequest request) {
 		super("v1/projects/add", ProjectModelResponse.class);
@@ -15,8 +16,7 @@ public class PostAddProjectRequest extends PostRequest<ProjectModelResponse> {
 	}
 
 	@Override
-	public Object getPayload() {
-		Map<String, Object> payload = new HashMap<>();
+	public Map<String, Object> getMultipartParts(Map<String, Object> payload) {
 		payload.put("name",request.getName());
 		payload.put("from_url", request.getFromUrl());
 		payload.put("from_document", request.getFromDocument());

@@ -1,12 +1,13 @@
 package net.andrewcpu.elevenlabs.requests.voices;
 
+import net.andrewcpu.elevenlabs.requests.PostMultipartRequest;
 import net.andrewcpu.elevenlabs.requests.PostRequest;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostEditVoiceRequest extends PostRequest<String> {
+public class PostEditVoiceRequest extends PostMultipartRequest<String> {
 	private final String name;
 	private final File[] samples;
 	private final String description;
@@ -36,8 +37,7 @@ public class PostEditVoiceRequest extends PostRequest<String> {
 	}
 
 	@Override
-	public Object getPayload() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public Map<String, Object> getMultipartParts(Map<String, Object> map) {
 		map.put("name", this.name);
 		map.put("files", this.samples);
 		map.put("description", this.description);

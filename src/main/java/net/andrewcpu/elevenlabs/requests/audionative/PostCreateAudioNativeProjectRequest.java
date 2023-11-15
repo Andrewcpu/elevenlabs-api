@@ -2,12 +2,13 @@ package net.andrewcpu.elevenlabs.requests.audionative;
 
 import net.andrewcpu.elevenlabs.model.request.CreateAudioNativeProjectRequest;
 import net.andrewcpu.elevenlabs.model.response.CreateAudioEnabledProjectModelResponse;
+import net.andrewcpu.elevenlabs.requests.PostMultipartRequest;
 import net.andrewcpu.elevenlabs.requests.PostRequest;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostCreateAudioNativeProjectRequest extends PostRequest<CreateAudioEnabledProjectModelResponse> {
+public class PostCreateAudioNativeProjectRequest extends PostMultipartRequest<CreateAudioEnabledProjectModelResponse> {
 	private final CreateAudioNativeProjectRequest request;
 	public PostCreateAudioNativeProjectRequest(CreateAudioNativeProjectRequest request) {
 		super("v1/audio-native", CreateAudioEnabledProjectModelResponse.class);
@@ -15,8 +16,7 @@ public class PostCreateAudioNativeProjectRequest extends PostRequest<CreateAudio
 	}
 
 	@Override
-	public Object getPayload() {
-		Map<String, Object> payload = new HashMap<>();
+	public Map<String, Object> getMultipartParts(Map<String, Object> payload) {
 		payload.put("name", request.getName());
 		payload.put("image", request.getImage());
 		payload.put("author", request.getAuthor());

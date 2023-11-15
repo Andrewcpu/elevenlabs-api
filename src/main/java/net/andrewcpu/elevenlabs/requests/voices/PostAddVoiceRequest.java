@@ -1,13 +1,14 @@
 package net.andrewcpu.elevenlabs.requests.voices;
 
 import net.andrewcpu.elevenlabs.model.response.CreateVoiceResponse;
+import net.andrewcpu.elevenlabs.requests.PostMultipartRequest;
 import net.andrewcpu.elevenlabs.requests.PostRequest;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostAddVoiceRequest extends PostRequest<CreateVoiceResponse> {
+public class PostAddVoiceRequest extends PostMultipartRequest<CreateVoiceResponse> {
 	private final String name;
 	private final File[] samples;
 	private final String description;
@@ -37,8 +38,7 @@ public class PostAddVoiceRequest extends PostRequest<CreateVoiceResponse> {
 	}
 
 	@Override
-	public Object getPayload() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public Map<String, Object> getMultipartParts(Map<String, Object> map) {
 		map.put("name", this.name);
 		map.put("files", this.samples);
 		map.put("description", this.description);
