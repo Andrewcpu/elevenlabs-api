@@ -52,7 +52,7 @@ public class PostTextToSpeechRequest extends PostRequest<File> {
 	public Map<String, String> getQueryParameters() {
 		Map<String, String> map = new HashMap<>();
 		map.put("optimize_streaming_latency", String.valueOf(streamLatencyOptimization.getValue()));
-		map.put("output_format", outputFormat.name());
+		map.put("output_format", outputFormat.name().toLowerCase());
 		return map;
 	}
 }
