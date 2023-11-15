@@ -81,12 +81,12 @@ public class VoiceBuilder {
 	}
 
 	public Voice create() {
-		CreateVoiceResponse createVoiceResponse = ElevenLabs.createVoice(name, files.toArray(File[]::new), description, labels);
+		CreateVoiceResponse createVoiceResponse = ElevenLabs.getVoiceAPI().createVoice(name, files.toArray(File[]::new), description, labels);
 		return Voice.getVoice(createVoiceResponse.getVoiceId(), true);
 	}
 
 	public Voice edit() {
-		ElevenLabs.editVoice(voice.getVoiceId(), name, files.toArray(File[]::new), description, labels);
+		ElevenLabs.getVoiceAPI().editVoice(voice.getVoiceId(), name, files.toArray(File[]::new), description, labels);
 		voice = voice.refresh();
 		return voice;
 	}

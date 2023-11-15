@@ -8,7 +8,7 @@ import net.andrewcpu.elevenlabs.model.ElevenModel;
 public class User extends ElevenModel {
 
 	public static User get() {
-		return ElevenLabs.getUser();
+		return ElevenLabs.getUserAPI().getUser();
 	}
 
 	@JsonProperty("subscription")

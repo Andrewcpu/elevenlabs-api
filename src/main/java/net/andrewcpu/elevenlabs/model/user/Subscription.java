@@ -8,7 +8,7 @@ import net.andrewcpu.elevenlabs.model.ElevenModel;
 public class Subscription extends ElevenModel {
 	@JsonIgnore
 	public static Subscription get() {
-		return ElevenLabs.getSubscription();
+		return ElevenLabs.getUserAPI().getSubscription();
 	}
 
 	@JsonProperty("tier")

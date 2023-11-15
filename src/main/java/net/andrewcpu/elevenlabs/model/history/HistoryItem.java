@@ -124,11 +124,11 @@ public class HistoryItem extends ElevenModel {
 	}
 
 	public String delete() {
-		return ElevenLabs.deleteHistoryItem(historyItemId);
+		return ElevenLabs.getHistoryAPI().deleteHistoryItem(historyItemId);
 	}
 
 	public File downloadAudio() {
-		return ElevenLabs.getHistoryItemAudio(historyItemId);
+		return ElevenLabs.getHistoryAPI().getHistoryItemAudio(historyItemId);
 	}
 
 	@JsonIgnore

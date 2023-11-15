@@ -2,7 +2,7 @@ package net.andrewcpu.elevenlabs;
 
 
 public class ElevenLabsTest {
-	public static final String ELEVEN_LABS_API_KEY = System.getenv("ELEVEN_LABS_API_KEY");
+	public static final String ELEVEN_LABS_API_KEY = System.getenv("ELEVENLABS_API_KEY");
 	public static final String TEST_VOICE = "ZjJOFdM86g4E9U6OhzUo";
 	static {
 		ElevenLabs.setApiKey(ELEVEN_LABS_API_KEY);

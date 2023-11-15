@@ -12,7 +12,7 @@ import java.util.List;
 public class History extends ElevenModel {
 
 	public static History get() {
-		return ElevenLabs.getHistory();
+		return ElevenLabs.getHistoryAPI().getHistory();
 	}
 
 	@JsonProperty("history")
@@ -57,11 +57,11 @@ public class History extends ElevenModel {
 	}
 
 	public File downloadHistory(String... historyIds) {
-		return ElevenLabs.getHistoryItemAudio(historyIds);
+		return ElevenLabs.getHistoryAPI().getHistoryItemAudio(historyIds);
 	}
 
 	public File downloadHistory(HistoryItem... items) {
-		return ElevenLabs.getHistoryItemAudio(Arrays.stream(items).map(HistoryItem::getHistoryItemId).toArray(String[]::new));
+		return ElevenLabs.getHistoryAPI().getHistoryItemAudio(Arrays.stream(items).map(HistoryItem::getHistoryItemId).toArray(String[]::new));
 	}
 
 	@JsonIgnore

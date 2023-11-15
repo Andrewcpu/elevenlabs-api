@@ -22,7 +22,7 @@ public class VoiceTest extends ElevenLabsTest {
 	public void testGetVoiceWithSettings() {
 		Voice voice = null;
 		try{
-			voice = ElevenLabs.getVoice(ElevenLabsTest.TEST_VOICE, true);
+			voice = ElevenLabs.getVoiceAPI().getVoice(ElevenLabsTest.TEST_VOICE, true);
 		}catch (Exception e){
 			e.printStackTrace();
 			assertTrue("Failed to get voice: " + e.getMessage(), voice != null);
@@ -34,7 +34,7 @@ public class VoiceTest extends ElevenLabsTest {
 	public void testGetVoiceWithoutSettings() {
 		Voice voice = null;
 		try{
-			voice = ElevenLabs.getVoice(ElevenLabsTest.TEST_VOICE, false);
+			voice = ElevenLabs.getVoiceAPI().getVoice(ElevenLabsTest.TEST_VOICE, false);
 		}catch (Exception e){
 			e.printStackTrace();
 			assertTrue("Failed to get voice: " + e.getMessage(), voice != null);
@@ -46,7 +46,7 @@ public class VoiceTest extends ElevenLabsTest {
 	public void testGetVoiceSettings() {
 		VoiceSettings settings = null;
 		try{
-			settings = ElevenLabs.getVoiceSettings(ElevenLabsTest.TEST_VOICE);
+			settings = ElevenLabs.getVoiceAPI().getVoiceSettings(ElevenLabsTest.TEST_VOICE);
 		}catch (Exception e) {
 			e.printStackTrace();
 			assertTrue("Failed to get voice settings: " + e.getMessage(), false);
@@ -57,7 +57,7 @@ public class VoiceTest extends ElevenLabsTest {
 	public void getDefaultVoiceSettings() {
 		VoiceSettings defaultVoiceSettings = null;
 		try {
-			defaultVoiceSettings = ElevenLabs.getDefaultVoiceSettings();
+			defaultVoiceSettings = ElevenLabs.getVoiceAPI().getDefaultVoiceSettings();
 		}catch (Exception e) {
 			e.printStackTrace();
 			assertTrue("Failed to get default voice settings: " + e.getMessage(), false);
@@ -68,7 +68,7 @@ public class VoiceTest extends ElevenLabsTest {
 	public void getVoices() {
 		List<Voice> voices = null;
 		try{
-			voices = ElevenLabs.getVoices();
+			voices = ElevenLabs.getVoiceAPI().getVoices();
 		}catch (Exception e) {
 			e.printStackTrace();;
 			assertTrue("Failed to get voices: " + e.getMessage(), false);

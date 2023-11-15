@@ -17,7 +17,7 @@ public class AvailableModelsTest extends ElevenLabsTest {
 	public void testGetModels() {
 		GenerationTypeModel[] models = null;
 		try{
-			models = ElevenLabs.getAvailableModels();
+			models = ElevenLabs.getModelsAPI().getAvailableModels();
 			System.out.println(Arrays.stream(models).map(Object::toString).collect(Collectors.toList()));
 		}catch (Exception e) {
 			e.printStackTrace();

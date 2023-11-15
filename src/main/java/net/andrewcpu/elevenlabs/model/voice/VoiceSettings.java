@@ -7,7 +7,7 @@ import net.andrewcpu.elevenlabs.model.ElevenModel;
 
 public class VoiceSettings extends ElevenModel {
 	public static VoiceSettings getDefaultVoiceSettings() {
-		return ElevenLabs.getDefaultVoiceSettings();
+		return ElevenLabs.getVoiceAPI().getDefaultVoiceSettings();
 	}
 	@JsonProperty("stability")
 	private double stability;

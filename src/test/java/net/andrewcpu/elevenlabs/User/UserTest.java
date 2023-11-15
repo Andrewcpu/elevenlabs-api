@@ -11,7 +11,7 @@ public class UserTest extends ElevenLabsTest {
 	@Test
 	public void testGetUser() {
 		try{
-			ElevenLabs.getUser();
+			ElevenLabs.getUserAPI().getUser();
 		}catch (Exception e) {
 			e.printStackTrace();
 			assertTrue("Failed to get user: " + e.getMessage(), false);
@@ -21,7 +21,7 @@ public class UserTest extends ElevenLabsTest {
 	@Test
 	public void testGetSubscription() {
 		try{
-			ElevenLabs.getSubscription();
+			ElevenLabs.getUserAPI().getSubscription();
 		}catch (Exception e) {
 			e.printStackTrace();
 			assertFalse("Failed to get subscription: " + e.getMessage(), true);

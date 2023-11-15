@@ -63,14 +63,14 @@ public class Sample extends ElevenModel {
 	}
 
 	public File downloadAudio() {
-		return ElevenLabs.getAudioSample(voice.getVoiceId(), sampleId);
+		return ElevenLabs.getSampleAPI().getAudioSample(voice.getVoiceId(), sampleId);
 	}
 
 	/**
 	 * Warning! This will delete the sample.
 	 */
 	public String delete() {
-		return ElevenLabs.deleteSample(voice.getVoiceId(), sampleId);
+		return ElevenLabs.getSampleAPI().deleteSample(voice.getVoiceId(), sampleId);
 	}
 
 	@Override

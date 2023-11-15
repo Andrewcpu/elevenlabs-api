@@ -16,18 +16,18 @@ public class AudioSampleTest extends ElevenLabsTest {
 	public void testGetAudioSamples() {
 		assertFalse("Couldn't load audio samples.", doesThrow(() -> {
 			List<Sample> samples = null;
-			samples = ElevenLabs.getVoice(TEST_VOICE, true).getSamples();
+			samples = ElevenLabs.getVoiceAPI().getVoice(TEST_VOICE, true).getSamples();
 			assertNotNull(samples);
 		}));
 	}
 	@Test
 	public void testGetAudioSample() {
 		assertFalse("Couldn't load audio sample.", doesThrow(() -> {
-			Voice voice = ElevenLabs.getVoice(TEST_VOICE, true);
+			Voice voice = ElevenLabs.getVoiceAPI().getVoice(TEST_VOICE, true);
 			assertNotNull("Voice is null!", voice);
 			assertNotNull("Voice samples are null!", voice.getSamples());
 			assertTrue("No samples to test!", voice.getSamples().size() != 0);
-			File file = ElevenLabs.getAudioSample(TEST_VOICE, voice.getSamples().get(0).getSampleId());
+			File file = ElevenLabs.getSampleAPI().getAudioSample(TEST_VOICE, voice.getSamples().get(0).getSampleId());
 			assertNotNull(file);
 			file.delete();
 		}));

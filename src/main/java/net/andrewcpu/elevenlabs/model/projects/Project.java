@@ -10,7 +10,7 @@ import java.util.List;
 public class Project extends ElevenModel {
 
 	public static List<Project> getProjects() {
-		return ElevenLabs.getProjects().getProjects();
+		return ElevenLabs.getProjectsAPI().getProjects();
 	}
 
 	@JsonProperty("project_id")
