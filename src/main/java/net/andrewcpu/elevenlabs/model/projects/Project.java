@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.andrewcpu.elevenlabs.ElevenLabs;
 import net.andrewcpu.elevenlabs.model.ElevenModel;
+import net.andrewcpu.elevenlabs.model.request.AddProjectRequest;
 
 import java.util.List;
 
@@ -11,6 +12,51 @@ public class Project extends ElevenModel {
 
 	public static List<Project> getProjects() {
 		return ElevenLabs.getProjectsAPI().getProjects();
+	}
+
+	public static Project addProject(AddProjectRequest builder) {
+		return ElevenLabs.getProjectsAPI().addProject(builder);
+	}
+
+	public static Project getProjectById(String projectId) {
+		return ElevenLabs.getProjectsAPI().getProject(projectId);
+	}
+
+	public List<Chapter> fetchUpdatedChapters() {
+		this.chapters = ElevenLabs.getProjectsAPI().getChapters(projectId);
+		return this.chapters;
+	}
+
+	public String deleteProject() {
+		return ElevenLabs.getProjectsAPI().deleteProject(projectId);
+	}
+
+	public String convertProject() {
+		return ElevenLabs.getProjectsAPI().convertProject(projectId);
+	}
+
+	public List<ProjectSnapshot> getSnapshots() {
+		return ElevenLabs.getProjectsAPI().getProjectSnapshots(projectId);
+	}
+
+	public Chapter getChapterById(String chapterId) {
+		return ElevenLabs.getProjectsAPI().getChapterById(projectId, chapterId);
+	}
+
+	public Project(String projectId, String name, long unixCreateDate, String defaultTitleVoiceId, String defaultParagraphVoiceId, String defaultModelId, long lastConversionDateUnix, boolean canBeDownloaded, String state, List<Chapter> chapters) {
+		this.projectId = projectId;
+		this.name = name;
+		this.unixCreateDate = unixCreateDate;
+		this.defaultTitleVoiceId = defaultTitleVoiceId;
+		this.defaultParagraphVoiceId = defaultParagraphVoiceId;
+		this.defaultModelId = defaultModelId;
+		this.lastConversionDateUnix = lastConversionDateUnix;
+		this.canBeDownloaded = canBeDownloaded;
+		this.state = state;
+		this.chapters = chapters;
+	}
+
+	public Project() {
 	}
 
 	@JsonProperty("project_id")

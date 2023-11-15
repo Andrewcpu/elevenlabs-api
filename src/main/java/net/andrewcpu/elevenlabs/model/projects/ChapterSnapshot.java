@@ -2,9 +2,17 @@ package net.andrewcpu.elevenlabs.model.projects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import net.andrewcpu.elevenlabs.ElevenLabs;
 import net.andrewcpu.elevenlabs.model.ElevenModel;
 
+import java.io.InputStream;
+
 public class ChapterSnapshot extends ElevenModel {
+
+	public InputStream getAudioStream() {
+		return ElevenLabs.getProjectsAPI().getChapterSnapshotAudioStream(projectId, chapterId, chapterSnapshotId);
+	}
+
 	public ChapterSnapshot() {
 	}
 
