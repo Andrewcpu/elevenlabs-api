@@ -3,10 +3,7 @@
 
 ## Getting Started
 So you wanna make custom voices, huh? Well you've come to the right place.
-
-### Note: This repo is undergoing an upgrade to v2.0
-If any of the documentation is out of place or issues occur, please submit a PR or create an issue.
-I downgraded the repo from JDK 17 to JDK 11 as well.
+This library should cover all the ElevenLabs API endpoints as of 11/15/23.
 
 ### Installation
 **Maven**
@@ -19,9 +16,6 @@ To add `elevenlabs-api` to your Maven project, use:
     <version>2.7.2</version>
 </dependency>
 ```
-The most up-to date package information can be found on the [Packages tab](https://github.com/AndrewCPU/elevenlabs-api/packages/)
-
-
 **JAR**
 
 Compiled JARs are available via the [Releases tab](https://github.com/AndrewCPU/elevenlabs-api/releases)
