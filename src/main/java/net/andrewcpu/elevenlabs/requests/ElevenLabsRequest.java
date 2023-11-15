@@ -23,6 +23,8 @@ public abstract class ElevenLabsRequest<T> {
 	}
 
 	public String getEndpoint() {
+		Map<String, String> params = getQueryParameters();
+		if(params.isEmpty()) return endpoint;
 		return endpoint + "?" + buildQueryParameters(getQueryParameters());
 	}
 
