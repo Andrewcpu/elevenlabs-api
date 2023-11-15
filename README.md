@@ -16,7 +16,7 @@ To add `elevenlabs-api` to your Maven project, use:
 <dependency>
     <groupId>net.andrewcpu</groupId>
     <artifactId>elevenlabs-api</artifactId>
-    <version>2.7.1</version>
+    <version>2.7.2</version>
 </dependency>
 ```
 The most up-to date package information can be found on the [Packages tab](https://github.com/AndrewCPU/elevenlabs-api/packages/)
@@ -32,6 +32,9 @@ To access your ElevenLabs API key, head to the [official website](https://eleven
 To set up your ElevenLabs API key, you must register it with the ElevenLabsAPI Java API like below:
 ```java
 ElevenLabs.setApiKey("YOUR_API_KEY_HERE");
+
+
+ElevenLabs.setDefaultModel("eleven_monolingual_v1"); // Optional, defaults to: "eleven_monolingual_v1"
 ```
 *For any public repository security, you should store your API key in an environment variable, or external from your source code.*
 
@@ -419,6 +422,11 @@ As specified on the official ElevenLabs API Documentation, their API is experime
 If you like what you see, give it a star! :) 
 
 - - -
+
+## Todo
+I will probably rework the 2 new builders I added when I added projects support. Their usage should be more clear, though the documentation covers their use cases I believe.
+
+- - - 
 
 #### Unit Testing
 Unit tests have been created, these endpoints are destructive and not included in the testing:

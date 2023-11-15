@@ -167,28 +167,28 @@ public class Voice extends ElevenModel {
 		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId,text, model, outputFormat,StreamLatencyOptimization.getDefault(), settings);
 	}
 	public File generate(String text, VoiceSettings settings, GeneratedAudioOutputFormat outputFormat) {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", outputFormat,StreamLatencyOptimization.getDefault(), settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, ElevenLabs.getDefaultModel(), outputFormat,StreamLatencyOptimization.getDefault(), settings);
 	}
 	public File generate(String text, VoiceSettings settings, StreamLatencyOptimization streamLatencyOptimization) {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", GeneratedAudioOutputFormat.getDefault(),streamLatencyOptimization, settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, ElevenLabs.getDefaultModel(), GeneratedAudioOutputFormat.getDefault(),streamLatencyOptimization, settings);
 	}
 
 	public File generate(String text, VoiceSettings settings, GeneratedAudioOutputFormat outputFormat, StreamLatencyOptimization streamLatencyOptimization) {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", outputFormat,streamLatencyOptimization, settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, ElevenLabs.getDefaultModel(), outputFormat,streamLatencyOptimization, settings);
 	}
 	public File generate(String text, GeneratedAudioOutputFormat outputFormat, StreamLatencyOptimization streamLatencyOptimization) {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", outputFormat,streamLatencyOptimization, settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, ElevenLabs.getDefaultModel(), outputFormat,streamLatencyOptimization, settings);
 	}
 	public File generate(String text, StreamLatencyOptimization streamLatencyOptimization) {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", GeneratedAudioOutputFormat.getDefault(), streamLatencyOptimization, settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, ElevenLabs.getDefaultModel(), GeneratedAudioOutputFormat.getDefault(), streamLatencyOptimization, settings);
 	}
 
 	public File generate(String text, VoiceSettings settings)  {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, ElevenLabs.getDefaultModel(), settings);
 	}
 
 	public File generate(String text) {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeech(voiceId, text, ElevenLabs.getDefaultModel(), settings);
 	}
 
 
@@ -202,11 +202,11 @@ public class Voice extends ElevenModel {
 	}
 
 	public InputStream generateStream(String text, VoiceSettings settings)  {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, ElevenLabs.getDefaultModel(), settings);
 	}
 
 	public InputStream generateStream(String text) {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, ElevenLabs.getDefaultModel(), settings);
 	}
 
 	public InputStream generateStream(String text, String model, GeneratedAudioOutputFormat generatedAudioOutputFormat, StreamLatencyOptimization streamLatencyOptimization) {
@@ -218,11 +218,11 @@ public class Voice extends ElevenModel {
 	}
 
 	public InputStream generateStream(String text, VoiceSettings settings,  GeneratedAudioOutputFormat generatedAudioOutputFormat, StreamLatencyOptimization streamLatencyOptimization)  {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", generatedAudioOutputFormat, streamLatencyOptimization, settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, ElevenLabs.getDefaultModel(), generatedAudioOutputFormat, streamLatencyOptimization, settings);
 	}
 
 	public InputStream generateStream(String text,  GeneratedAudioOutputFormat generatedAudioOutputFormat, StreamLatencyOptimization streamLatencyOptimization) {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", generatedAudioOutputFormat, streamLatencyOptimization, settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, ElevenLabs.getDefaultModel(), generatedAudioOutputFormat, streamLatencyOptimization, settings);
 	}
 
 	public InputStream generateStream(String text, String model, StreamLatencyOptimization streamLatencyOptimization) {
@@ -234,11 +234,11 @@ public class Voice extends ElevenModel {
 	}
 
 	public InputStream generateStream(String text, VoiceSettings settings, StreamLatencyOptimization streamLatencyOptimization)  {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", GeneratedAudioOutputFormat.getDefault(), streamLatencyOptimization, settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, ElevenLabs.getDefaultModel(), GeneratedAudioOutputFormat.getDefault(), streamLatencyOptimization, settings);
 	}
 
 	public InputStream generateStream(String text, StreamLatencyOptimization streamLatencyOptimization) {
-		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", GeneratedAudioOutputFormat.getDefault(), streamLatencyOptimization, settings);
+		return ElevenLabs.getTextToSpeechAPI().generateTextToSpeechStreamed(voiceId, text, ElevenLabs.getDefaultModel(), GeneratedAudioOutputFormat.getDefault(), streamLatencyOptimization, settings);
 	}
 
 	public File speechToSpeech(File audioFile, StreamLatencyOptimization latencyOptimization, String modelId, VoiceSettings voiceSettings) {

@@ -1,5 +1,6 @@
 package net.andrewcpu.elevenlabs;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.andrewcpu.elevenlabs.api.impl.*;
 
 public class ElevenLabs {
@@ -16,6 +17,15 @@ public class ElevenLabs {
 
 	public static String getApiKey() {
 		return API_KEY;
+	}
+	private static String defaultModel = "eleven_monolingual_v1";
+
+	public static String getDefaultModel() {
+		return defaultModel;
+	}
+
+	public static void setDefaultModel(String defaultModel) {
+		ElevenLabs.defaultModel = defaultModel;
 	}
 
 	public static void setApiKey(String apiKey) {
