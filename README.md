@@ -16,7 +16,7 @@ To add `elevenlabs-api` to your Maven project, use:
 <dependency>
     <groupId>net.andrewcpu</groupId>
     <artifactId>elevenlabs-api</artifactId>
-    <version>2.6</version>
+    <version>2.7</version>
 </dependency>
 ```
 The most up-to date package information can be found on the [Packages tab](https://github.com/AndrewCPU/elevenlabs-api/packages/)
