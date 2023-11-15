@@ -3,6 +3,8 @@ package net.andrewcpu.elevenlabs.model.voice;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.andrewcpu.elevenlabs.ElevenLabs;
+import net.andrewcpu.elevenlabs.enums.GeneratedAudioOutputFormat;
+import net.andrewcpu.elevenlabs.enums.StreamLatencyOptimization;
 import net.andrewcpu.elevenlabs.model.ElevenModel;
 import net.andrewcpu.elevenlabs.model.tuning.FineTuning;
 
@@ -57,6 +59,9 @@ public class Voice extends ElevenModel {
 
 	@JsonProperty("sharing")
 	private Sharing sharing;
+
+	@JsonProperty("high_quality_base_model_ids")
+	private List<String> highQualityBaseModelIds;
 
 	@JsonIgnore
 	public String getVoiceId() {
@@ -143,6 +148,7 @@ public class Voice extends ElevenModel {
 		this.sharing = refreshedData.sharing;
 		this.previewUrl = refreshedData.previewUrl;
 		this.category = refreshedData.category;
+		this.highQualityBaseModelIds = refreshedData.highQualityBaseModelIds;
 		return this;
 	}
 
@@ -154,6 +160,29 @@ public class Voice extends ElevenModel {
 		return ElevenLabs.generateTextToSpeech(voiceId, text, model, settings);
 	}
 
+	public File generate(String text, String model, VoiceSettings settings, GeneratedAudioOutputFormat outputFormat, StreamLatencyOptimization streamLatencyOptimization) {
+		return ElevenLabs.generateTextToSpeech(voiceId,text, model, outputFormat,streamLatencyOptimization, settings);
+	}
+	public File generate(String text, String model, VoiceSettings settings, GeneratedAudioOutputFormat outputFormat) {
+		return ElevenLabs.generateTextToSpeech(voiceId,text, model, outputFormat,StreamLatencyOptimization.getDefault(), settings);
+	}
+	public File generate(String text, VoiceSettings settings, GeneratedAudioOutputFormat outputFormat) {
+		return ElevenLabs.generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", outputFormat,StreamLatencyOptimization.getDefault(), settings);
+	}
+	public File generate(String text, VoiceSettings settings, StreamLatencyOptimization streamLatencyOptimization) {
+		return ElevenLabs.generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", GeneratedAudioOutputFormat.getDefault(),streamLatencyOptimization, settings);
+	}
+
+	public File generate(String text, VoiceSettings settings, GeneratedAudioOutputFormat outputFormat, StreamLatencyOptimization streamLatencyOptimization) {
+		return ElevenLabs.generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", outputFormat,streamLatencyOptimization, settings);
+	}
+	public File generate(String text, GeneratedAudioOutputFormat outputFormat, StreamLatencyOptimization streamLatencyOptimization) {
+		return ElevenLabs.generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", outputFormat,streamLatencyOptimization, settings);
+	}
+	public File generate(String text, StreamLatencyOptimization streamLatencyOptimization) {
+		return ElevenLabs.generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", GeneratedAudioOutputFormat.getDefault(), streamLatencyOptimization, settings);
+	}
+
 	public File generate(String text, VoiceSettings settings)  {
 		return ElevenLabs.generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", settings);
 	}
@@ -161,6 +190,8 @@ public class Voice extends ElevenModel {
 	public File generate(String text) {
 		return ElevenLabs.generateTextToSpeech(voiceId, text, "eleven_monolingual_v1", settings);
 	}
+
+
 
 	public InputStream generateStream(String text, String model) {
 		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, model, settings);
@@ -179,8 +210,44 @@ public class Voice extends ElevenModel {
 	}
 
 
-	@JsonIgnore
+
+
+
+	public InputStream generateStream(String text, String model, GeneratedAudioOutputFormat generatedAudioOutputFormat, StreamLatencyOptimization streamLatencyOptimization) {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, model, generatedAudioOutputFormat, streamLatencyOptimization, settings);
+	}
+
+	public InputStream generateStream(String text, String model,  GeneratedAudioOutputFormat generatedAudioOutputFormat, StreamLatencyOptimization streamLatencyOptimization, VoiceSettings settings) {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, model, generatedAudioOutputFormat, streamLatencyOptimization, settings);
+	}
+
+	public InputStream generateStream(String text, VoiceSettings settings,  GeneratedAudioOutputFormat generatedAudioOutputFormat, StreamLatencyOptimization streamLatencyOptimization)  {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", generatedAudioOutputFormat, streamLatencyOptimization, settings);
+	}
+
+	public InputStream generateStream(String text,  GeneratedAudioOutputFormat generatedAudioOutputFormat, StreamLatencyOptimization streamLatencyOptimization) {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", generatedAudioOutputFormat, streamLatencyOptimization, settings);
+	}
+
+	public InputStream generateStream(String text, String model, StreamLatencyOptimization streamLatencyOptimization) {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, model, GeneratedAudioOutputFormat.getDefault(), streamLatencyOptimization, settings);
+	}
+
+	public InputStream generateStream(String text, String model, StreamLatencyOptimization streamLatencyOptimization, VoiceSettings settings) {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, model, GeneratedAudioOutputFormat.getDefault(), streamLatencyOptimization, settings);
+	}
+
+	public InputStream generateStream(String text, VoiceSettings settings, StreamLatencyOptimization streamLatencyOptimization)  {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", GeneratedAudioOutputFormat.getDefault(), streamLatencyOptimization, settings);
+	}
+
+	public InputStream generateStream(String text, StreamLatencyOptimization streamLatencyOptimization) {
+		return ElevenLabs.generateTextToSpeechStreamed(voiceId, text, "eleven_monolingual_v1", GeneratedAudioOutputFormat.getDefault(), streamLatencyOptimization, settings);
+	}
+
+
 	@Override
+	@JsonIgnore
 	public String toString() {
 		return "Voice{" +
 				"voiceId='" + voiceId + '\'' +
@@ -194,6 +261,7 @@ public class Voice extends ElevenModel {
 				", availableForTiers=" + availableForTiers +
 				", settings=" + settings +
 				", sharing=" + sharing +
+				", highQualityBaseModelIds=" + highQualityBaseModelIds +
 				'}';
 	}
 }

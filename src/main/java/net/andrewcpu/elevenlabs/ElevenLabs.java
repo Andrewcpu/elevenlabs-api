@@ -1,5 +1,7 @@
 package net.andrewcpu.elevenlabs;
 
+import net.andrewcpu.elevenlabs.enums.GeneratedAudioOutputFormat;
+import net.andrewcpu.elevenlabs.enums.StreamLatencyOptimization;
 import net.andrewcpu.elevenlabs.model.history.History;
 import net.andrewcpu.elevenlabs.model.history.HistoryItem;
 import net.andrewcpu.elevenlabs.model.request.TextToSpeechRequest;
@@ -118,6 +120,13 @@ public class ElevenLabs {
 
 	public static File generateTextToSpeech(String voiceId, String text, String modelId, VoiceSettings voiceSettings) {
 		return sendRequest(new PostTextToSpeechRequest(voiceId, new TextToSpeechRequest(text, modelId, voiceSettings)));
+	}
+
+	public static File generateTextToSpeech(String voiceId, String text, String modelId, GeneratedAudioOutputFormat outputFormat, StreamLatencyOptimization streamLatencyOptimization, VoiceSettings voiceSettings) {
+		return sendRequest(new PostTextToSpeechRequest(voiceId, new TextToSpeechRequest(text, modelId, voiceSettings), streamLatencyOptimization, outputFormat));
+	}
+	public static InputStream generateTextToSpeechStreamed(String voiceId, String text, String modelId, GeneratedAudioOutputFormat outputFormat, StreamLatencyOptimization streamLatencyOptimization, VoiceSettings voiceSettings) {
+		return sendRequest(new PostTextToSpeechStreamedRequest(voiceId, new TextToSpeechRequest(text, modelId, voiceSettings), streamLatencyOptimization, outputFormat));
 	}
 
 	public static InputStream generateTextToSpeechStreamed(String voiceId, String text, String modelId, VoiceSettings voiceSettings) {

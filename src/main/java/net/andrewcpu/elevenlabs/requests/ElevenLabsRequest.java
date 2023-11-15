@@ -2,6 +2,11 @@ package net.andrewcpu.elevenlabs.requests;
 
 import net.andrewcpu.elevenlabs.enums.HttpRequestType;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static net.andrewcpu.elevenlabs.util.ElevenNetworkUtil.buildQueryParameters;
+
 public abstract class ElevenLabsRequest<T> {
 	private HttpRequestType type;
 	private String endpoint;
@@ -18,7 +23,11 @@ public abstract class ElevenLabsRequest<T> {
 	}
 
 	public String getEndpoint() {
-		return endpoint;
+		return endpoint + "?" + buildQueryParameters(getQueryParameters());
+	}
+
+	public Map<String, String> getQueryParameters() {
+		return new HashMap<>();
 	}
 
 	public Class<T> getResponseClass() {

@@ -15,9 +15,24 @@ public class VoiceSettings extends ElevenModel {
 	@JsonProperty("similarity_boost")
 	private double similarityBoost;
 
+	@JsonProperty("style")
+	private double style;
+
+	@JsonProperty("use_speaker_boost")
+	private boolean useSpeakerBoost;
+
+	public VoiceSettings(double stability, double similarityBoost, double style, boolean useSpeakerBoost) {
+		this.stability = stability;
+		this.similarityBoost = similarityBoost;
+		this.style = style;
+		this.useSpeakerBoost = useSpeakerBoost;
+	}
+
 	public VoiceSettings(double stability, double similarityBoost) {
 		this.stability = stability;
 		this.similarityBoost = similarityBoost;
+		this.style = 0;
+		this.useSpeakerBoost = true;
 	}
 
 	public VoiceSettings() {
@@ -34,11 +49,23 @@ public class VoiceSettings extends ElevenModel {
 	}
 
 	@JsonIgnore
+	public double getStyle() {
+		return style;
+	}
+
+	@JsonIgnore
+	public boolean isUseSpeakerBoost() {
+		return useSpeakerBoost;
+	}
+
 	@Override
+	@JsonIgnore
 	public String toString() {
 		return "VoiceSettings{" +
 				"stability=" + stability +
 				", similarityBoost=" + similarityBoost +
+				", style=" + style +
+				", useSpeakerBoost=" + useSpeakerBoost +
 				'}';
 	}
 }

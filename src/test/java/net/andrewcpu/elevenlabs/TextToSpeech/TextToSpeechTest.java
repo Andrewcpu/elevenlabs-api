@@ -14,7 +14,7 @@ public class TextToSpeechTest extends ElevenLabsTest {
 	@Test
 	public void testDownloadResponse() {
 		assertFalse("Cannot download tts!", doesThrow(() -> {
-			File file = ElevenLabs.generateTextToSpeech(TEST_VOICE, "This is a test", "eleven_monolingual_v1", new VoiceSettings(0.7, 0.7));
+			File file = ElevenLabs.generateTextToSpeech(TEST_VOICE, "This is a test", "eleven_monolingual_v1", new VoiceSettings(0.7, 0.7, 0, true));
 			file.delete();
 		}));
 	}
@@ -22,7 +22,7 @@ public class TextToSpeechTest extends ElevenLabsTest {
 	@Test
 	public void testStreamedResponse() {
 		assertFalse("Cannot strem tts!", doesThrow(() -> {
-			InputStream inputStream = ElevenLabs.generateTextToSpeechStreamed(TEST_VOICE, "This is a test", "eleven_monolingual_v1", new VoiceSettings(0.7, 0.7));
+			InputStream inputStream = ElevenLabs.generateTextToSpeechStreamed(TEST_VOICE, "This is a test", "eleven_monolingual_v1", new VoiceSettings(0.7, 0.7, 0, true));
 			File tmp;
 			try {
 				tmp = File.createTempFile("test", "audio");

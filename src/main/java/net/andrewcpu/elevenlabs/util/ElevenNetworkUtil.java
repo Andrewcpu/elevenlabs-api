@@ -21,9 +21,11 @@ import org.apache.hc.core5.net.URIBuilder;
 
 import java.io.*;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 public class ElevenNetworkUtil {
 	private static final String BASE_URL = "https://api.elevenlabs.io/";
@@ -34,6 +36,23 @@ public class ElevenNetworkUtil {
 		request.setHeader("xi-api-key", ElevenLabs.getApiKey());
 	}
 
+	public static String buildQueryParameters(Map<String, String> parameters) {
+		StringJoiner queryParameters = new StringJoiner("&");
+		for (Map.Entry<String, String> entry : parameters.entrySet()) {
+			String encodedKey = encodeValue(entry.getKey());
+			String encodedValue = encodeValue(entry.getValue());
+			queryParameters.add(encodedKey + "=" + encodedValue);
+		}
+		return queryParameters.toString();
+	}
+
+	private static String encodeValue(String value) {
+		try {
+			return URLEncoder.encode(value, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("Encoding not supported", e);
+		}
+	}
 
 	public static HttpUriRequestBase getRequest(HttpRequestType type, String path) {
 		switch (type) {
@@ -137,6 +156,7 @@ public class ElevenNetworkUtil {
 		try {
 			CloseableHttpClient httpclient = HttpClients.createDefault();
 			HttpUriRequestBase request = getRequest(method, path, payload);
+
 			return getRequestResult(responseType, objectMapper, httpclient, request);
 		} catch (IOException | ValidationException e) {
 			throw new RuntimeException(e);
