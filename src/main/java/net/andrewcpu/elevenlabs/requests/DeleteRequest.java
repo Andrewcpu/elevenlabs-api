@@ -6,4 +6,9 @@ public abstract class DeleteRequest<T> extends ElevenLabsRequest<T> {
 	public DeleteRequest(String endpoint, Class<T> clazz) {
 		super(HttpRequestType.DELETE, endpoint, clazz);
 	}
+
+	@Override
+	public Object getPayload() {
+		return null;
+	}
 }

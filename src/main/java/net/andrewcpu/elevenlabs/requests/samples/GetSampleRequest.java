@@ -8,9 +8,4 @@ public class GetSampleRequest extends GetRequest<File> {
 	public GetSampleRequest(String voiceId, String sampleId) {
 		super("v1/voices/" + voiceId + "/samples/" + sampleId + "/audio", File.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

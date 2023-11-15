@@ -7,9 +7,4 @@ public class GetProjectSnapshotsRequest extends GetRequest<ProjectSnapshotsModel
 	public GetProjectSnapshotsRequest(String projectId) {
 		super("v1/projects/" + projectId + "/snapshots", ProjectSnapshotsModelResponse.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

@@ -7,9 +7,4 @@ public class GetProjectsRequest extends GetRequest<ProjectsModelResponse> {
 	public GetProjectsRequest() {
 		super("v1/projects", ProjectsModelResponse.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

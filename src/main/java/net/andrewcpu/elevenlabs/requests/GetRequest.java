@@ -6,4 +6,9 @@ public abstract class GetRequest<T> extends ElevenLabsRequest<T> {
 	public GetRequest(String endpoint, Class<T> clazz) {
 		super(HttpRequestType.GET, endpoint, clazz);
 	}
+
+	@Override
+	public Object getPayload() {
+		return null;
+	}
 }

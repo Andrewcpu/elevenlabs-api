@@ -8,8 +8,4 @@ public class GetChapterSnapshotsRequest extends GetRequest<ChapterSnapshotsModel
 		super("v1/projects/" + projectId + "/chapters/" + chapterId + "/snapshots", ChapterSnapshotsModelResponse.class);
 	}
 
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

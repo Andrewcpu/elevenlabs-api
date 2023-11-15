@@ -8,9 +8,4 @@ public class GetHistoryItemAudioRequest extends GetRequest<File> {
 	public GetHistoryItemAudioRequest(String historyItemId) {
 		super("v1/history/" + historyItemId + "/audio", File.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

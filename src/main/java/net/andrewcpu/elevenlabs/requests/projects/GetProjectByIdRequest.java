@@ -7,9 +7,4 @@ public class GetProjectByIdRequest extends GetRequest<Project> {
 	public GetProjectByIdRequest(String projectId) {
 		super("v1/projects/" + projectId, Project.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

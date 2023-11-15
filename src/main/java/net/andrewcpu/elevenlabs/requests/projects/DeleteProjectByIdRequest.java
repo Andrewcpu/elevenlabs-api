@@ -6,9 +6,4 @@ public class DeleteProjectByIdRequest extends DeleteRequest<String> {
 	public DeleteProjectByIdRequest(String projectId) {
 		super("v1/projects/" + projectId, String.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

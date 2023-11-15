@@ -6,9 +6,4 @@ public class DeleteVoiceRequest extends DeleteRequest<String> {
 	public DeleteVoiceRequest(String voiceId) {
 		super("v1/voices/" + voiceId, String.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

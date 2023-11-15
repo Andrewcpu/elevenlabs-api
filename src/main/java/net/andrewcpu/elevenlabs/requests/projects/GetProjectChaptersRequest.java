@@ -7,9 +7,4 @@ public class GetProjectChaptersRequest extends GetRequest<ChaptersModelResponse>
 	public GetProjectChaptersRequest(String projectId) {
 		super("v1/projects/" + projectId + "/chapters", ChaptersModelResponse.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

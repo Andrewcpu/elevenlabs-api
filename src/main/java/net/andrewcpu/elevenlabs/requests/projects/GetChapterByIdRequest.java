@@ -7,9 +7,4 @@ public class GetChapterByIdRequest extends GetRequest<Chapter> {
 	public GetChapterByIdRequest(String projectId, String chapterId) {
 		super("v1/projects/" + projectId + "/chapters/" + chapterId, Chapter.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

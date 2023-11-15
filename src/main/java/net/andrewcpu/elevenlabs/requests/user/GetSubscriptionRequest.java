@@ -8,9 +8,4 @@ public class GetSubscriptionRequest extends GetRequest<Subscription> {
 	public GetSubscriptionRequest() {
 		super("v1/user/subscription", Subscription.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

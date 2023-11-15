@@ -7,9 +7,4 @@ public class GetHistoryRequest extends GetRequest<History> {
 	public GetHistoryRequest() {
 		super("v1/history", History.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

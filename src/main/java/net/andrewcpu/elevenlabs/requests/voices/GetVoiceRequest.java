@@ -26,8 +26,4 @@ public class GetVoiceRequest extends GetRequest<Voice> {
 		return payload;
 	}
 
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

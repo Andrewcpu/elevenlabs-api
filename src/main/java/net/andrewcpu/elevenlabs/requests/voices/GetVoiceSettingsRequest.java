@@ -7,9 +7,4 @@ public class GetVoiceSettingsRequest extends GetRequest<VoiceSettings> {
 	public GetVoiceSettingsRequest(String voiceId) {
 		super("v1/voices/" + voiceId + "/settings", VoiceSettings.class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

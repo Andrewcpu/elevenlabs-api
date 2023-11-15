@@ -7,9 +7,4 @@ public class GetModelsRequest extends GetRequest<GenerationTypeModel[]> {
 	public GetModelsRequest() {
 		super("v1/models", GenerationTypeModel[].class);
 	}
-
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }
