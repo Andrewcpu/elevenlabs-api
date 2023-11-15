@@ -4,9 +4,11 @@ import net.andrewcpu.elevenlabs.enums.GeneratedAudioOutputFormat;
 import net.andrewcpu.elevenlabs.enums.StreamLatencyOptimization;
 import net.andrewcpu.elevenlabs.model.history.History;
 import net.andrewcpu.elevenlabs.model.history.HistoryItem;
+import net.andrewcpu.elevenlabs.model.projects.Project;
 import net.andrewcpu.elevenlabs.model.request.TextToSpeechRequest;
 import net.andrewcpu.elevenlabs.model.response.CreateVoiceResponse;
 import net.andrewcpu.elevenlabs.model.response.GenerationTypeModel;
+import net.andrewcpu.elevenlabs.model.response.ProjectsModelResponse;
 import net.andrewcpu.elevenlabs.model.user.Subscription;
 import net.andrewcpu.elevenlabs.model.user.User;
 import net.andrewcpu.elevenlabs.model.voice.Voice;
@@ -14,6 +16,7 @@ import net.andrewcpu.elevenlabs.model.voice.VoiceSettings;
 import net.andrewcpu.elevenlabs.requests.ElevenLabsRequest;
 import net.andrewcpu.elevenlabs.requests.history.*;
 import net.andrewcpu.elevenlabs.requests.models.GetModelsRequest;
+import net.andrewcpu.elevenlabs.requests.projects.GetProjectsRequest;
 import net.andrewcpu.elevenlabs.requests.samples.DeleteSampleRequest;
 import net.andrewcpu.elevenlabs.requests.samples.GetSampleRequest;
 import net.andrewcpu.elevenlabs.requests.tts.PostTextToSpeechRequest;
@@ -97,6 +100,10 @@ public class ElevenLabs {
 
 	public static Voice getVoice(String voiceId, boolean withSettings) {
 		return sendRequest(new GetVoiceRequest(voiceId, withSettings));
+	}
+
+	public static ProjectsModelResponse getProjects() {
+		return sendRequest(new GetProjectsRequest());
 	}
 
 	public static String deleteVoice(String voiceId) {
