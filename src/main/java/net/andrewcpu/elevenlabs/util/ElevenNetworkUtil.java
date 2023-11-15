@@ -66,22 +66,10 @@ public class ElevenNetworkUtil {
 		}
 	}
 
-	private static List<NameValuePair> getParameters(Object payload) {
-		List<NameValuePair> parameters = new ArrayList<>();
-		if (payload instanceof Map<?, ?>) {
-			Map<?, ?> payloadMap = (Map<?, ?>) payload;
-			for (Map.Entry<?, ?> entry : payloadMap.entrySet()) {
-				parameters.add(new BasicNameValuePair(String.valueOf(entry.getKey()), String.valueOf(entry.getValue())));
-			}
-		}
-		return parameters;
-	}
-
-	private static HttpUriRequestBase handleNonBodyRequest(HttpRequestType requestType, Object payload, String path) {
-		List<NameValuePair> parameters = getParameters(payload);
+	private static HttpUriRequestBase handleNonBodyRequest(HttpRequestType requestType, String path) {
 		HttpUriRequestBase request = getRequest(requestType, path);
 		try {
-			request.setUri(new URIBuilder(path).addParameters(parameters).build());
+			request.setUri(new URIBuilder(path).build());
 		} catch (URISyntaxException e) {
 			throw new RuntimeException(e);
 		}
@@ -141,7 +129,7 @@ public class ElevenNetworkUtil {
 	public static HttpUriRequestBase getRequest(HttpRequestType method, String path, Object payload) throws JsonProcessingException {
 		HttpUriRequestBase request;
 		if (method == HttpRequestType.GET || method == HttpRequestType.DELETE) {
-			request = handleNonBodyRequest(method, payload, path);
+			request = handleNonBodyRequest(method, path);
 		} else {
 			request = handleBodyRequest(method, payload, path);
 		}
