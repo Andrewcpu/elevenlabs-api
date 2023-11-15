@@ -27,6 +27,18 @@ public class Project extends ElevenModel {
 		return this.chapters;
 	}
 
+	public String deleteChapter(Chapter chapter) {
+		return chapter.deleteChapter(projectId);
+	}
+
+	public String convertChapter(Chapter chapter) {
+		return chapter.convertChapter(projectId);
+	}
+
+	public List<ChapterSnapshot> getChapterSnapshots(Chapter chapter) {
+		return chapter.getChapterSnapshots(projectId);
+	}
+
 	public String deleteProject() {
 		return ElevenLabs.getProjectsAPI().deleteProject(projectId);
 	}

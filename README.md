@@ -16,7 +16,7 @@ To add `elevenlabs-api` to your Maven project, use:
 <dependency>
     <groupId>net.andrewcpu</groupId>
     <artifactId>elevenlabs-api</artifactId>
-    <version>2.1</version>
+    <version>2.6</version>
 </dependency>
 ```
 The most up-to date package information can be found on the [Packages tab](https://github.com/AndrewCPU/elevenlabs-api/packages/)
@@ -36,46 +36,6 @@ ElevenLabs.setApiKey("YOUR_API_KEY_HERE");
 *For any public repository security, you should store your API key in an environment variable, or external from your source code.*
 
 - - -
-
-<!-- TOC -->
-### Table of Contents
-  * [Getting Started](#getting-started)
-    * [Installation](#installation)
-    * [Setting up your API Key](#setting-up-your-api-key)
-  * [Voices](#voices)
-    * [Accessing your List of Available Voices](#accessing-your-list-of-available-voices)
-    * [Accessing the Default Voice Settings](#accessing-the-default-voice-settings)
-    * [Getting a Voice by ID](#getting-a-voice-by-id)
-    * [Deleting a voice](#deleting-a-voice)
-    * [Retrieving an Updated VoiceSettings for a Voice](#retrieving-an-updated-voicesettings-for-a-voice)
-    * [Updating the VoiceSettings for a Voice](#updating-the-voicesettings-for-a-voice)
-    * [Editing a Voice](#editing-a-voice)
-    * [Creating a Voice](#creating-a-voice)
-    * [Generating Audio](#generating-audio)
-  * [Samples](#samples)
-    * [Accessing Voice Samples](#accessing-voice-samples)
-    * [Downloading a Sample](#downloading-a-sample)
-    * [Deleting a Sample](#deleting-a-sample)
-  * [History](#history)
-    * [Getting Generation History](#getting-generation-history)
-    * [Getting a History Item](#getting-a-history-item)
-    * [Downloading History](#downloading-history)
-    * [Deleting a HistoryItem](#deleting-a-historyitem)
-    * [Requesting the Voice for a HistoryItem](#requesting-the-voice-for-a-historyitem)
-    * [Downloading a HistoryItem Audio](#downloading-a-historyitem-audio)
-  * [User Management](#user-management)
-    * [Getting your Subscription](#getting-your-subscription)
-    * [Getting your User](#getting-your-user)
-  * [Exceptions](#exceptions)
-    * [*ElevenLabsAPINotInitiatedException*](#elevenlabsapinotinitiatedexception)
-    * [*ElevenLabsValidationException*](#elevenlabsvalidationexception)
-* [Misc](#misc)
-
-* [Links to ElevenLabs](#links-to-elevenlabs)
-    * [**ElevenLabs Website**: https://elevenlabs.io](#elevenlabs-website--httpselevenlabsio)
-    * [**ElevenLabs API Documentation**: https://api.elevenlabs.io/docs](#elevenlabs-api-documentation--httpsapielevenlabsiodocs)
-<!-- TOC -->
-
 ## Links to ElevenLabs
 ### **ElevenLabs Website**: https://elevenlabs.io
 ### **ElevenLabs API Documentation**: https://api.elevenlabs.io/docs
@@ -163,23 +123,201 @@ builder.withLabel("accent", "American");
 voice = builder.create();
 ```
 
-### Generating Audio
+### Generating Audio (TTS + STS)
 To generate an audio file with a given `Voice`, you can utilize the `Voice#generate(...)` functions.
 Depending on how you access your `Voice`, (with or without settings), will decide whether you can use the implicit `voiceSettings` or if you have to specify the `VoiceSettings` object to use. Unless explicitly requesting the `Voice` without settings, every `Voice` object SHOULD contain its default `VoiceSettings`.
 ```java
-Voice voice;
-File file = voice.generate(String text);
-File file = voice.generate(String text, VoiceSettings settings);
-File file = voice.generate(String text, String model, VoiceSettings settings);
-File file = voice.generate(String text, String model);
 
-InputStream inputStream = voice.generateStream(String text);
-InputStream inputStream = voice.generateStream(String text, VoiceSettings settings);
-InputStream inputStream = voice.generateStream(String text, String model, VoiceSettings settings);
-InputStream inputStream = voice.generateStream(String text, String model);
+Voice voice;
+
+File file = voice.generate("Hello world!", "my_favorite_model");
+...
+//Available Functions:
+public File generate(String text, String model);
+
+public File generate(String text, String model, VoiceSettings settings);
+
+public File generate(String text, String model, VoiceSettings settings, GeneratedAudioOutputFormat outputFormat, StreamLatencyOptimization streamLatencyOptimization);
+
+public File generate(String text, String model, VoiceSettings settings, GeneratedAudioOutputFormat outputFormat);
+
+public File generate(String text, VoiceSettings settings, GeneratedAudioOutputFormat outputFormat);
+
+public File generate(String text, VoiceSettings settings, StreamLatencyOptimization streamLatencyOptimization);
+
+public File generate(String text, VoiceSettings settings, GeneratedAudioOutputFormat outputFormat, StreamLatencyOptimization streamLatencyOptimization);
+
+public File generate(String text, GeneratedAudioOutputFormat outputFormat, StreamLatencyOptimization streamLatencyOptimization);
+
+public File generate(String text, StreamLatencyOptimization streamLatencyOptimization);
+
+public File generate(String text, VoiceSettings settings);
+
+public File generate(String text);
+
+public InputStream generateStream(String text, String model);
+
+public InputStream generateStream(String text, String model, VoiceSettings settings);
+
+public InputStream generateStream(String text, VoiceSettings settings);
+
+public InputStream generateStream(String text);
+
+public InputStream generateStream(String text, String model, GeneratedAudioOutputFormat generatedAudioOutputFormat, StreamLatencyOptimization streamLatencyOptimization);
+
+public InputStream generateStream(String text, String model, GeneratedAudioOutputFormat generatedAudioOutputFormat, StreamLatencyOptimization streamLatencyOptimization, VoiceSettings settings);
+
+public InputStream generateStream(String text, VoiceSettings settings, GeneratedAudioOutputFormat generatedAudioOutputFormat, StreamLatencyOptimization streamLatencyOptimization);
+
+public InputStream generateStream(String text, GeneratedAudioOutputFormat generatedAudioOutputFormat, StreamLatencyOptimization streamLatencyOptimization);
+
+public InputStream generateStream(String text, String model, StreamLatencyOptimization streamLatencyOptimization);
+
+public InputStream generateStream(String text, String model, StreamLatencyOptimization streamLatencyOptimization, VoiceSettings settings);
+
+public InputStream generateStream(String text, VoiceSettings settings, StreamLatencyOptimization streamLatencyOptimization);
+
+public InputStream generateStream(String text, StreamLatencyOptimization streamLatencyOptimization);
+
+public File speechToSpeech(File audioFile, StreamLatencyOptimization latencyOptimization, String modelId, VoiceSettings voiceSettings);
+
+public File speechToSpeech(File audioFile, StreamLatencyOptimization latencyOptimization, String modelId);
+
+public File speechToSpeech(File audioFile, String modelId);
+
+public InputStream speechToSpeechStream(File audioFile, StreamLatencyOptimization latencyOptimization, String modelId, VoiceSettings voiceSettings);
+
+public InputStream speechToSpeechStream(File audioFile, StreamLatencyOptimization latencyOptimization, String modelId);
+
+public InputStream speechToSpeechStream(File audioFile, String modelId);
+
 ```
 - - -
+## Audio Native Projects
+### Creating an Audio Native Project
+You can create audio native projects using the AudioNative API.
+```java
+CreateAudioEnabledProjectRequest request = new CreateAudioEnabledProjectRequest()
+        .setName("Project name")
+        .setImage("https://...com/img.png")
+        .setAuthor("Andrew")
+        .setSmall(true)
+        .setTextColor("red")
+        .setBackgroundColor("black")
+        .setSessionization(3)
+        .setVoiceId("aso23809")
+        .setModelId("my_favorite_model")
+        .setFile(new File("input.dat"))
+        .setAutoConvert(true);
 
+CreateAudioEnabledProjectModelResponse response = ElevenLabs.getAudioNativeAPI()
+                                                             .createAudioEnabledProject(request);
+```
+
+- - -
+## Projects
+## Create a project
+You can create a new project using the AddProjectRequest builder.
+```java
+AddProjectRequest request = new AddProjectRequest()
+                                .setName("name")
+        .setFromUrl("...")
+        .setFromDocument(new File("file.dat"))
+        .setDefaultTitleVoiceId("voiceA")
+        .setDefaultParagraphVoiceId("voiceB")
+        .setDefaultModelId("the_default_model_of_your_dreams")
+        .setProjectOutputQuality(ProjectOutputQuality.STANDARD)
+        .setTitle("Big Title")
+        .setAuthor("Best Author")
+        .setIsbnNumber("THE. ISBN.")
+        .setAcxVolumeNormalization(true);
+
+Project project = Project.addProject(request);
+
+```
+
+## Get a Project
+Get a project by it's specific project ID.
+```java
+Project project = Project.getProjectById(projectId);
+```
+
+## Get all Projects
+Get all of the projects associated with your account.
+```java
+List<Project> projects = Project.getProjects();
+```
+
+## Interacting with Projects
+```java
+Project project;
+// Delete a project
+String deleteResult = project.delete();
+
+// Convert a project
+String conversionResult = project.convertProject();
+
+//Get the project's snapshots.
+List<ProjectSnapshot> snapshots = project.getSnapshots();
+
+// Access your chapters from memory
+List<Chapter> chapters = project.getChapters();
+
+// Refresh your local Project's chapters from the API
+chapters = project.fetchUpdatedChapters(); // This will update the existing project object and return the list of new chapters 
+
+// Get a chapter by ID
+Chapter chapter = project.getChapterById(chapterId);
+
+// Delete a chapter
+String result = project.deleteChapter(chapter);
+
+// Convert a chapter
+String result = project.convertChapter(chapter);
+
+// Get chapter snapshots
+List<ChapterSnapshot> snapshots = project.getChapterSnapshots(chapter);
+
+```
+
+## Interacting with Chapters
+```java
+Project project;
+Chapter chapter = project.getChapterById("chapter_id");
+
+// Delete a chapter
+chapter.deleteChapter(project.getProjectId());
+
+// Convert a chapter
+chapter.convertChapter(project.getProjectId());
+
+// Get a chapter's snapshots
+List<ChapterSnapshot> snapshots = chapter.getChapterSnapshots(project.getProjectId());
+
+// 
+
+```
+
+## Accessing Snapshot Audio
+Accessing a ProjectSnapshot audio stream:
+```java
+Project project;
+List<ProjectSnapshot> projectSnapshots = project.getSnapshots();
+ProjectSnapshot first = projectSnapshots.get(0);
+InputStream audio = first.getAudioStream();
+```
+
+Accessing a ChapterSnapshot audio stream:
+```java
+Project project;
+Chapter chapter;
+List<ChapterSnapshot> chapterSnapshots = project.getChapterSnapshots(chapter);
+ChapterSnapshot first = chapterSnapshots.get(0);
+InputStream audio = first.getAudioStream();
+```
+
+Both ProjectSnapshot and ChapterSnapshot are of type Snapshot.
+- - -
 ## Samples
 A `Sample` is used as the training data for a given `Voice` model.
 ### Accessing Voice Samples
@@ -248,6 +386,10 @@ A `HistoryItem` is a previous TTS generation. You can download the generation as
 HistoryItem item;
 File file = item.downloadAudio();
 ```
+- - -
+### Projects
+The `Projects`
+
 - - -
 
 ## User Management
