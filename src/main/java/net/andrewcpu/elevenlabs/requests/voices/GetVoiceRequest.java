@@ -12,15 +12,22 @@ public class GetVoiceRequest extends GetRequest<Voice> {
 		this(voiceId,  true);
 	}
 
+
+
 	public GetVoiceRequest(String voiceId, boolean withSettings) {
 		super( "v1/voices/" + voiceId, Voice.class);
 		this.withSettings = withSettings;
 	}
 
 	@Override
-	public Object getPayload() {
-		Map<String, Object> payload = new HashMap<>();
-		payload.put("with_settings", withSettings);
+	public Map<String, String> getQueryParameters() {
+		Map<String, String> payload = new HashMap<>();
+		payload.put("with_settings", String.valueOf(withSettings));
 		return payload;
+	}
+
+	@Override
+	public Object getPayload() {
+		return null;
 	}
 }
