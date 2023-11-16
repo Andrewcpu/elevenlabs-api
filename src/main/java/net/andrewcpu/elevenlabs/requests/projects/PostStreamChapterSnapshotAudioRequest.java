@@ -9,8 +9,4 @@ public class PostStreamChapterSnapshotAudioRequest extends PostRequest<InputStre
 		super("v1/projects/" + projectId + "/chapters/" + chapterId + "/snapshots/" + chapterSnapshotId + "/stream", InputStream.class);
 	}
 
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

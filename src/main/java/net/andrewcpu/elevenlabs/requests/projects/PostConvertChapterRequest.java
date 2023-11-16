@@ -7,8 +7,4 @@ public class PostConvertChapterRequest extends PostRequest<String> {
 		super("v1/projects/" + projectId + "/chapters/" + chapterId + "/convert", String.class);
 	}
 
-	@Override
-	public Object getPayload() {
-		return null;
-	}
 }

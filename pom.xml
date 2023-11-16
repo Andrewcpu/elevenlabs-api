@@ -60,7 +60,7 @@
 
     <groupId>net.andrewcpu</groupId>
     <artifactId>elevenlabs-api</artifactId>
-    <version>2.7.3-SNAPSHOT</version>
+    <version>2.7.4-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
