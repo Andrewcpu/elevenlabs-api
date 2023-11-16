@@ -1,5 +1,7 @@
 package net.andrewcpu.elevenlabs.requests.sts;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.andrewcpu.elevenlabs.enums.StreamLatencyOptimization;
 import net.andrewcpu.elevenlabs.model.voice.VoiceSettings;
 import net.andrewcpu.elevenlabs.requests.PostRequest;
@@ -32,9 +34,15 @@ public class PostSpeechToSpeechStreamedRequest extends PostRequest<InputStream> 
 	@Override
 	public Object getPayload() {
 		Map<String, Object> body = new HashMap<>();
+		String voiceSettingsString;
+		try {
+			voiceSettingsString = new ObjectMapper().writeValueAsString(voiceSettings);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
 		body.put("audio", audio);
 		body.put("model_id", modelId);
-		body.put("voice_settings", voiceSettings);
+		body.put("voice_settings", voiceSettingsString);
 		return body;
 	}
 }
