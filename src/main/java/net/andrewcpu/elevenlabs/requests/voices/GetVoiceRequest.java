@@ -25,5 +25,4 @@ public class GetVoiceRequest extends GetRequest<Voice> {
 		payload.put("with_settings", String.valueOf(withSettings));
 		return payload;
 	}
-
 }

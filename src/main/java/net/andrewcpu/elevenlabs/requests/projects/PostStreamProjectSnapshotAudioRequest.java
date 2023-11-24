@@ -8,5 +8,4 @@ public class PostStreamProjectSnapshotAudioRequest extends PostRequest<InputStre
 	public PostStreamProjectSnapshotAudioRequest(String projectId, String snapshotId) {
 		super("v1/projects/" + projectId + "/snapshots/" + snapshotId + "/stream", InputStream.class);
 	}
-
 }

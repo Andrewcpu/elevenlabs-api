@@ -37,6 +37,4 @@ public abstract class ElevenLabsRequest<T> {
 	}
 
 	public abstract Object getPayload();
-
-
 }
