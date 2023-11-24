@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.andrewcpu.elevenlabs.ElevenLabs;
 import net.andrewcpu.elevenlabs.model.ElevenModel;
+import net.andrewcpu.elevenlabs.util.ElevenNetworkUtil;
 
 import java.io.File;
 import java.util.Map;
@@ -129,6 +130,10 @@ public class HistoryItem extends ElevenModel {
 
 	public File downloadAudio() {
 		return ElevenLabs.getHistoryAPI().getHistoryItemAudio(historyItemId);
+	}
+
+	public String getDownloadUrl() {
+		return ElevenNetworkUtil.getHistoryItemUrl(historyItemId);
 	}
 
 	@JsonIgnore

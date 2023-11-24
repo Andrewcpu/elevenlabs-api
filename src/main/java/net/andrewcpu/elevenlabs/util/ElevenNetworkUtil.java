@@ -137,6 +137,10 @@ public class ElevenNetworkUtil {
 		return request;
 	}
 
+	public static String getHistoryItemUrl(String historyItemId) {
+		return BASE_URL + "v1/history/" + historyItemId + "/audio";
+	}
+
 	public static <T> T sendRequest(HttpRequestType method, String path, Object payload, Class<T> responseType) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		path = BASE_URL + path;
