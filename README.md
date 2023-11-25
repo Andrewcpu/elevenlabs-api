@@ -4,6 +4,8 @@
 ## Getting Started
 So you wanna make custom voices, huh? Well you've come to the right place.
 This library should cover all the ElevenLabs API endpoints as of 11/15/23.
+**Update**
+It seems I jumped the gun (or happened to bump into an accidental push of the speech to speech API docs),  but the original documentation that my implementation was based on has now been removed or hidden. It may reappear as is, or will require changes.
 
 ### Installation
 **Maven**
@@ -13,7 +15,7 @@ To add `elevenlabs-api` to your Maven project, use:
 <dependency>
     <groupId>net.andrewcpu</groupId>
     <artifactId>elevenlabs-api</artifactId>
-    <version>2.7.2</version>
+    <version>2.7.7</version>
 </dependency>
 ```
 **JAR**
