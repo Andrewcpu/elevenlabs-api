@@ -13,6 +13,14 @@ public class HistoryAPI extends ElevenLabsAPI {
 		return sendRequest(new GetHistoryRequest());
 	}
 
+	public History getHistory(int pageSize, String afterHistoryId) {
+		return sendRequest(new GetHistoryRequest(pageSize, afterHistoryId));
+	}
+
+	public History getHistory(String afterHistoryId) {
+		return sendRequest(new GetHistoryRequest(afterHistoryId));
+	}
+
 	public HistoryItem getHistoryItem(String historyItemId) {
 		return sendRequest(new GetHistoryItemByIdRequest(historyItemId));
 	}

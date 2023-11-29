@@ -8,6 +8,7 @@ import net.andrewcpu.elevenlabs.model.ElevenModel;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class History extends ElevenModel {
 
@@ -62,6 +63,13 @@ public class History extends ElevenModel {
 
 	public File downloadHistory(HistoryItem... items) {
 		return ElevenLabs.getHistoryAPI().getHistoryItemAudio(Arrays.stream(items).map(HistoryItem::getHistoryItemId).toArray(String[]::new));
+	}
+
+	public Optional<History> next() {
+		if(!hasMore) {
+			return Optional.empty();
+		}
+		return Optional.of(ElevenLabs.getHistoryAPI().getHistory(lastHistoryItemId));
 	}
 
 	@JsonIgnore
