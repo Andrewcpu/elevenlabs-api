@@ -6,16 +6,18 @@ import net.andrewcpu.elevenlabs.requests.GetRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.andrewcpu.elevenlabs.model.history.History.DEFAULT_HISTORY_PAGE_SIZE;
+
 public class GetHistoryRequest extends GetRequest<History> {
-	private int pageSize;
-	private String startAfterHistoryId;
+	private final int pageSize;
+	private final String startAfterHistoryId;
 
 	public GetHistoryRequest() {
-		this(100, null);
+		this(DEFAULT_HISTORY_PAGE_SIZE, null);
 	}
 
 	public GetHistoryRequest(String startAfterHistoryId) {
-		this(100, startAfterHistoryId);
+		this(DEFAULT_HISTORY_PAGE_SIZE, startAfterHistoryId);
 	}
 
 	public GetHistoryRequest(int pageSize, String startAfterHistoryId) {

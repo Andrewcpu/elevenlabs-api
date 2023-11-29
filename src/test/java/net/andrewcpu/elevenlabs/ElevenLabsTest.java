@@ -1,6 +1,12 @@
 package net.andrewcpu.elevenlabs;
 
 
+import net.andrewcpu.elevenlabs.builders.SpeechGenerationBuilder;
+import net.andrewcpu.elevenlabs.builders.abstracts.AbstractSpeechGenerationBuilder;
+import org.junit.Test;
+
+import java.io.File;
+
 public class ElevenLabsTest {
 	public static final String ELEVEN_LABS_API_KEY = System.getenv("ELEVENLABS_API_KEY");
 	public static final String TEST_VOICE = "ZjJOFdM86g4E9U6OhzUo";

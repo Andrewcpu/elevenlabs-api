@@ -11,10 +11,22 @@ import java.util.List;
 import java.util.Optional;
 
 public class History extends ElevenModel {
-
+	public static final int DEFAULT_HISTORY_PAGE_SIZE = 100;
 	public static History get() {
 		return ElevenLabs.getHistoryAPI().getHistory();
 	}
+	public static History get(String afterHistoryId) {
+		return ElevenLabs.getHistoryAPI().getHistory(afterHistoryId);
+	}
+	public static History get(int pageSize, String afterHistoryId) {
+		return ElevenLabs.getHistoryAPI().getHistory(pageSize, afterHistoryId);
+	}
+
+	public static History get(int pageSize) {
+		return ElevenLabs.getHistoryAPI().getHistory(pageSize, null);
+	}
+
+
 
 	@JsonProperty("history")
 	private List<HistoryItem> historyItems;
@@ -65,11 +77,11 @@ public class History extends ElevenModel {
 		return ElevenLabs.getHistoryAPI().getHistoryItemAudio(Arrays.stream(items).map(HistoryItem::getHistoryItemId).toArray(String[]::new));
 	}
 
-	public Optional<History> next() {
+	public Optional<History> next(int pageSize) {
 		if(!hasMore) {
 			return Optional.empty();
 		}
-		return Optional.of(ElevenLabs.getHistoryAPI().getHistory(lastHistoryItemId));
+		return Optional.of(ElevenLabs.getHistoryAPI().getHistory(pageSize, lastHistoryItemId));
 	}
 
 	@JsonIgnore

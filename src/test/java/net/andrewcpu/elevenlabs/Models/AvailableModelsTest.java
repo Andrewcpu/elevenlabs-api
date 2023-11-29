@@ -18,7 +18,7 @@ public class AvailableModelsTest extends ElevenLabsTest {
 		GenerationTypeModel[] models = null;
 		try{
 			models = ElevenLabs.getModelsAPI().getAvailableModels();
-			System.out.println(Arrays.stream(models).map(Object::toString).collect(Collectors.toList()));
+			Arrays.stream(models).map(o -> o.getModelId() + "," + o.getName()).forEach(System.out::println);
 		}catch (Exception e) {
 			e.printStackTrace();
 			fail("Failed to get voice type models: " + e.getMessage());

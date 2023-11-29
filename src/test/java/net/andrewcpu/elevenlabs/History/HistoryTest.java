@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
+import static net.andrewcpu.elevenlabs.model.history.History.DEFAULT_HISTORY_PAGE_SIZE;
 import static org.junit.Assert.*;
 
 public class HistoryTest extends ElevenLabsTest {
@@ -45,7 +46,7 @@ public class HistoryTest extends ElevenLabsTest {
 			output.delete();
 		}));
 
-		Optional<History> nextHistory = history.next();
+		Optional<History> nextHistory = history.next(DEFAULT_HISTORY_PAGE_SIZE);
 		assertTrue(nextHistory.isPresent());
 	}
 }

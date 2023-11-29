@@ -13,7 +13,7 @@ To add `elevenlabs-api` to your Maven project, use:
 <dependency>
     <groupId>net.andrewcpu</groupId>
     <artifactId>elevenlabs-api</artifactId>
-    <version>2.7.2</version>
+    <version>2.7.8</version>
 </dependency>
 ```
 **JAR**
@@ -38,6 +38,68 @@ ElevenLabs.setDefaultModel("eleven_monolingual_v1"); // Optional, defaults to: "
 ### **ElevenLabs API Documentation**: https://api.elevenlabs.io/docs
 
 - - -
+
+## Simplified Generation Handling with Builders
+### v2.7.8 now includes SpeechGenerationBuilder.java
+
+### Speech to Speech
+```java
+//File output
+SpeechGenerationBuilder.speechToSpeech()
+        .file() // output type of file (or use .streamed() for an InputStream)
+        .setInputFile(File)
+        .setGeneratedAudioOutputFormat(GeneratedAudioOutputFormat.MP3_44100_128)
+        .setVoiceId("voiceIdString")
+        .setVoiceSettings(VoiceSettings)
+        .setVoice(Voice) // or use a voice object, which will pull settings / ID out of the Voice
+        .setModelId("modelIdString")
+        .setModel(ElevenLabsVoiceModel.ELEVEN_ENGLISH_STS_V2)
+        .setLatencyOptimization(StreamLatencyOptimization.NONE)
+        .build();
+//Streamed output
+SpeechGenerationBuilder.speechToSpeech()
+        .streamed()
+        .setInputFile(File)
+        .setGeneratedAudioOutputFormat(GeneratedAudioOutputFormat.MP3_44100_128)
+        .setVoiceId("voiceIdString")
+        .setVoiceSettings(VoiceSettings)
+        .setVoice(Voice) // or use a voice object, which will pull settings / ID out of the Voice
+        .setModelId("modelIdString")
+        .setModel(ElevenLabsVoiceModel.ELEVEN_ENGLISH_STS_V2)
+        .setLatencyOptimization(StreamLatencyOptimization.NONE)
+        .build();
+```
+
+### Text to Speech
+```java
+//File output
+SpeechGenerationBuilder.textToSpeech()
+        .file() // output type of file (or use .streamed() for an InputStream)
+        .setText(String text)
+        .setGeneratedAudioOutputFormat(GeneratedAudioOutputFormat.MP3_44100_128)
+        .setVoiceId("voiceIdString")
+        .setVoiceSettings(VoiceSettings)
+        .setVoice(Voice) // or use a voice object, which will pull settings / ID out of the Voice
+        .setModelId("modelIdString")
+        .setModel(ElevenLabsVoiceModel.ELEVEN_ENGLISH_STS_V2)
+        .setLatencyOptimization(StreamLatencyOptimization.NONE)
+        .build();
+//Streamed output
+SpeechGenerationBuilder.textToSpeech()
+        .streamed()
+        .setText(String text)
+        .setGeneratedAudioOutputFormat(GeneratedAudioOutputFormat.MP3_44100_128)
+        .setVoiceId("voiceIdString")
+        .setVoiceSettings(VoiceSettings)
+        .setVoice(Voice) // or use a voice object, which will pull settings / ID out of the Voice
+        .setModelId("modelIdString")
+        .setModel(ElevenLabsVoiceModel.ELEVEN_ENGLISH_STS_V2)
+        .setLatencyOptimization(StreamLatencyOptimization.NONE)
+        .build();
+```
+
+- - -
+
 ## Voices
 ### Accessing your List of Available Voices
 To retrieve your list of accessible Voices, you can statically utilize `Voice#getVoices()`. This will return both ElevenLab's pregenerated `Voice` models, as well as any personal `Voices` you have generated.
@@ -345,6 +407,19 @@ Your ElevenLabs `History` is a collection of all of your previous TTS generation
 To get your ElevenLabs generation `History`, you can utilize `History#get()`. (You can also retrieve your `History` from a `User` object, with `User#getHistory()`)
 ```java
 History history = History.get();
+```
+
+
+### Getting all History Items
+The History endpoint accepts page size parameters and a start-after-history-id parameter. We can use this to fetch all of our HistoryItems.
+```java
+    History history = History.get(); // the latest history object
+    Optional<History> hist = Optional.of(history);
+    List<HistoryItem> items = new ArrayList();
+    do {
+        items.addAll(hist.get().getHistoryItems());
+        hist = hist.get().next();
+    } while(hist.isPresent() && hist.hasMore());
 ```
 
 ### Getting a History Item

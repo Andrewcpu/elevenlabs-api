@@ -1,6 +1,7 @@
 package net.andrewcpu.elevenlabs.api.impl;
 
 import net.andrewcpu.elevenlabs.api.ElevenLabsAPI;
+import net.andrewcpu.elevenlabs.enums.ElevenLabsVoiceModel;
 import net.andrewcpu.elevenlabs.enums.StreamLatencyOptimization;
 import net.andrewcpu.elevenlabs.model.voice.VoiceSettings;
 import net.andrewcpu.elevenlabs.requests.sts.PostSpeechToSpeechRequest;
@@ -24,5 +25,23 @@ public class SpeechToSpeechAPI extends ElevenLabsAPI {
 
 	public InputStream generateSpeechToSpeechStream(String voiceId, VoiceSettings voiceSettings, String modelId, File audio) {
 		return generateSpeechToSpeechStream(voiceId, voiceSettings, modelId, audio, StreamLatencyOptimization.getDefault());
+	}
+
+
+
+	public File generateSpeechToSpeech(String voiceId, VoiceSettings voiceSettings, ElevenLabsVoiceModel model, File audio) {
+		return generateSpeechToSpeech(voiceId, voiceSettings, model.getModelId(), audio, StreamLatencyOptimization.getDefault());
+	}
+
+	public File generateSpeechToSpeech(String voiceId, VoiceSettings voiceSettings, ElevenLabsVoiceModel model, File audio, StreamLatencyOptimization latencyOptimization) {
+		return sendRequest(new PostSpeechToSpeechRequest(voiceId, voiceSettings,audio, model.getModelId(), latencyOptimization));
+	}
+
+	public InputStream generateSpeechToSpeechStream(String voiceId, VoiceSettings voiceSettings, ElevenLabsVoiceModel model, File audio, StreamLatencyOptimization streamLatencyOptimization) {
+		return sendRequest(new PostSpeechToSpeechStreamedRequest(voiceId, voiceSettings, audio, model.getModelId(), streamLatencyOptimization));
+	}
+
+	public InputStream generateSpeechToSpeechStream(String voiceId, VoiceSettings voiceSettings, ElevenLabsVoiceModel model, File audio) {
+		return generateSpeechToSpeechStream(voiceId, voiceSettings, model.getModelId(), audio, StreamLatencyOptimization.getDefault());
 	}
 }
