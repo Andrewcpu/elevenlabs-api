@@ -44,33 +44,59 @@ ElevenLabs.setDefaultModel("eleven_monolingual_v1"); // Optional, defaults to: "
 ## Simplified Generation Handling with Builders
 ### v2.7.8 now includes SpeechGenerationBuilder.java
 
-### Speech to Speech
-```java
-//File output
-SpeechGenerationBuilder.speechToSpeech()
-        .file() // output type of file (or use .streamed() for an InputStream)
-        .setInputFile(File)
-        .setGeneratedAudioOutputFormat(GeneratedAudioOutputFormat.MP3_44100_128)
-        .setVoiceId("voiceIdString")
-        .setVoiceSettings(VoiceSettings)
-        .setVoice(Voice) // or use a voice object, which will pull settings / ID out of the Voice
-        .setModelId("modelIdString")
-        .setModel(ElevenLabsVoiceModel.ELEVEN_ENGLISH_STS_V2)
-        .setLatencyOptimization(StreamLatencyOptimization.NONE)
-        .build();
-//Streamed output
-SpeechGenerationBuilder.speechToSpeech()
-        .streamed()
-        .setInputFile(File)
-        .setGeneratedAudioOutputFormat(GeneratedAudioOutputFormat.MP3_44100_128)
-        .setVoiceId("voiceIdString")
-        .setVoiceSettings(VoiceSettings)
-        .setVoice(Voice) // or use a voice object, which will pull settings / ID out of the Voice
-        .setModelId("modelIdString")
-        .setModel(ElevenLabsVoiceModel.ELEVEN_ENGLISH_STS_V2)
-        .setLatencyOptimization(StreamLatencyOptimization.NONE)
-        .build();
-```
+[//]: # (### Speech to Speech)
+
+[//]: # (```java)
+
+[//]: # (//File output)
+
+[//]: # (SpeechGenerationBuilder.speechToSpeech&#40;&#41;)
+
+[//]: # (        .file&#40;&#41; // output type of file &#40;or use .streamed&#40;&#41; for an InputStream&#41;)
+
+[//]: # (        .setInputFile&#40;File&#41;)
+
+[//]: # (        .setGeneratedAudioOutputFormat&#40;GeneratedAudioOutputFormat.MP3_44100_128&#41;)
+
+[//]: # (        .setVoiceId&#40;"voiceIdString"&#41;)
+
+[//]: # (        .setVoiceSettings&#40;VoiceSettings&#41;)
+
+[//]: # (        .setVoice&#40;Voice&#41; // or use a voice object, which will pull settings / ID out of the Voice)
+
+[//]: # (        .setModelId&#40;"modelIdString"&#41;)
+
+[//]: # (        .setModel&#40;ElevenLabsVoiceModel.ELEVEN_ENGLISH_STS_V2&#41;)
+
+[//]: # (        .setLatencyOptimization&#40;StreamLatencyOptimization.NONE&#41;)
+
+[//]: # (        .build&#40;&#41;;)
+
+[//]: # (//Streamed output)
+
+[//]: # (SpeechGenerationBuilder.speechToSpeech&#40;&#41;)
+
+[//]: # (        .streamed&#40;&#41;)
+
+[//]: # (        .setInputFile&#40;File&#41;)
+
+[//]: # (        .setGeneratedAudioOutputFormat&#40;GeneratedAudioOutputFormat.MP3_44100_128&#41;)
+
+[//]: # (        .setVoiceId&#40;"voiceIdString"&#41;)
+
+[//]: # (        .setVoiceSettings&#40;VoiceSettings&#41;)
+
+[//]: # (        .setVoice&#40;Voice&#41; // or use a voice object, which will pull settings / ID out of the Voice)
+
+[//]: # (        .setModelId&#40;"modelIdString"&#41;)
+
+[//]: # (        .setModel&#40;ElevenLabsVoiceModel.ELEVEN_ENGLISH_STS_V2&#41;)
+
+[//]: # (        .setLatencyOptimization&#40;StreamLatencyOptimization.NONE&#41;)
+
+[//]: # (        .build&#40;&#41;;)
+
+[//]: # (```)
 
 ### Text to Speech
 ```java
@@ -240,19 +266,26 @@ public InputStream generateStream(String text, VoiceSettings settings, StreamLat
 
 public InputStream generateStream(String text, StreamLatencyOptimization streamLatencyOptimization);
 
-public File speechToSpeech(File audioFile, StreamLatencyOptimization latencyOptimization, String modelId, VoiceSettings voiceSettings);
-
-public File speechToSpeech(File audioFile, StreamLatencyOptimization latencyOptimization, String modelId);
-
-public File speechToSpeech(File audioFile, String modelId);
-
-public InputStream speechToSpeechStream(File audioFile, StreamLatencyOptimization latencyOptimization, String modelId, VoiceSettings voiceSettings);
-
-public InputStream speechToSpeechStream(File audioFile, StreamLatencyOptimization latencyOptimization, String modelId);
-
-public InputStream speechToSpeechStream(File audioFile, String modelId);
-
 ```
+
+[//]: # (public File speechToSpeech&#40;File audioFile, StreamLatencyOptimization latencyOptimization, String modelId, VoiceSettings voiceSettings&#41;;)
+
+[//]: # ()
+[//]: # (public File speechToSpeech&#40;File audioFile, StreamLatencyOptimization latencyOptimization, String modelId&#41;;)
+
+[//]: # ()
+[//]: # (public File speechToSpeech&#40;File audioFile, String modelId&#41;;)
+
+[//]: # ()
+[//]: # (public InputStream speechToSpeechStream&#40;File audioFile, StreamLatencyOptimization latencyOptimization, String modelId, VoiceSettings voiceSettings&#41;;)
+
+[//]: # ()
+[//]: # (public InputStream speechToSpeechStream&#40;File audioFile, StreamLatencyOptimization latencyOptimization, String modelId&#41;;)
+
+[//]: # ()
+[//]: # (public InputStream speechToSpeechStream&#40;File audioFile, String modelId&#41;;)
+
+
 - - -
 ## Audio Native Projects
 ### Creating an Audio Native Project
